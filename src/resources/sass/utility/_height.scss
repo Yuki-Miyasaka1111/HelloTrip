@@ -1,0 +1,24 @@
+// 抽象的
+.height-small {
+    height: 25%;
+}
+
+.height-medium {
+    height: 50%;
+}
+
+.height-large {
+    height: 75%;
+}
+
+.height-full {
+    height: 100%;
+}
+
+// 具体的
+.h400{
+    height: 400px;
+}
+.h500{
+    height: 500px;
+}
