@@ -1,0 +1,31 @@
+@use '../../variables/color' as color;
+
+.project_card_left img{
+    width: 170px;
+    aspect-ratio: 4/3;
+}
+.project_card_right-ttl{
+    font-size: 1.125rem;
+}
+.project_card_right-flex{
+    font-size: 0.875rem;
+}
+.project_card_right-private{
+    border: 1px solid color.$border-secondary;
+    color: color.$text-quaternary;
+    border-radius: 0.25rem;
+    padding: 0.375rem 1.25rem;
+}
+.project_card_right-public{
+    border: 1px solid color.$main-primary;
+    background-color: color.$main-primary;
+    color: color.$text-senary;
+    border-radius: 0.25rem;
+    padding: 0.375rem 1.25rem;
+}
+.project_card_right-private_url{
+    color: color.$text-quaternary;
+}
+.project_card_right-public_url{
+    color: color.$main-primary;
+}

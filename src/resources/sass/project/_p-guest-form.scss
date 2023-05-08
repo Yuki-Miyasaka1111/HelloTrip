@@ -1,0 +1,10 @@
+@use '../variables/color' as color;
+@use '../variables/elevation' as elevation;
+
+.p-guest{
+    width: 540px;
+    margin: 100px auto;
+}
+.p-guest__logo{
+    background-color: color.$background-secondary;
+}

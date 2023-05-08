@@ -1,0 +1,52 @@
+@use '../../variables/z-index' as z-index;
+
+.c-flash{
+    position: fixed;
+    width: 100%;
+    min-width: 600px;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    text-align: center;
+    z-index: z-index.$z-index-fixed;
+    color: #fff;
+    transition: all .3s ease;
+    opacity: 0;
+    transform: translateY(-80px);
+    animation-name: flasFadeInOut;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+}
+.c-flash--success {
+    background: rgba(63, 255, 79, 0.9);
+    color: #fff;
+}
+.c-flash--error {
+    background: rgba(239,13,13,.9);
+    color: #fff;
+}
+
+@keyframes flasFadeInOut {
+    0% {
+        transform: translateY(-80px);
+        opacity: 0;
+    }
+  
+    15% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    80%{
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(-60px);
+        opacity: 0;
+    }
+}

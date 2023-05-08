@@ -1,0 +1,7 @@
+@use '../../variables/color' as color;
+
+.c-primary__button{
+    border-radius: 3rem;
+    background-color: color.$main-primary;
+    color: color.$text-senary;
+}

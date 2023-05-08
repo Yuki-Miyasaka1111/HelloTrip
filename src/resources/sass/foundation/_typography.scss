@@ -1,0 +1,35 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-serif;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-heading;
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+}
+
+a {
+    color: $link-color;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+        color: $link-hover-color;
+    }
+}
+
+ul, ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+ol {
+    list-style-type: decimal;
+}

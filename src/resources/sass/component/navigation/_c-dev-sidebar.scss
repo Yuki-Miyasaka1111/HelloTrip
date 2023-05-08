@@ -1,0 +1,42 @@
+@use '../../variables/color' as color;
+
+.sidebar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: 113px;
+    width: 270px;
+    background-color: color.$background-primary;
+    border-right: 1px solid color.$border-tertiary;
+    overflow: auto;
+}
+.sidebar-nav-items{
+    border-bottom: 1px solid color.$border-tertiary;
+    transition: .2s;
+}
+.sidebar-nav-items > a, .sidebar-nav-items> div, .sidebar-nav-items> form , .sidebar-nav-item{
+    transition: .2s;
+}
+.sidebar-nav-items > a:hover, .sidebar-nav-items> div:hover, .sidebar-nav-items> form:hover , .sidebar-nav-item:hover{
+    color: color.$main-primary;
+}
+.sidebar-nav-items > div{
+    cursor: pointer;
+}
+.sidebar-nav-dropdown-item {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.sidebar-nav-items.open .sidebar-nav-dropdown-item {
+    max-height: 300px;
+    opacity: 1;
+}
+
+
+
+
+.sidebar-sm{
+    width: 66px;
+}

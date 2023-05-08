@@ -1,0 +1,27 @@
+@use '../variables/color' as color;
+@use '../variables/font-family' as font-family;
+@use '../variables/spacing' as spacing;
+@use '../utility/font-weight' as font-weight;
+
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: normal;
+    line-height: spacing.$spacing-4;
+    color: color.$text-primary;
+    background-color: color.$text-senary;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}

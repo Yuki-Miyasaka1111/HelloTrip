@@ -1,0 +1,11 @@
+@use '../variables/color' as color;
+
+.bg-primary{
+    background-color: color.$background-primary;
+}
+.bg-secondary{
+    background-color: color.$background-secondary;
+}
+.bg-tertiary{
+    background-color: color.$background-tertiary;
+}

@@ -1,0 +1,20 @@
+@use '../../variables/color' as color;
+@use '../../variables/elevation' as elevation;
+
+.login-register__button--left{
+    border-right: none!important;
+}
+.login-register__button--right{
+    border-left: none!important;
+}
+.login-register__button--active {
+    background-color: color.$background-tertiary;
+    border: 1px solid color.$background-tertiary;
+    color: color.$text-senary;
+}
+
+.login-register__button--inactive {
+    background-color: color.$background-primary;
+    border: 1px solid color.$text-tertiary;
+    color: color.$text-tertiary;
+}

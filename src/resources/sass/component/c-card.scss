@@ -1,0 +1,8 @@
+@use '../variables/color' as color;
+@use '../variables/elevation' as elevation;
+
+.card{
+    background-color: color.$background-primary;
+    border-radius: 4px;
+    box-shadow: elevation.$shadow-level-2;
+}

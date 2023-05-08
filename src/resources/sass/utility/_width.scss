@@ -1,0 +1,24 @@
+// 抽象的
+.width-small {
+    width: 25%;
+}
+
+.width-medium {
+    width: 50%;
+}
+
+.width-large {
+    width: 75%;
+}
+
+.width-full {
+    width: 100%;
+}
+
+// 具体的
+.w400{
+    width: 400px;
+}
+.w500{
+    width: 500px;
+}
