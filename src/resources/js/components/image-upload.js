@@ -24,7 +24,7 @@ $(document).ready(function () {
             event.stopPropagation();
             $(this).removeClass("dragging");
             var files = event.originalEvent.dataTransfer.files;
-            handleFiles(files, $showDropImage, $showDbImage, $defaultImage, $inputFile);
+            handleFiles(files, $showDropImage, $showDbImage, $defaultImage);
         });
 
         // Click to select image
@@ -35,16 +35,18 @@ $(document).ready(function () {
         // Input change event handler
         $inputFile.on("change", function (event) {
             var files = event.target.files;
-            handleFiles(files, $showDropImage, $showDbImage, $defaultImage, $inputFile);
+            handleFiles(files, $showDropImage, $showDbImage, $defaultImage);
         });
     }
 
-    function handleFiles(files, $showDropImage, $showDbImage, $defaultImage, $inputFile) {
+    function handleFiles(files, $showDropImage, $showDbImage, $defaultImage) {
+        console.log("error")
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             if (!file.type.startsWith("image/")) {
                 continue;
             }
+            console.log("error")
             var reader = new FileReader();
             reader.onload = (function (file) {
                 return function (e) {
@@ -57,28 +59,10 @@ $(document).ready(function () {
         }
     }
 
-    function updateImageVisibility($dropArea) {
-        var $showDropImage = $dropArea.find(".show-drop-image");
-        var $showDbImage = $dropArea.find(".show-db-image");
-        var $defaultImage = $dropArea.find(".default-image");
-
-        if ($showDropImage.attr("src")) {
-            $showDropImage.show();
-            $showDbImage.hide();
-            $defaultImage.hide();
-        } else if ($showDbImage.attr("src")) {
-            $showDbImage.show();
-            $defaultImage.hide();
-        } else {
-            $defaultImage.show();
-        }
-    }
-
     // Initialize drop zones
     $(".upload-image-zone").each(function () {
         var $dropArea = $(this);
         initializeDropZone($dropArea);
-        updateImageVisibility($dropArea);
     });
 
 });
