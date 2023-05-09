@@ -4,6 +4,8 @@
 
 // foundation
 @use "../sass/foundation/base";
+@use "../sass/foundation/forms";
+@use "../sass/foundation/typography";
 
 // layout
 @use "../sass/layout/l-container";
@@ -12,10 +14,12 @@
 
 // component
 @use "../sass/component/c-card";
+@use "../sass/component/form/c-forms";
 @use "../sass/component/button/c-login-register";
 @use "../sass/component/button/c-primary";
 @use "../sass/component/input/c-image";
 @use "../sass/component/popup/c-flash";
+@use "../sass/component/title/c-title";
 @use "../sass/component/navigation/c-system-bar";
 @use "../sass/component/navigation/c-breadcrumbs";
 @use "../sass/component/navigation/c-dev-sidebar";

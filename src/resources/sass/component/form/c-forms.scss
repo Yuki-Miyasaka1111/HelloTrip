@@ -1,0 +1,32 @@
+@use '../../variables/color' as color;
+
+.form-group{
+    border-bottom: 1px solid color.$border-secondary;
+}
+
+.form-label{
+    width: 200px;
+    min-width: 200px;
+    background-color: color.$background-secondary;
+}
+.form-label-title{
+    color: color.$main-primary;
+    font-weight: bold;
+}
+.form-label-required{
+    background-color: #DB0000;
+    color: color.$text-senary;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.form-input{
+    border-radius: 0.25rem;
+    border: none;
+    background-color: color.$background-secondary;
+}
+
+.form-textarea{
+    height: fit-content;
+    min-height: fit-content;
+}

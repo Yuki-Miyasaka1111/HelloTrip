@@ -1,0 +1,6 @@
+@use '../../variables/color' as color;
+
+.dev-container-title{
+    color: color.$main-primary;
+    border-bottom: 2px solid color.$main-primary;
+}
