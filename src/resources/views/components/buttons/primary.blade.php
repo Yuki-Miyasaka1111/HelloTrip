@@ -1,3 +1,3 @@
-<button {{ $attributes->merge(['type' => 'submit', 'class' => 'px-5 py-1 c-primary__button']) }}>
+<button {{ $attributes->merge(['type' => 'submit', 'class' => 'c-primary__button', 'style' => 'background: ' . $attributes->get('bg-color', 'linear-gradient(to right, #30cfd0, #330867)')]) }}>
     {{ $slot }}
 </button>

@@ -46,18 +46,21 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
     Route::prefix('/project/hotel')->group(function () {
         Route::get('/{hotel_id?}', [HotelController::class, 'index'])->name('project.hotel.index');
         Route::prefix('{hotel_id?}')->group(function () {
+            Route::get('/basic-information', [HotelController::class, 'editBasicInformation'])->name('project.hotel.editBasicInformation');
+            Route::post('/basic-information', [HotelController::class, 'storeBasicInformation'])->name('project.hotel.storeBasicInformation');
+            Route::put('/basic-information', [HotelController::class, 'updateBasicInformation'])->name('project.hotel.updateBasicInformation');
+
             Route::get('/concept', [HotelController::class, 'editConcept'])->name('project.hotel.editConcept');
             Route::post('/concept', [HotelController::class, 'storeConcept'])->name('project.hotel.storeConcept');
             Route::put('/concept', [HotelController::class, 'updateConcept'])->name('project.hotel.updateConcept');
 
-            Route::get('/basic-information', [HotelController::class, 'showBasicInformation'])->name('project.hotel.basic_information.edit');
-            Route::post('/basic-information', [HotelController::class, 'storeOrUpdateBasicInformation'])->name('project.hotel.basic_information.update');
+            Route::get('/facilities', [HotelController::class, 'editFacilities'])->name('project.hotel.editFacilities');
+            Route::post('/facilities', [HotelController::class, 'storeFacilities'])->name('project.hotel.storeFacilities');
+            Route::put('/facilities', [HotelController::class, 'updateFacilities'])->name('project.hotel.updateFacilities');
 
-            Route::get('/facilities', [HotelController::class, 'showFacilities'])->name('project.hotel.facilities.edit');
-            Route::post('/facilities', [HotelController::class, 'storeOrUpdateFacilities'])->name('project.hotel.facilities.update');
-
-            Route::get('/features', [HotelController::class, 'showFeatures'])->name('project.hotel.features.edit');
-            Route::post('/features', [HotelController::class, 'storeOrUpdateFeatures'])->name('project.hotel.features.update');
+            Route::get('/features', [HotelController::class, 'editFeatures'])->name('project.hotel.editFeatures');
+            Route::post('/features', [HotelController::class, 'storeFeatures'])->name('project.hotel.storeFeatures');
+            Route::put('/features', [HotelController::class, 'updateFeatures'])->name('project.hotel.updateFeatures');
         });
         Route::get('/create', [HotelController::class, 'create'])->name('project.hotel.create');
         Route::post('/store', [HotelController::class, 'store'])->name('project.hotel.store');

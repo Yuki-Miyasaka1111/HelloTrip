@@ -1,7 +1,9 @@
 @use '../../variables/color' as color;
+@use '../../variables/elevation' as elevation;
 
 .c-primary__button{
     border-radius: 3rem;
     background-color: color.$main-primary;
     color: color.$text-senary;
+    box-shadow: elevation.$shadow-level-3;
 }

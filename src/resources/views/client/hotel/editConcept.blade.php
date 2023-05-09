@@ -10,6 +10,11 @@
 @if ($errors->any())
     @include('components.popup.errors.flash-error')
 @endif
+<x-partials.preview-save-button :links="[
+    ['title' => 'ホテル情報', 'url' => route('hotel.index')],
+    ['title' => 'コンセプト', 'url' => null]
+]" />
+
 <x-partials.project-information-box title="コンセプト">
     <form action="{{ isset($hotel) ? route('project.hotel.updateConcept', $hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -39,7 +44,7 @@
             <x-labels.label label="価格" />
             <x-inputs.text name="price" width="520px" :value="$hotel->price" placeholder="価格" />
             @error('price')
-            <span style="color:red;">価格を数字で入力してください</span>
+            <span class="ml-1-5" style="color:red;">価格を数字で入力してください</span>
             @enderror
         </div>
 
@@ -47,28 +52,28 @@
             <x-labels.label label="住所" />
             <x-inputs.text name="price" width="520px" :value="$hotel->address" placeholder="住所" />
             @error('address')
-            <span style="color:red;">住所を140文字以内で入力してください</span>
+            <span class="ml-1-5" style="color:red;">住所を140文字以内で入力してください</span>
             @enderror
         </div>
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="URL" />
             <x-inputs.text name="url" width="520px" :value="$hotel->url" placeholder="URL" />
             @error('url')
-            <span style="color:red;">URLを140文字以内で入力してください</span>
+            <span class="ml-1-5" style="color:red;">URLを140文字以内で入力してください</span>
             @enderror
         </div>
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="電話番号" />
             <x-inputs.text name="phone_number" width="520px" :value="$hotel->phone_number" placeholder="電話番号" />
             @error('phone_number')
-            <span style="color:red;">電話番号を入力してください</span>
+            <span class="ml-1-5" style="color:red;">電話番号を入力してください</span>
             @enderror
         </div>
         <div class="form-group d-flex justify-start items-stretch ">
             <x-labels.label label="詳細" />
             <x-inputs.textarea name="phone_number" width="520px" height="fit-content" :description="$hotel->description" placeholder="詳細" />
             @error('description')
-            <span style="color:red;">詳細を140文字以内で入力してください</span>
+            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">詳細を140文字以内で入力してください</span>
             @enderror
         </div>
         <div class="form-group d-flex justify-start items-center ">
@@ -79,7 +84,7 @@
                 @endforeach
             </x-inputs.select>
             @error('category_id')
-            <span style="color:red;">カテゴリを選択してください</span>
+            <span class="ml-1-5" style="color:red;">カテゴリを選択してください</span>
             @enderror
         </div>
 
@@ -91,7 +96,7 @@
                 @endforeach
             </x-inputs.select>
             @error('region_id')
-            <span style="color:red;">地域を選択してください</span>
+            <span class="ml-1-5" style="color:red;">地域を選択してください</span>
             @enderror
         </div>
             <button type="submit" class="btn btn-primary w-100">変更</button>
