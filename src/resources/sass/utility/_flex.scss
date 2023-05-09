@@ -69,3 +69,19 @@
 .justify-evenly {
     justify-content: space-evenly;
 }
+// flex wrap
+.flex-wrap{
+    flex-wrap: wrap;
+}
+.flex-nowrap{
+    flex-wrap: nowrap;
+}
+.flex-revert{
+    flex-wrap: revert;
+}
+.flex-unset{
+    flex-wrap: unset;
+}
+.flex-wrap-reverse{
+    flex-wrap: wrap-reverse;
+}

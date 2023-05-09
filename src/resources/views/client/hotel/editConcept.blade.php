@@ -99,6 +99,7 @@
             <span class="ml-1-5" style="color:red;">地域を選択してください</span>
             @enderror
         </div>
+        <div>
             <button type="submit" class="btn btn-primary w-100">変更</button>
         </div>
     </form>

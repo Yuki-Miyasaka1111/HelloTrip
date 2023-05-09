@@ -7,6 +7,7 @@ use App\Models\Hotel;
 use App\Models\Category;
 use App\Models\Region;
 use App\Models\HotelImage;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -188,13 +189,8 @@ class HotelController extends Controller
     public function editFacilities($hotel_id)
     {
         $hotel = Hotel::find($hotel_id);
-        $categories = Category::all();
-        $regions = Region::all();
-        $hotelImage = HotelImage::first();
-        $image_url = $hotelImage ? $hotelImage->url : null;
-        return view('client.hotel.editFacilities', compact('hotel', 'image_url'))
-            ->with('categories', $categories)
-            ->with('regions', $regions)
+        $facilities = Facility::all();
+        return view('client.hotel.editFacilities', compact('hotel', 'facilities'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -285,6 +281,29 @@ class HotelController extends Controller
         }
 
         return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel->id])
+        ->with('page_id',request()->page_id)
+        ->with('success', '保存しました。');
+    }
+
+    public function updateFacilities(Request $request, Hotel $hotel)
+    {
+        $request->validate([
+            'description' => 'required|max:140',
+            'url' => 'required|max:140',
+            'phone_number' => 'required|max:20',
+        ]);
+
+        // フォームから送信された設備のIDの配列を取得
+        $selectedFacilities = $request->input('facilities');
+
+        // ホテルデータの保存処理
+        $hotel->update([
+            'description' => $request->description,
+            'url' => $request->url,
+            'phone_number' => $request->phone_number,
+        ]);
+
+        return redirect()->route('project.hotel.editFacilities', ['hotel_id' => $hotel->id])
         ->with('page_id',request()->page_id)
         ->with('success', '保存しました。');
     }

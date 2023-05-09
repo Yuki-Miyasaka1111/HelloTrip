@@ -48,4 +48,8 @@ class Hotel extends Model
     {
         return $this->hasMany(HotelImage::class);
     }
+    public function facilities()
+    {
+        return $this->belongsToMany(Facility::class, 'hotel_facilities');
+    }
 }
