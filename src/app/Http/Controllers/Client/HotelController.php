@@ -166,7 +166,46 @@ class HotelController extends Controller
         $regions = Region::all();
         $hotelImage = HotelImage::first();
         $image_url = $hotelImage ? $hotelImage->url : null;
+        return view('client.hotel.editBasicInformation', compact('hotel', 'image_url'))
+            ->with('categories', $categories)
+            ->with('regions', $regions)
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function editBasicInformation($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $categories = Category::all();
+        $regions = Region::all();
+        $hotelImage = HotelImage::first();
+        $image_url = $hotelImage ? $hotelImage->url : null;
         return view('client.hotel.editConcept', compact('hotel', 'image_url'))
+            ->with('categories', $categories)
+            ->with('regions', $regions)
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function editFacilities($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $categories = Category::all();
+        $regions = Region::all();
+        $hotelImage = HotelImage::first();
+        $image_url = $hotelImage ? $hotelImage->url : null;
+        return view('client.hotel.editFacilities', compact('hotel', 'image_url'))
+            ->with('categories', $categories)
+            ->with('regions', $regions)
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function editFeatures($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $categories = Category::all();
+        $regions = Region::all();
+        $hotelImage = HotelImage::first();
+        $image_url = $hotelImage ? $hotelImage->url : null;
+        return view('client.hotel.editFeatures', compact('hotel', 'image_url'))
             ->with('categories', $categories)
             ->with('regions', $regions)
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -205,10 +244,10 @@ class HotelController extends Controller
             ->with('success','ホテルを更新しました');
     }
 
-    public function updateConcept(Request $request, Hotel $hotel_id)
+    public function updateConcept(Request $request, Hotel $hotel)
     {
         $request->validate([
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
@@ -220,15 +259,15 @@ class HotelController extends Controller
         ]);
 
         // ホテルデータの保存処理
-        $hotel_id->name = $request->input(["name"]);
-        $hotel_id->price = $request->input(["price"]);
-        $hotel_id->category_id = $request->input(["category_id"]);
-        $hotel_id->region_id = $request->input(["region_id"]);
-        $hotel_id->address = $request->input(["address"]);
-        $hotel_id->description = $request->input(["description"]);
-        $hotel_id->url = $request->input(["url"]);
-        $hotel_id->phone_number = $request->input(["phone_number"]);
-        $hotel_id->save();
+        $hotel->name = $request->input(["name"]);
+        $hotel->price = $request->input(["price"]);
+        $hotel->category_id = $request->input(["category_id"]);
+        $hotel->region_id = $request->input(["region_id"]);
+        $hotel->address = $request->input(["address"]);
+        $hotel->description = $request->input(["description"]);
+        $hotel->url = $request->input(["url"]);
+        $hotel->phone_number = $request->input(["phone_number"]);
+        $hotel->save();
 
         // 画像ファイルのアップロード処理
         if ($request->hasFile('images')) {
@@ -237,7 +276,7 @@ class HotelController extends Controller
                 $path = Storage::putFileAs('public/hotel_images', $image, $filename);
     
                 $hotelImage = new HotelImage;
-                $hotelImage->hotel_id = $hotel_id->id;
+                $hotelImage->hotel = $hotel->id;
                 $hotelImage->filename = $filename;
                 $hotelImage->path = $path;
     
@@ -245,7 +284,7 @@ class HotelController extends Controller
             }
         }
 
-        return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel_id->id])
+        return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel->id])
         ->with('page_id',request()->page_id)
         ->with('success', '保存しました。');
     }

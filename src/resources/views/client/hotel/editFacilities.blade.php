@@ -12,11 +12,11 @@
 @endif
 <x-partials.preview-save-button :links="[
     ['title' => 'ホテル情報'],
-    ['title' => 'コンセプト']
+    ['title' => '設備']
 ]" />
 
-<x-partials.project-information-box title="コンセプト">
-    <form action="{{ isset($hotel) ? route('project.hotel.updateConcept', $hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data">
+<x-partials.project-information-box title="設備">
+    <form action="{{ isset($hotel) ? route('project.hotel.updateFacilities', $hotel->id) : route('project.hotel.storeFacilities') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         @if(isset($hotel))
