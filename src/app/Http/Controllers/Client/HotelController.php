@@ -36,19 +36,6 @@ class HotelController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $categories = Category::all();
-        $regions = Region::all();
-        return view('client.hotel.create')
-            ->with('categories', $categories)
-            ->with('regions', $regions)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -129,33 +116,20 @@ class HotelController extends Controller
             ->with('success');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($hotel_id)
+    public function storeFacilities(Request $request)
     {
-        if (Auth::guard('client')->check()) {
-            $client = Auth::user();
-            $client_name = $client->name;
-            $selected_hotel = Hotel::find($hotel_id);
+        $request->validate([
+            'facilities' => 'array',
+            'amenities' => 'array',
+        ]);
 
-            return view('client.hotel.index', compact('selected_hotel'))
-                ->with('page_id', request()->page)
-                ->with('client_name', $client_name);
-        } else {
-            return redirect()->route('client.login');
-        }
-    }
+        $hotel = Hotel::find($request->hotel_id);
+        $hotel->facilities()->sync($request->facilities);
+        $hotel->amenities()->sync($request->amenities);
 
-    public function showConcept($hotel_id)
-    {
-        $hotel = Hotel::find($hotel_id);
-        $categories = Category::all();
-        $regions = Region::all();
-        return view('client.hotel.editConcept', compact('hotel'))
-            ->with('categories', $categories)
-            ->with('regions', $regions)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return redirect()->route('project.hotel.editFacilities', ['hotel_id' => $hotel->id])
+            ->with('page_id',request()->page_id)
+            ->with('success');
     }
 
     /**
@@ -174,8 +148,7 @@ class HotelController extends Controller
                 ->firstOrFail();
             return view('client.hotel.editConcept', compact('selected_hotel', 'image_url'))
                 ->with('categories', $categories)
-                ->with('regions', $regions)
-                ->with('i', (request()->input('page', 1) - 1) * 5);
+                ->with('regions', $regions);
         } else {
             return redirect()->route('client.login');
         }
@@ -203,8 +176,10 @@ class HotelController extends Controller
                 ->firstOrFail();
             $facilities = Facility::all();
             $amenities = Amenity::all();
-            return view('client.hotel.editFacilities', compact('selected_hotel', 'facilities', 'amenities'))
-                ->with('i', (request()->input('page', 1) - 1) * 5);
+            $selected_facilities = $selected_hotel->facilities->pluck('id')->toArray();
+            $selected_amenities = $selected_hotel->amenities->pluck('id')->toArray();
+
+            return view('client.hotel.editFacilities', compact('selected_hotel', 'facilities', 'amenities', 'selected_facilities', 'selected_amenities'));
         } else {
             return redirect()->route('client.login');
         }
@@ -301,28 +276,21 @@ class HotelController extends Controller
         ->with('success', '保存しました。');
     }
 
-    public function updateFacilities(Request $request, Hotel $hotel)
+    public function updateFacilities(Request $request)
     {
         $request->validate([
-            'description' => 'required|max:140',
-            'url' => 'required|max:140',
-            'phone_number' => 'required|max:20',
+            'facilities' => 'array',
+            'amenities' => 'array',
         ]);
-
-        // フォームから送信された設備のIDの配列を取得
-        $selectedFacilities = $request->input('facilities');
-
-        // ホテルデータの保存処理
-        $hotel->update([
-            'description' => $request->description,
-            'url' => $request->url,
-            'phone_number' => $request->phone_number,
-        ]);
-
+    
+        $hotel = Hotel::find($request->hotel_id);
+        $hotel->facilities()->sync($request->facilities);
+        $hotel->amenities()->sync($request->amenities);
+    
         return redirect()->route('project.hotel.editFacilities', ['hotel_id' => $hotel->id])
-        ->with('page_id',request()->page_id)
-        ->with('success', '保存しました。');
-    }
+            ->with('page_id',request()->page_id)
+            ->with('success', '設備情報を保存しました。');
+    }    
 
     /**
      * Remove the specified resource from storage.

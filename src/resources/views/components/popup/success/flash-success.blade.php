@@ -1,3 +1,5 @@
-<div class="c-flash c-flash--success">
-    保存しました。
-</div>
+@if(session('success'))
+    <div class="c-flash c-flash--success">
+        {{ session('success') }}
+    </div>
+@endif
