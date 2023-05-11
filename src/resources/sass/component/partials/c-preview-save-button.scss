@@ -1,8 +1,11 @@
+@use '../../variables/z-index' as z-index;
+
 .preview-save-button-wrap{
     position: fixed;
     top: 113px;
     margin-left: 270px;
     width: calc(100% - 270px);
+    z-index: z-index.$z-index-fixed;
 }
 .preview-save-button-breadcrumb-item{
     position: relative;

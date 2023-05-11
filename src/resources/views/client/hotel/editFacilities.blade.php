@@ -28,12 +28,18 @@
             <x-labels.label label="施設設備" />
             <div class="d-flex flex-wrap">
                 @foreach ($facilities as $facility)
-                    <x-inputs.checkbox name="facilities[]" :value="$facility->id" :label="$facility->name" :checked="in_array($facility->id, old('facilities', []))" width="50%" />
+                    <x-inputs.checkbox name="facilities[]" :value="$facility->name" :label="$facility->name" :checked="in_array($facility->id, old('facilities', []))" width="50%" />
                 @endforeach
             </div>
-            @error('name')
-            <span style="color:red;">ホテル名を20文字以内で入力してください</span>
-            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start ">
+            <x-labels.label label="客室設備・備品" />
+            <div class="d-flex flex-wrap">
+                @foreach ($amenities as $amenity)
+                    <x-inputs.checkbox name="amenities[]" :value="$amenity->name" :label="$amenity->name" :checked="in_array($amenity->id, old('amenities', []))" width="50%" />
+                @endforeach
+            </div>
         </div>
     </x-project-information-box>
 </form>

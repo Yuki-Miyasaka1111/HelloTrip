@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Region;
 use App\Models\HotelImage;
 use App\Models\Facility;
+use App\Models\Amenity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -201,7 +202,8 @@ class HotelController extends Controller
                 ->where('id', $hotel_id)
                 ->firstOrFail();
             $facilities = Facility::all();
-            return view('client.hotel.editFacilities', compact('selected_hotel', 'facilities'))
+            $amenities = Amenity::all();
+            return view('client.hotel.editFacilities', compact('selected_hotel', 'facilities', 'amenities'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
             return redirect()->route('client.login');
