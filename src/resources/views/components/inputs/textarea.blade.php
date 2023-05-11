@@ -1,4 +1,3 @@
 @props(['name', 'placeholder' => '', 'description' => '', 'class' => 'form-input form-textarea', 'width' => '100%', 'height' => ''])
-<div class="pl-1">
-    <textarea name="{{ $name }}" class="{{ $class }} my-1-2-5" placeholder="{{ $placeholder }}" style="width: {{ $width }}; height: {{ $height }};" {!! $attributes !!}>{{ $description }}</textarea>
-</div>
+
+<textarea name="{{ $name }}" class="{{ $class }} my-1-2-5" placeholder="{{ $placeholder }}" style="width: {{ $width }}; height: {{ $height }};" {!! $attributes !!}>{{ $description }}</textarea>

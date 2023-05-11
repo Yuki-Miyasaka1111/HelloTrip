@@ -13,16 +13,16 @@
             </div>
             <ul class="sidebar-nav-dropdown-item">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editBasicInformation', $hotel->id) }}" class="d-block pb-0-5 px-1-5">基本情報</a>
+                    <a href="{{ route('project.hotel.editBasicInformation', $selected_hotel->id) }}" class="d-block pb-0-5 px-1-5">基本情報</a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editConcept', $hotel->id) }}" class="d-block py-0-5 px-1-5">コンセプト</a>
+                    <a href="{{ route('project.hotel.editConcept', $selected_hotel->id) }}" class="d-block py-0-5 px-1-5">コンセプト</a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editFacilities', $hotel->id) }}" class="d-block py-0-5 px-1-5">設備</a>
+                    <a href="{{ route('project.hotel.editFacilities', $selected_hotel->id) }}" class="d-block py-0-5 px-1-5">設備</a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editFeatures', $hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">特徴</a>
+                    <a href="{{ route('project.hotel.editFeatures', $selected_hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">特徴</a>
                 </li>
             </ul>
         </li>

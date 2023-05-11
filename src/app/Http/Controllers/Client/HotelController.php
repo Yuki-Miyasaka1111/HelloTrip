@@ -162,6 +162,26 @@ class HotelController extends Controller
      */
     public function editConcept($hotel_id)
     {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $categories = Category::all();
+            $regions = Region::all();
+            $hotelImage = HotelImage::first();
+            $image_url = $hotelImage ? $hotelImage->url : null;
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            return view('client.hotel.editConcept', compact('selected_hotel', 'image_url'))
+                ->with('categories', $categories)
+                ->with('regions', $regions)
+                ->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return redirect()->route('client.login');
+        }
+    }
+
+    public function editBasicInformation($hotel_id)
+    {
         $hotel = Hotel::find($hotel_id);
         $categories = Category::all();
         $regions = Region::all();
@@ -173,25 +193,19 @@ class HotelController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    public function editBasicInformation($hotel_id)
-    {
-        $hotel = Hotel::find($hotel_id);
-        $categories = Category::all();
-        $regions = Region::all();
-        $hotelImage = HotelImage::first();
-        $image_url = $hotelImage ? $hotelImage->url : null;
-        return view('client.hotel.editConcept', compact('hotel', 'image_url'))
-            ->with('categories', $categories)
-            ->with('regions', $regions)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-    }
-
     public function editFacilities($hotel_id)
     {
-        $hotel = Hotel::find($hotel_id);
-        $facilities = Facility::all();
-        return view('client.hotel.editFacilities', compact('hotel', 'facilities'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            $facilities = Facility::all();
+            return view('client.hotel.editFacilities', compact('selected_hotel', 'facilities'))
+                ->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return redirect()->route('client.login');
+        }
     }
 
     public function editFeatures($hotel_id)
