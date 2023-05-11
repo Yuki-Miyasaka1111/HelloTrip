@@ -10,3 +10,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
 # コンテナ内で作業する際のカレンとディレクトリの指定
 WORKDIR /var/www/html
+
+# パーミッションの設定
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html

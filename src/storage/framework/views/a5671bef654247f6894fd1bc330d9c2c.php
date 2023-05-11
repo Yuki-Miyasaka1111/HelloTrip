@@ -1,0 +1,1 @@
+<?php echo Breadcrumbs::render(); ?><?php /**PATH /var/www/html/resources/views/components/navigation/breadcrumbs.blade.php ENDPATH**/ ?>

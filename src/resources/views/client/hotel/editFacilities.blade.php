@@ -10,16 +10,17 @@
 @if ($errors->any())
     @include('components.popup.errors.flash-error')
 @endif
-<x-partials.preview-save-button :links="[
-    ['title' => 'ホテル情報'],
-    ['title' => '設備']
-]" />
 
-<x-partials.project-information-box title="設備">
-    <form action="{{ isset($hotel) ? route('project.hotel.updateFacilities', $hotel->id) : route('project.hotel.storeFacilities') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($selected_hotel) ? route('project.hotel.updateFacilities', $selected_hotel->id) : route('project.hotel.storeFacilities') }}" method="POST" enctype="multipart/form-data">
+    <x-partials.preview-save-button :links="[
+        ['title' => 'ホテル情報'],
+        ['title' => '設備']
+    ]" />
+
+    <x-partials.project-information-box title="設備">
         @csrf
 
-        @if(isset($hotel))
+        @if(isset($selected_hotel))
             @method('PUT')
         @endif
 
@@ -34,10 +35,6 @@
             <span style="color:red;">ホテル名を20文字以内で入力してください</span>
             @enderror
         </div>
-
-        <div>
-            <button type="submit" class="btn btn-primary w-100">変更</button>
-        </div>
-    </form>
-</x-project-information-box>
+    </x-project-information-box>
+</form>
 @endsection
