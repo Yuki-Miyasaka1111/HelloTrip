@@ -3,13 +3,9 @@
 
 @section('content')
 
-@if (session('success'))
-    @include('components.popup.success.flash-success')
-@endif
+@include('components.popup.success.flash-success')
 
-@if ($errors->any())
-    @include('components.popup.errors.flash-error')
-@endif
+@include('components.popup.errors.flash-error')
 
 <form action="{{ isset($selected_hotel) ? route('project.hotel.updateConcept', $selected_hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data">
     <x-partials.preview-save-button :links="[
