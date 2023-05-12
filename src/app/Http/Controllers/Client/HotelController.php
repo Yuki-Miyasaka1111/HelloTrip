@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use App\Models\Category;
-use App\Models\Region;
+use App\Models\Prefecture;
 use App\Models\HotelImage;
 use App\Models\Facility;
 use App\Models\Amenity;
@@ -38,35 +38,76 @@ class HotelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeBasicInformation(Request $request)
     {
         $request->validate([
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'name' => 'required|max:20',
-            'price' => 'required|integer',
+            'facility_scale' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
-            'address' => 'required|max:140',
-            'description' => 'required|max:140',
-            'url' => 'required|max:140',
+            'prefecture_id' => 'required|integer',
+            'area_id' => 'integer',
+            'catch_copy' => 'required|max:40',
+            'minimum_price' => 'integer',
+            'postal_code' => 'required|max:7',
+            'address_1' => 'required|max:40',
+            'address_2' => 'required|max:40',
+            'address_3' => 'max:40',
             'phone_number' => 'required|max:20',
+            'url' => 'required|max:140',
+            'access' => 'required|max:140',
+            'check_in' => 'required|max:140',
+            'check_out' => 'required|max:140',
+            'parking_information' => 'required|max:40',
+            'monthly_holiday' => 'required|max:40',
+            'temporary_holiday' => 'required|max:40',
+            'other_information' => 'required|max:40',
+            'other_facility_information' => 'max:140',
         ]);
     
+        // ホテルデータの保存処理
         $hotel = new Hotel;
         $hotel->name = $request->name;
-        $hotel->price = $request->price;
+        $hotel->facility_scale = $request->facility_scale;
         $hotel->category_id = $request->category_id;
-        $hotel->region_id = $request->region_id;
-        $hotel->address = $request->address;
-        $hotel->description = $request->description;
-        $hotel->url = $request->url;
+        $hotel->prefecture_id = $request->prefecture_id;
+        $hotel->area_id = $request->area_id;
+        $hotel->minimum_price = $request->minimum_price;
+        $hotel->postal_code = $request->postal_code;
+        $hotel->address_1 = $request->address_1;
+        $hotel->address_2 = $request->address_2;
+        $hotel->address_3 = $request->address_3;
         $hotel->phone_number = $request->phone_number;
+        $hotel->url = $request->url;
+        $hotel->access = $request->access;
+        $hotel->check_in = $request->check_in;
+        $hotel->check_out = $request->check_out;
+        $hotel->parking_information = $request->parking_information;
+        $hotel->monthly_holiday = $request->monthly_holiday;
+        $hotel->temporary_holiday = $request->temporary_holiday;
+        $hotel->other_information = $request->other_information;
+        $hotel->other_facility_information = $request->other_facility_information;
         $hotel->client_id = Auth::guard('client')->user()->id;
-        
         $hotel->save();
+
+        // 画像ファイルのアップロード処理
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = $image->getClientOriginalName();
+                $path = Storage::putFileAs('public/hotel_images', $image, $filename);
     
-        return redirect()->route('project.hotel.index')
+                $hotelImage = new HotelImage;
+                $hotelImage->hotel_id = $hotel->id;
+                $hotelImage->filename = $filename;
+                $hotelImage->path = $path;
+    
+                $hotelImage->save();
+            }
+        }
+    
+        return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
             ->with('page_id',request()->page_id)
-            ->with('success', 'ホテルを登録しました');
+            ->with('success');
     }
 
     public function storeConcept(Request $request)
@@ -76,7 +117,7 @@ class HotelController extends Controller
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
             'address' => 'required|max:140',
             'description' => 'required|max:140',
             'url' => 'required|max:140',
@@ -88,7 +129,7 @@ class HotelController extends Controller
         $hotel->name = $request->name;
         $hotel->price = $request->price;
         $hotel->category_id = $request->category_id;
-        $hotel->region_id = $request->region_id;
+        $hotel->prefecture_id = $request->prefecture_id;
         $hotel->address = $request->address;
         $hotel->description = $request->description;
         $hotel->url = $request->url;
@@ -140,7 +181,7 @@ class HotelController extends Controller
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
             $categories = Category::all();
-            $regions = Region::all();
+            $prefectures = Prefecture::all();
             $hotelImage = HotelImage::first();
             $image_url = $hotelImage ? $hotelImage->url : null;
             $selected_hotel = Hotel::where('client_id', $client->id)
@@ -148,7 +189,7 @@ class HotelController extends Controller
                 ->firstOrFail();
             return view('client.hotel.editConcept', compact('selected_hotel', 'image_url'))
                 ->with('categories', $categories)
-                ->with('regions', $regions);
+                ->with('prefectures', $prefectures);
         } else {
             return redirect()->route('client.login');
         }
@@ -162,12 +203,12 @@ class HotelController extends Controller
                 ->where('id', $hotel_id)
                 ->firstOrFail();
             $categories = Category::all();
-            $regions = Region::all();
+            $prefectures = Prefecture::all();
             $hotelImage = HotelImage::first();
             $image_url = $hotelImage ? $hotelImage->url : null;
             return view('client.hotel.editBasicInformation', compact('selected_hotel', 'image_url'))
                 ->with('categories', $categories)
-                ->with('regions', $regions)
+                ->with('prefectures', $prefectures)
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
             return redirect()->route('client.login');
@@ -191,53 +232,11 @@ class HotelController extends Controller
             return redirect()->route('client.login');
         }
     }
-
-    public function editFeatures($hotel_id)
-    {
-        $hotel = Hotel::find($hotel_id);
-        $categories = Category::all();
-        $regions = Region::all();
-        $hotelImage = HotelImage::first();
-        $image_url = $hotelImage ? $hotelImage->url : null;
-        return view('client.hotel.editFeatures', compact('hotel', 'image_url'))
-            ->with('categories', $categories)
-            ->with('regions', $regions)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-    }
     
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $hotel)
-    {
-        $request->validate([
-            'name' => 'required|max:20',
-            'price' => 'required|integer',
-            'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
-            'address' => 'required|max:140',
-            'description' => 'required|max:140',
-            'url' => 'required|max:140',
-            'phone_number' => 'required|max:20',
-        ]);
-
-        // ホテルデータの保存処理
-        $hotel->name = $request->input(["name"]);
-        $hotel->price = $request->input(["price"]);
-        $hotel->category_id = $request->input(["category_id"]);
-        $hotel->region_id = $request->input(["region_id"]);
-        $hotel->address = $request->input(["address"]);
-        $hotel->description = $request->input(["description"]);
-        $hotel->url = $request->input(["url"]);
-        $hotel->phone_number = $request->input(["phone_number"]);
-        $hotel->save();
-
-        return redirect()->route('project.hotel.index')
-            ->with('page_id',request()->page_id)
-            ->with('success','ホテルを更新しました');
-    }
-
     public function updateConcept(Request $request, Hotel $hotel)
     {
         $request->validate([
@@ -245,7 +244,7 @@ class HotelController extends Controller
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
             'address' => 'required|max:140',
             'description' => 'required|max:140',
             'url' => 'required|max:140',
@@ -253,10 +252,11 @@ class HotelController extends Controller
         ]);
 
         // ホテルデータの保存処理
+        $hotel = Hotel::find($request->hotel_id);
         $hotel->name = $request->input(["name"]);
         $hotel->price = $request->input(["price"]);
         $hotel->category_id = $request->input(["category_id"]);
-        $hotel->region_id = $request->input(["region_id"]);
+        $hotel->prefecture_id = $request->input(["prefecture_id"]);
         $hotel->address = $request->input(["address"]);
         $hotel->description = $request->input(["description"]);
         $hotel->url = $request->input(["url"]);
@@ -279,6 +279,77 @@ class HotelController extends Controller
         }
 
         return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel->id])
+        ->with('page_id',request()->page_id)
+        ->with('success', '保存しました。');
+    }
+
+    public function updateBasicInformation(Request $request, Hotel $hotel)
+    {
+        $request->validate([
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'name' => 'required|max:20',
+            'facility_scale' => 'required|integer',
+            'category_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
+            'area_id' => 'integer',
+            'catch_copy' => 'required|max:40',
+            'minimum_price' => 'integer',
+            'postal_code' => 'required|max:7',
+            'address_1' => 'required|max:40',
+            'address_2' => 'required|max:40',
+            'address_3' => 'max:40',
+            'phone_number' => 'required|max:20',
+            'url' => 'required|max:140',
+            'access' => 'required|max:140',
+            'check_in' => 'required|max:140',
+            'check_out' => 'required|max:140',
+            'parking_information' => 'required|max:40',
+            'monthly_holiday' => 'max:40',
+            'temporary_holiday' => 'max:40',
+            'other_information' => 'required|max:40',
+            'other_facility_information' => 'max:140',
+        ]);
+
+        // ホテルデータの保存処理
+        $hotel = Hotel::find($request->hotel_id);
+        $hotel->name = $request->input(["name"]);
+        $hotel->facility_scale = $request->input(["facility_scale"]);
+        $hotel->category_id = $request->input(["category_id"]);
+        $hotel->prefecture_id = $request->input(["prefecture_id"]);
+        $hotel->area_id = $request->input(["area_id"]);
+        $hotel->minimum_price = $request->input(["minimum_price"]);
+        $hotel->postal_code = $request->input(["postal_code"]);
+        $hotel->address_1 = $request->input(["address_1"]);
+        $hotel->address_2 = $request->input(["address_2"]);
+        $hotel->address_3 = $request->input(["address_3"]);
+        $hotel->phone_number = $request->input(["phone_number"]);
+        $hotel->url = $request->input(["url"]);
+        $hotel->access = $request->input(["access"]);
+        $hotel->check_in = $request->input(["check_in"]);
+        $hotel->check_out = $request->input(["check_out"]);
+        $hotel->parking_information = $request->input(["parking_information"]);
+        $hotel->monthly_holiday = $request->input(["monthly_holiday"]);
+        $hotel->temporary_holiday = $request->input(["temporary_holiday"]);
+        $hotel->other_information = $request->input(["other_information"]);
+        $hotel->other_facility_information = $request->input(["other_facility_information"]);
+        $hotel->save();
+
+        // 画像ファイルのアップロード処理
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = $image->getClientOriginalName();
+                $path = Storage::putFileAs('public/hotel_images', $image, $filename);
+    
+                $hotelImage = new HotelImage;
+                $hotelImage->hotel = $hotel->id;
+                $hotelImage->filename = $filename;
+                $hotelImage->path = $path;
+    
+                $hotelImage->save();
+            }
+        }
+
+        return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
         ->with('page_id',request()->page_id)
         ->with('success', '保存しました。');
     }

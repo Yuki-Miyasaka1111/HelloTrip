@@ -19,10 +19,7 @@
                     <a href="{{ route('project.hotel.editConcept', $selected_hotel->id) }}" class="d-block py-0-5 px-1-5">コンセプト</a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editFacilities', $selected_hotel->id) }}" class="d-block py-0-5 px-1-5">設備</a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="{{ route('project.hotel.editFeatures', $selected_hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">特徴</a>
+                    <a href="{{ route('project.hotel.editFacilities', $selected_hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">設備</a>
                 </li>
             </ul>
         </li>
@@ -41,29 +38,21 @@
             </ul>
         </li>
         <li class="sidebar-nav-items">
-            <div class="d-block p-1-5 font-weight-bold">
+            <a href="" class="d-block p-1-5 font-weight-bold">
                 <img src="" alt="">
-                <p>各種管理</p>
-            </div>
-            <ul class="sidebar-nav-dropdown-item">
-                <li class="sidebar-nav-item">
-                    <a href="" class="d-block pb-0-5 px-1-5">コンセプト</a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="" class="d-block py-0-5 px-1-5">基本情報</a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="" class="d-block py-0-5 px-1-5">設備</a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="" class="d-block pt-0-5 px-1-5 pb-1-5">特徴</a>
-                </li>
-            </ul>
+                <p>レポート</p>
+            </a>
         </li>
         <li class="sidebar-nav-items">
             <a href="" class="d-block p-1-5 font-weight-bold">
                 <img src="" alt="">
                 <p>請求管理</p>
+            </a>
+        </li>
+        <li class="sidebar-nav-items">
+            <a href="" class="d-block p-1-5 font-weight-bold">
+                <img src="" alt="">
+                <p>アカウント設定</p>
             </a>
         </li>
         <li class="sidebar-nav-items">

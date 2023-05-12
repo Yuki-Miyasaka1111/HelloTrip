@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use App\Models\Category;
-use App\Models\Region;
+use App\Models\Prefecture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Diglactic\Breadcrumbs\Breadcrumbs;

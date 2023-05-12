@@ -29,7 +29,7 @@
             <td style="text-align:right"><a href="{{ route('project.hotel.index',$hotel->id) }}?page_id={{ $page_id }}">{{ $hotel->name }}</a></td>
             <td style="text-align:right">{{ $hotel->price }}円</td>
             <td style="text-align:right">{{ $hotel->category->category_name }}</td>
-            <td style="text-align:right">{{ $hotel->region->region_name }}</td>
+            <td style="text-align:right">{{ $hotel->prefecture->prefecture_name }}</td>
             <td style="text-align:center">
                 <a class="btn btn-primary" href="{{ route('project.hotel.edit', $hotel->id) }}?page_id={{ $page_id }}">変更</a>
             </td>

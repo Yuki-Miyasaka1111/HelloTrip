@@ -44,7 +44,7 @@
             <td style="text-align:right"><a href="{{ route('hotel.show',$hotel->id) }}?page_id={{ $page_id }}">{{ $hotel->name }}</a></td>
             <td style="text-align:right">{{ $hotel->price }}円</td>
             <td style="text-align:right">{{ $hotel->category->category_name }}</td>
-            <td style="text-align:right">{{ $hotel->region->region_name }}</td>
+            <td style="text-align:right">{{ $hotel->prefecture->prefecture_name }}</td>
         </tr>
         @endforeach
     </table>

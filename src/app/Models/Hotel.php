@@ -13,15 +13,29 @@ class Hotel extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'category_id',
-        'region_id',
-        'address',
-        'description',
-        'url',
         'phone_number',
+        'prefecture_id',
+        'area_id',
+        'url',
         'client_id',
-        'user_id'
+        'user_id',
+        'facility_scale',
+        'prefecture',
+        'catch_copy',
+        'minimum_price',
+        'postal_code',
+        'address_1',
+        'address_2',
+        'address_3',
+        'access',
+        'check_in',
+        'check_out',
+        'parking_information',
+        'monthly_holiday',
+        'temporary_holiday',
+        'other_information',
+        'other_facility_information',
+        'other_equipment_information',
     ];
 
     public function user()
@@ -32,9 +46,13 @@ class Hotel extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    public function region()
+    public function prefecture()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Prefecture::class, 'prefecture_id');
+    }
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
     }
     public function client()
     {

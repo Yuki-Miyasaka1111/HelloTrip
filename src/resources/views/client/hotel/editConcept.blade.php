@@ -103,13 +103,13 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="地域" />
             <div class="pl-1">
-                <x-inputs.select name="region_id" selectedOption="{{ $selected_hotel->region_id }}" width="fit-content" placeholder="地域を選択してください">
-                    @foreach ($regions as $region)
-                        <option value="{{ $region->region_id }}" @if($region->region_id == $selected_hotel->region_id) selected @endif>{{ $region->region_name }}</option>
+                <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="fit-content" placeholder="地域を選択してください">
+                    @foreach ($prefectures as $prefecture)
+                        <option value="{{ $prefecture->prefecture_id }}" @if($prefecture->prefecture_id == $selected_hotel->prefecture_id) selected @endif>{{ $prefecture->prefecture_name }}</option>
                     @endforeach
                 </x-inputs.select>
             </div>
-            @error('region_id')
+            @error('prefecture_id')
             <span class="ml-1-5" style="color:red;">地域を選択してください</span>
             @enderror
         </div>

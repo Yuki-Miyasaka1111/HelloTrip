@@ -24,7 +24,6 @@
         @if(isset($selected_hotel))
             @method('PUT')
         @endif
-        
         <div class="form-group d-flex justify-start items-stretch">
             <x-labels.label label="画像" class="flex-wrap" />
             <div class="d-flex flex-wrap">
@@ -50,13 +49,14 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="施設規模" />
             <div class="pl-1">
-                <x-inputs.select name="category_id" selectedOption="{{ $selected_hotel->category_id }}" width="200px" placeholder="施設規模を選択">
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->category_id }}" @if($category->category_id == $selected_hotel->category_id) selected @endif>{{ $category->category_name }}</option>
-                    @endforeach
+                <x-inputs.select name="facility_scale" selectedOption="{{ $selected_hotel->facility_scale }}" width="200px" placeholder="施設規模を選択">
+                    <option value="1" @if($selected_hotel->facility_scale == 1) selected @endif>1〜30室</option>
+                    <option value="2" @if($selected_hotel->facility_scale == 2) selected @endif>30〜50室</option>
+                    <option value="3" @if($selected_hotel->facility_scale == 3) selected @endif>50〜100室</option>
+                    <option value="4" @if($selected_hotel->facility_scale == 4) selected @endif>101室以上</option>
                 </x-inputs.select>
             </div>
-            @error('category_id')
+            @error('facility_scale')
             <span class="ml-1-5" style="color:red;">施設規模を選択してください</span>
             @enderror
         </div>
@@ -66,7 +66,7 @@
             <div class="pl-1">
                 <x-inputs.select name="category_id" selectedOption="{{ $selected_hotel->category_id }}" width="200px" placeholder="カテゴリを選択">
                     @foreach ($categories as $category)
-                        <option value="{{ $category->category_id }}" @if($category->category_id == $selected_hotel->category_id) selected @endif>{{ $category->category_name }}</option>
+                        <option value="{{ $category->id }}" @if($category->category_id == $selected_hotel->category_id) selected @endif>{{ $category->name }}</option>
                     @endforeach
                 </x-inputs.select>
             </div>
@@ -78,18 +78,18 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="エリア" />
             <div class="pl-1">
-                <x-inputs.select name="region_id" selectedOption="{{ $selected_hotel->region_id }}" width="200px" placeholder="都道府県を選択">
-                    @foreach ($regions as $region)
-                        <option value="{{ $region->region_id }}" @if($region->region_id == $selected_hotel->region_id) selected @endif>{{ $region->region_name }}</option>
+                <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="200px" placeholder="都道府県を選択">
+                    @foreach ($prefectures as $prefecture)
+                        <option value="{{ $prefecture->id }}" @if($prefecture->prefecture_id == $selected_hotel->prefecture_id) selected @endif>{{ $prefecture->name }}</option>
                     @endforeach
                 </x-inputs.select>
-                <x-inputs.select name="region_id" selectedOption="{{ $selected_hotel->region_id }}" width="200px" placeholder="地域を選択" class="ml-1">
-                    @foreach ($regions as $region)
-                        <option value="{{ $region->region_id }}" @if($region->region_id == $selected_hotel->region_id) selected @endif>{{ $region->region_name }}</option>
+                <!-- <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="200px" placeholder="地域を選択" class="ml-1">
+                    @foreach ($prefectures as $prefecture)
+                        <option value="{{ $prefecture->prefecture_id }}" @if($prefecture->prefecture_id == $selected_hotel->prefecture_id) selected @endif>{{ $prefecture->name }}</option>
                     @endforeach
-                </x-inputs.select>
+                </x-inputs.select> -->
             </div>
-            @error('region_id')
+            @error('prefecture_id')
             <span class="ml-1-5" style="color:red;">エリアを選択してください</span>
             @enderror
         </div>
@@ -97,9 +97,9 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="キャッチコピー" />
             <div class="pl-1">
-                <x-inputs.text name="name" width="520px" :value="$selected_hotel->name" placeholder="例：全客室露天風呂付きの贅沢空間(20文字以内)" />
+                <x-inputs.text name="catch_copy" width="520px" :value="$selected_hotel->catch_copy" placeholder="例：全客室露天風呂付きの贅沢空間(20文字以内)" />
             </div>
-            @error('name')
+            @error('catch_copy')
             <span style="color:red;">キャッチコピーを20文字以内で入力してください</span>
             @enderror
         </div>
@@ -107,9 +107,9 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="最低宿泊単価 / 人" />
             <div class="pl-1 d-flex items-center">
-                <x-inputs.text name="price" width="200px" :value="$selected_hotel->price" placeholder="29,800" /><p class="pl-1">円 / 人(税込)</p>
+                <x-inputs.text name="minimum_price" width="200px" :value="$selected_hotel->minimum_price" placeholder="29,800" /><p class="pl-1">円 / 人(税込)</p>
             </div>
-            @error('price')
+            @error('minimum_price')
             <span class="ml-1-5" style="color:red;">最低宿泊単価を数字で入力してください</span>
             @enderror
         </div>
@@ -117,27 +117,67 @@
         <div class="form-group d-flex justify-start items-center ">
             <x-labels.label label="郵便番号" />
             <div class="pl-1 d-flex items-center">
-                <x-inputs.text name="price" width="200px" :value="$selected_hotel->price" placeholder="例：123-4567" />
+                <x-inputs.text name="postal_code" width="200px" :value="$selected_hotel->postal_code" placeholder="例：123-4567" />
             </div>
-            @error('price')
+            @error('postal_code')
             <span class="ml-1-5" style="color:red;">郵便番号を数字で入力してください</span>
             @enderror
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所" />
+            <x-labels.label label="住所1" />
             <div class="pl-1">
-                <x-inputs.text name="price" width="520px" :value="$selected_hotel->address" placeholder="住所" />
+                <x-inputs.text name="address_1" width="520px" :value="$selected_hotel->address_1" placeholder="市区  例：渋谷区" />
             </div>
-            @error('address')
-            <span class="ml-1-5" style="color:red;">住所を140文字以内で入力してください</span>
+            @error('address_1')
+            <span class="ml-1-5" style="color:red;">住所1を140文字以内で入力してください</span>
+            @enderror
+        </div>
+        
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="住所2" />
+            <div class="pl-1">
+                <x-inputs.text name="address_2" width="520px" :value="$selected_hotel->address_2" placeholder="町村番地  例：広尾1-2-1" />
+            </div>
+            @error('address_2')
+            <span class="ml-1-5" style="color:red;">住所2を140文字以内で入力してください</span>
+            @enderror
+        </div>
+        
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="住所3" />
+            <div class="pl-1">
+                <x-inputs.text name="address_3" width="520px" :value="$selected_hotel->address_3" placeholder="ビル名  例：ヒカリビル4F" />
+            </div>
+            @error('address_3')
+            <span class="ml-1-5" style="color:red;">住所3を140文字以内で入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-stretch ">
+            <x-labels.label label="アクセス" />
+            <div class="pl-1">
+                <x-inputs.textarea name="access" width="520px" height="fit-content" :description="$selected_hotel->access" placeholder="施設までのアクセス方法に関する説明文を入力(最大250文字)" />
+            </div>
+            @error('access')
+            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">アクセスを250文字以内で入力してください</span>
             @enderror
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="URL" />
+            <x-labels.label label="TEL" />
             <div class="pl-1">
-                <x-inputs.text name="url" width="520px" :value="$selected_hotel->url" placeholder="URL" />
+                <x-inputs.text name="phone_number" width="520px" :value="$selected_hotel->phone_number" placeholder="012-3456-7890" />
+            </div>
+            @error('phone_number')
+            <span class="ml-1-5" style="color:red;">電話番号を入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="HP" />
+            <div class="pl-1">
+                <x-inputs.text name="url" width="520px" :value="$selected_hotel->url" placeholder="https://hellotrip.jp" />
             </div>
             @error('url')
             <span class="ml-1-5" style="color:red;">URLを140文字以内で入力してください</span>
@@ -145,22 +185,62 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="電話番号" />
+            <x-labels.label label="チェックイン" />
             <div class="pl-1">
-                <x-inputs.text name="phone_number" width="520px" :value="$selected_hotel->phone_number" placeholder="電話番号" />
+                <x-inputs.text type="time" name="check_in" width="160px" :value="$selected_hotel->check_in" placeholder="00:00" />
             </div>
-            @error('phone_number')
-            <span class="ml-1-5" style="color:red;">電話番号を入力してください</span>
+            @error('check_in')
+            <span class="ml-1-5" style="color:red;">チェックイン時間を入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="チェックアウト" />
+            <div class="pl-1">
+                <x-inputs.text type="time" name="check_out" width="160px" :value="$selected_hotel->check_out" placeholder="00:00" />
+            </div>
+            @error('check_out')
+            <span class="ml-1-5" style="color:red;">チェックアウト時間を入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="駐車場情報" />
+            <div class="pl-1">
+                <x-inputs.text name="parking_information" width="520px" :value="$selected_hotel->parking_information" placeholder="例：有 最大収容60台：1泊税込2,000円 / 1台(40文字以内)" />
+            </div>
+            @error('parking_information')
+            <span style="color:red;">駐車場情報を40文字以内で入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="月定休日" />
+            <div class="pl-1">
+                <x-inputs.text name="monthly_holiday" width="520px" :value="$selected_hotel->monthly_holiday" placeholder="" />
+            </div>
+            @error('monthly_holiday')
+            <span class="ml-1-5" style="color:red;">月定休日を入力してください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start items-center ">
+            <x-labels.label label="臨時定休日" />
+            <div class="pl-1">
+                <x-inputs.text type="date" name="temporary_holiday" width="250px" :value="$selected_hotel->temporary_holiday" placeholder="年 / 月 / 日" />
+            </div>
+            @error('temporary_holiday')
+            <span class="ml-1-5" style="color:red;">臨時定休日を入力してください</span>
             @enderror
         </div>
 
         <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="詳細" />
+            <x-labels.label label="その他の情報" />
             <div class="pl-1">
-                <x-inputs.textarea name="phone_number" width="520px" height="fit-content" :description="$selected_hotel->description" placeholder="詳細" />
+                <x-inputs.textarea name="other_information" width="520px" height="fit-content" :description="$selected_hotel->other_information" placeholder="その他に関する説明文を入力(最大250文字)" />
             </div>
-            @error('description')
-            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">詳細を140文字以内で入力してください</span>
+            @error('other_information')
+            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">その他に関する説明文を250文字以内で入力してください</span>
             @enderror
         </div>
     </x-project-information-box>

@@ -6,7 +6,7 @@ use App\Models\Home;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\Category;
-use App\Models\Region;
+use App\Models\Prefecture;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -39,10 +39,10 @@ class HomeController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $regions = Region::all();
+        $prefectures = Prefecture::all();
         return view('create')
             ->with('categories', $categories)
-            ->with('regions', $regions)
+            ->with('prefectures', $prefectures)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -55,7 +55,7 @@ class HomeController extends Controller
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
             'address' => 'required|max:140',
             'description' => 'required|max:140',
             'url' => 'required|max:140',
@@ -67,7 +67,7 @@ class HomeController extends Controller
         $hotel->name = $request->name;
         $hotel->price = $request->input(["price"]);
         $hotel->category_id = $request->input(["category_id"]);
-        $hotel->region_id = $request->input(["region_id"]);
+        $hotel->prefecture_id = $request->input(["prefecture_id"]);
         $hotel->address = $request->input(["address"]);
         $hotel->description = $request->input(["description"]);
         $hotel->url = $request->input(["url"]);
@@ -88,11 +88,11 @@ class HomeController extends Controller
     public function show(Home $home)
     {
         $categories = Category::all();
-        $regions = Region::all();
+        $prefectures = Prefecture::all();
         return view('show',compact('hotel'))
             ->with('page_id',request()->page_id)
             ->with('categories', $categories)
-            ->with('regions', $regions);
+            ->with('prefectures', $prefectures);
     }
 
     /**

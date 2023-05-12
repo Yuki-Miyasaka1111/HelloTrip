@@ -80,13 +80,13 @@
             </div>
             <div class="col-12 mb-2 mt-2">
                 <div class="form-group">
-                    <select name="region_id" class="form-select">
+                    <select name="prefecture_id" class="form-select">
                         <option>地域をを選択してください</otion>
-                        @foreach ($regions as $region)
-                            <option value="{{ $region->region_id }}">{{ $region->region_name }}</otion>
+                        @foreach ($prefectures as $prefecture)
+                            <option value="{{ $prefecture->prefecture_id }}">{{ $prefecture->prefecture_name }}</otion>
                         @endforeach
                     </select>
-                    @error('region_id')
+                    @error('prefecture_id')
                     <span style="color:red;">地域を選択してください</span>
                     @enderror
                 </div>
