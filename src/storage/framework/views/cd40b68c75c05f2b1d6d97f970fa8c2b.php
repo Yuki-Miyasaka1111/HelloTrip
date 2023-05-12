@@ -45,8 +45,8 @@
             <?php echo method_field('PUT'); ?>
         <?php endif; ?>
         
-        <div class="form-group d-flex justify-start items-center ">
-            <?php for($i = 0; $i < 4; $i++): ?>
+        <div class="form-group d-flex justify-start items-center flex-wrap ">
+            <?php for($i = 0; $i < 8; $i++): ?>
                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.image','data' => ['imageUrl' => $image_url]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.image'); ?>

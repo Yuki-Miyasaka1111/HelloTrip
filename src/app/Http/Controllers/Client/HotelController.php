@@ -156,15 +156,22 @@ class HotelController extends Controller
 
     public function editBasicInformation($hotel_id)
     {
-        $hotel = Hotel::find($hotel_id);
-        $categories = Category::all();
-        $regions = Region::all();
-        $hotelImage = HotelImage::first();
-        $image_url = $hotelImage ? $hotelImage->url : null;
-        return view('client.hotel.editBasicInformation', compact('hotel', 'image_url'))
-            ->with('categories', $categories)
-            ->with('regions', $regions)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            $categories = Category::all();
+            $regions = Region::all();
+            $hotelImage = HotelImage::first();
+            $image_url = $hotelImage ? $hotelImage->url : null;
+            return view('client.hotel.editBasicInformation', compact('selected_hotel', 'image_url'))
+                ->with('categories', $categories)
+                ->with('regions', $regions)
+                ->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return redirect()->route('client.login');
+        }
     }
 
     public function editFacilities($hotel_id)
