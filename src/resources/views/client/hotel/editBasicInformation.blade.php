@@ -222,6 +222,7 @@
             @error('monthly_holiday')
             <span class="ml-1-5" style="color:red;">月定休日を入力してください</span>
             @enderror
+            
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
