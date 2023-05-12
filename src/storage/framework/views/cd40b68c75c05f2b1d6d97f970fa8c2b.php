@@ -38,10 +38,10 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['title' => '基本情報']); ?>
-    <form action="<?php echo e(isset($hotel) ? route('project.hotel.updateBasicInformation', $hotel->id) : route('project.hotel.storeBasicInformation')); ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo e(isset($selected_hotel) ? route('project.hotel.updateBasicInformation', $selected_hotel->id) : route('project.hotel.storeBasicInformation')); ?>" method="POST" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
 
-        <?php if(isset($hotel)): ?>
+        <?php if(isset($selected_hotel)): ?>
             <?php echo method_field('PUT'); ?>
         <?php endif; ?>
         
@@ -92,14 +92,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'name','width' => '520px','value' => $hotel->name,'placeholder' => '名前']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'name','width' => '520px','value' => $selected_hotel->name,'placeholder' => '名前']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'name','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->name),'placeholder' => '名前']); ?>
+<?php $component->withAttributes(['name' => 'name','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->name),'placeholder' => '名前']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -135,14 +135,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'price','width' => '520px','value' => $hotel->price,'placeholder' => '価格']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'price','width' => '520px','value' => $selected_hotel->price,'placeholder' => '価格']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'price','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->price),'placeholder' => '価格']); ?>
+<?php $component->withAttributes(['name' => 'price','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->price),'placeholder' => '価格']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -178,14 +178,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'price','width' => '520px','value' => $hotel->address,'placeholder' => '住所']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'price','width' => '520px','value' => $selected_hotel->address,'placeholder' => '住所']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'price','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->address),'placeholder' => '住所']); ?>
+<?php $component->withAttributes(['name' => 'price','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->address),'placeholder' => '住所']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -220,14 +220,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'url','width' => '520px','value' => $hotel->url,'placeholder' => 'URL']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'url','width' => '520px','value' => $selected_hotel->url,'placeholder' => 'URL']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'url','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->url),'placeholder' => 'URL']); ?>
+<?php $component->withAttributes(['name' => 'url','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->url),'placeholder' => 'URL']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -262,14 +262,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'phone_number','width' => '520px','value' => $hotel->phone_number,'placeholder' => '電話番号']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.text','data' => ['name' => 'phone_number','width' => '520px','value' => $selected_hotel->phone_number,'placeholder' => '電話番号']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.text'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'phone_number','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->phone_number),'placeholder' => '電話番号']); ?>
+<?php $component->withAttributes(['name' => 'phone_number','width' => '520px','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->phone_number),'placeholder' => '電話番号']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -304,14 +304,14 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.textarea','data' => ['name' => 'phone_number','width' => '520px','height' => 'fit-content','description' => $hotel->description,'placeholder' => '詳細']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.textarea','data' => ['name' => 'phone_number','width' => '520px','height' => 'fit-content','description' => $selected_hotel->description,'placeholder' => '詳細']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.textarea'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'phone_number','width' => '520px','height' => 'fit-content','description' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hotel->description),'placeholder' => '詳細']); ?>
+<?php $component->withAttributes(['name' => 'phone_number','width' => '520px','height' => 'fit-content','description' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($selected_hotel->description),'placeholder' => '詳細']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -346,16 +346,16 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select','data' => ['name' => 'category_id','selectedOption' => ''.e($hotel->category_id).'','width' => 'fit-content','placeholder' => 'カテゴリを選択してください']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select','data' => ['name' => 'category_id','selectedOption' => ''.e($selected_hotel->category_id).'','width' => 'fit-content','placeholder' => 'カテゴリを選択してください']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.select'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'category_id','selectedOption' => ''.e($hotel->category_id).'','width' => 'fit-content','placeholder' => 'カテゴリを選択してください']); ?>
+<?php $component->withAttributes(['name' => 'category_id','selectedOption' => ''.e($selected_hotel->category_id).'','width' => 'fit-content','placeholder' => 'カテゴリを選択してください']); ?>
                 <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($category->category_id); ?>" <?php if($category->category_id == $hotel->category_id): ?> selected <?php endif; ?>><?php echo e($category->category_name); ?></option>
+                    <option value="<?php echo e($category->category_id); ?>" <?php if($category->category_id == $selected_hotel->category_id): ?> selected <?php endif; ?>><?php echo e($category->category_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -392,16 +392,16 @@ unset($__errorArgs, $__bag); ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select','data' => ['name' => 'region_id','selectedOption' => ''.e($hotel->region_id).'','width' => 'fit-content','placeholder' => '地域を選択してください']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select','data' => ['name' => 'region_id','selectedOption' => ''.e($selected_hotel->region_id).'','width' => 'fit-content','placeholder' => '地域を選択してください']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.select'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'region_id','selectedOption' => ''.e($hotel->region_id).'','width' => 'fit-content','placeholder' => '地域を選択してください']); ?>
+<?php $component->withAttributes(['name' => 'region_id','selectedOption' => ''.e($selected_hotel->region_id).'','width' => 'fit-content','placeholder' => '地域を選択してください']); ?>
                 <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($region->region_id); ?>" <?php if($region->region_id == $hotel->region_id): ?> selected <?php endif; ?>><?php echo e($region->region_name); ?></option>
+                    <option value="<?php echo e($region->region_id); ?>" <?php if($region->region_id == $selected_hotel->region_id): ?> selected <?php endif; ?>><?php echo e($region->region_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
