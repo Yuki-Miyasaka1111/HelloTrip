@@ -25,7 +25,7 @@
             @method('PUT')
         @endif
         <div class="form-group d-flex justify-start items-stretch">
-            <x-labels.label label="画像" class="flex-wrap"  />
+            <x-labels.label label="画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
                 @for ($i = 0; $i < 8; $i++)
                     <x-inputs.image :image-url="$image_url"/>
@@ -36,9 +36,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="宿泊施設名" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="宿泊施設名" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="name" width="520px" :value="$selected_hotel->name" placeholder="宿泊施設名を入力(最大40文字)" />
             </div>
             @error('name')
@@ -46,9 +46,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="施設規模" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="施設規模" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.select name="facility_scale" selectedOption="{{ $selected_hotel->facility_scale }}" width="200px" placeholder="施設規模を選択">
                     <option value="1" @if($selected_hotel->facility_scale == 1) selected @endif>1〜30室</option>
                     <option value="2" @if($selected_hotel->facility_scale == 2) selected @endif>30〜50室</option>
@@ -61,9 +61,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="カテゴリ" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="カテゴリ" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.select name="category_id" selectedOption="{{ $selected_hotel->category_id }}" width="200px" placeholder="カテゴリを選択">
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" @if($category->category_id == $selected_hotel->category_id) selected @endif>{{ $category->name }}</option>
@@ -75,9 +75,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="エリア" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="エリア" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="200px" placeholder="都道府県を選択">
                     @foreach ($prefectures as $prefecture)
                         <option value="{{ $prefecture->id }}" @if($prefecture->prefecture_id == $selected_hotel->prefecture_id) selected @endif>{{ $prefecture->name }}</option>
@@ -94,9 +94,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="キャッチコピー" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="キャッチコピー" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="catch_copy" width="520px" :value="$selected_hotel->catch_copy" placeholder="例：全客室露天風呂付きの贅沢空間(20文字以内)" />
             </div>
             @error('catch_copy')
@@ -104,8 +104,8 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="最低宿泊単価 / 人" />
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="最低宿泊単価 / 人" alignItems="items-center" />
             <div class="pl-1 d-flex items-center">
                 <x-inputs.text name="minimum_price" width="200px" :value="$selected_hotel->minimum_price" placeholder="29,800" /><p class="pl-1">円 / 人(税込)</p>
             </div>
@@ -114,8 +114,8 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="郵便番号" required />
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="郵便番号" alignItems="items-center" required />
             <div class="pl-1 d-flex items-center">
                 <x-inputs.text name="postal_code" width="200px" :value="$selected_hotel->postal_code" placeholder="例：123-4567" />
             </div>
@@ -124,9 +124,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所1" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="住所1" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="address_1" width="520px" :value="$selected_hotel->address_1" placeholder="市区  例：渋谷区" />
             </div>
             @error('address_1')
@@ -134,9 +134,9 @@
             @enderror
         </div>
         
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所2" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="住所2" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="address_2" width="520px" :value="$selected_hotel->address_2" placeholder="町村番地  例：広尾1-2-1" />
             </div>
             @error('address_2')
@@ -144,9 +144,9 @@
             @enderror
         </div>
         
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所3" />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="住所3" alignItems="items-center" />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="address_3" width="520px" :value="$selected_hotel->address_3" placeholder="ビル名  例：ヒカリビル4F" />
             </div>
             @error('address_3')
@@ -155,8 +155,8 @@
         </div>
 
         <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="アクセス" />
-            <div class="pl-1">
+            <x-labels.label label="アクセス" alignItems="items-baseline" />
+            <div class="pl-1 py-1">
                 <x-inputs.textarea name="access" width="520px" height="fit-content" :description="$selected_hotel->access" placeholder="施設までのアクセス方法に関する説明文を入力(最大250文字)" />
             </div>
             @error('access')
@@ -164,9 +164,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="TEL" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="TEL" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="phone_number" width="520px" :value="$selected_hotel->phone_number" placeholder="012-3456-7890" />
             </div>
             @error('phone_number')
@@ -174,9 +174,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="HP" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start items-strtch ">
+            <x-labels.label label="HP" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="url" width="520px" :value="$selected_hotel->url" placeholder="https://hellotrip.jp" />
             </div>
             @error('url')
@@ -184,9 +184,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="チェックイン" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="チェックイン" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text type="time" name="check_in" width="160px" :value="$selected_hotel->check_in" placeholder="00:00" />
             </div>
             @error('check_in')
@@ -194,9 +194,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="チェックアウト" required />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="チェックアウト" alignItems="items-center" required />
+            <div class="pl-1 py-1">
                 <x-inputs.text type="time" name="check_out" width="160px" :value="$selected_hotel->check_out" placeholder="00:00" />
             </div>
             @error('check_out')
@@ -204,9 +204,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="駐車場情報" />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="駐車場情報" alignItems="items-center" />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="parking_information" width="520px" :value="$selected_hotel->parking_information" placeholder="例：有 最大収容60台：1泊税込2,000円 / 1台(40文字以内)" />
             </div>
             @error('parking_information')
@@ -214,9 +214,9 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="月定休日" />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="月定休日" alignItems="items-baseline" />
+            <div class="pl-1 py-1">
                 <x-inputs.text name="monthly_holiday" width="520px" :value="$selected_hotel->monthly_holiday" placeholder="" />
             </div>
             @error('monthly_holiday')
@@ -225,10 +225,11 @@
             
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="臨時定休日" />
-            <div class="pl-1">
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="臨時定休日" alignItems="items-baseline"/>
+            <div class="pl-1 py-1">
                 <x-inputs.text type="date" name="temporary_holiday" width="250px" :value="$selected_hotel->temporary_holiday" placeholder="年 / 月 / 日" />
+                <div class="js-addTemporaryHolidaySlot">臨時定休日を追加</div>
             </div>
             @error('temporary_holiday')
             <span class="ml-1-5" style="color:red;">臨時定休日を入力してください</span>
@@ -236,8 +237,8 @@
         </div>
 
         <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="その他の情報" />
-            <div class="pl-1">
+            <x-labels.label label="その他の情報" alignItems="items-baseline" />
+            <div class="pl-1 py-1">
                 <x-inputs.textarea name="other_information" width="520px" height="fit-content" :description="$selected_hotel->other_information" placeholder="その他に関する説明文を入力(最大250文字)" />
             </div>
             @error('other_information')

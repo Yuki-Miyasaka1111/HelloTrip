@@ -1,6 +1,6 @@
 .upload-image-wrap{
-    width: 25%;
-    max-width: 25%;
+    width: calc(25% - 3rem);
+    max-width: calc(25% - 3rem);
     display: flex;
     justify-content: center;
     text-align: center;

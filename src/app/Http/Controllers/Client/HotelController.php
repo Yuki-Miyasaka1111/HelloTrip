@@ -233,7 +233,7 @@ class HotelController extends Controller
      */
     public function updateBasicInformation(Request $request, Hotel $hotel)
     {
-        $validationRules = [
+        $request->validate([
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'name' => 'required|max:20',
             'facility_scale' => 'required|integer',
@@ -256,9 +256,7 @@ class HotelController extends Controller
             'temporary_holiday' => 'max:40',
             'other_information' => 'max:40',
             'other_facility_information' => 'max:140',
-        ];
-
-        $request->validate($validationRules);
+        ]);
 
         // ホテルデータの保存処理
         $hotel = Hotel::find($request->hotel_id);
@@ -299,7 +297,7 @@ class HotelController extends Controller
             }
         }
 
-        return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id, 'validationRules' => $validationRules,])
+        return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
         ->with('page_id',request()->page_id)
         ->with('success', '保存しました。');
     }
