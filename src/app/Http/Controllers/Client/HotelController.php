@@ -187,9 +187,7 @@ class HotelController extends Controller
             $prefectures = Prefecture::all();
             $hotelImage = HotelImage::first();
             $image_url = $hotelImage ? $hotelImage->url : null;
-            return view('client.hotel.editBasicInformation', compact('selected_hotel', 'image_url'))
-                ->with('categories', $categories)
-                ->with('prefectures', $prefectures)
+            return view('client.hotel.editBasicInformation', compact('selected_hotel', 'categories', 'prefectures', 'image_url'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
             return redirect()->route('client.login');
@@ -252,7 +250,8 @@ class HotelController extends Controller
             'check_in' => 'required|max:140',
             'check_out' => 'required|max:140',
             'parking_information' => 'max:40',
-            'monthly_holiday' => 'max:40',
+            'monthly_holiday_week' => 'max:40',
+            'monthly_holiday_day' => 'max:40',
             'temporary_holiday' => 'max:40',
             'other_information' => 'max:40',
             'other_facility_information' => 'max:140',
@@ -264,6 +263,7 @@ class HotelController extends Controller
         $hotel->facility_scale = $request->input(["facility_scale"]);
         $hotel->category_id = $request->input(["category_id"]);
         $hotel->prefecture_id = $request->input(["prefecture_id"]);
+        $hotel->catch_copy = $request->input(["catch_copy"]);
         $hotel->area_id = $request->input(["area_id"]);
         $hotel->minimum_price = $request->input(["minimum_price"]);
         $hotel->postal_code = $request->input(["postal_code"]);
@@ -276,11 +276,21 @@ class HotelController extends Controller
         $hotel->check_in = $request->input(["check_in"]);
         $hotel->check_out = $request->input(["check_out"]);
         $hotel->parking_information = $request->input(["parking_information"]);
-        $hotel->monthly_holiday = $request->input(["monthly_holiday"]);
         $hotel->temporary_holiday = $request->input(["temporary_holiday"]);
         $hotel->other_information = $request->input(["other_information"]);
         $hotel->other_facility_information = $request->input(["other_facility_information"]);
         $hotel->save();
+
+        // 既存の月定休日データを全て削除
+        $hotel->monthlyHolidays()->delete();
+        // 新しく送られてきた月定休日データを保存
+        for ($i = 0; $i < count($request->monthly_holiday_week); $i++) {
+            $monthlyHoliday = [
+                'week' => $request->monthly_holiday_week[$i],
+                'day' => $request->monthly_holiday_day[$i],
+            ];
+            $hotel->monthlyHolidays()->create($monthlyHoliday);
+        }
 
         // 画像ファイルのアップロード処理
         if ($request->hasFile('images')) {

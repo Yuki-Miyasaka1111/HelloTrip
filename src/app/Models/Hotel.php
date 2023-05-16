@@ -74,4 +74,8 @@ class Hotel extends Model
     {
         return $this->belongsToMany(Amenity::class, 'hotel_amenities');
     }
+    public function monthlyHolidays()
+    {
+        return $this->hasMany(MonthlyHoliday::class);
+    }
 }
