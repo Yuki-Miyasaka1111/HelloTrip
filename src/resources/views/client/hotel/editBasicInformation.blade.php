@@ -25,7 +25,7 @@
             @method('PUT')
         @endif
         <div class="form-group d-flex justify-start items-stretch">
-            <x-labels.label label="画像" class="flex-wrap" />
+            <x-labels.label label="画像" class="flex-wrap"  />
             <div class="d-flex flex-wrap">
                 @for ($i = 0; $i < 8; $i++)
                     <x-inputs.image :image-url="$image_url"/>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="宿泊施設名" />
+            <x-labels.label label="宿泊施設名" required />
             <div class="pl-1">
                 <x-inputs.text name="name" width="520px" :value="$selected_hotel->name" placeholder="宿泊施設名を入力(最大40文字)" />
             </div>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="施設規模" />
+            <x-labels.label label="施設規模" required />
             <div class="pl-1">
                 <x-inputs.select name="facility_scale" selectedOption="{{ $selected_hotel->facility_scale }}" width="200px" placeholder="施設規模を選択">
                     <option value="1" @if($selected_hotel->facility_scale == 1) selected @endif>1〜30室</option>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="カテゴリ" />
+            <x-labels.label label="カテゴリ" required />
             <div class="pl-1">
                 <x-inputs.select name="category_id" selectedOption="{{ $selected_hotel->category_id }}" width="200px" placeholder="カテゴリを選択">
                     @foreach ($categories as $category)
@@ -76,7 +76,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="エリア" />
+            <x-labels.label label="エリア" required />
             <div class="pl-1">
                 <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="200px" placeholder="都道府県を選択">
                     @foreach ($prefectures as $prefecture)
@@ -95,7 +95,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="キャッチコピー" />
+            <x-labels.label label="キャッチコピー" required />
             <div class="pl-1">
                 <x-inputs.text name="catch_copy" width="520px" :value="$selected_hotel->catch_copy" placeholder="例：全客室露天風呂付きの贅沢空間(20文字以内)" />
             </div>
@@ -115,7 +115,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="郵便番号" />
+            <x-labels.label label="郵便番号" required />
             <div class="pl-1 d-flex items-center">
                 <x-inputs.text name="postal_code" width="200px" :value="$selected_hotel->postal_code" placeholder="例：123-4567" />
             </div>
@@ -125,7 +125,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所1" />
+            <x-labels.label label="住所1" required />
             <div class="pl-1">
                 <x-inputs.text name="address_1" width="520px" :value="$selected_hotel->address_1" placeholder="市区  例：渋谷区" />
             </div>
@@ -135,7 +135,7 @@
         </div>
         
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所2" />
+            <x-labels.label label="住所2" required />
             <div class="pl-1">
                 <x-inputs.text name="address_2" width="520px" :value="$selected_hotel->address_2" placeholder="町村番地  例：広尾1-2-1" />
             </div>
@@ -165,7 +165,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="TEL" />
+            <x-labels.label label="TEL" required />
             <div class="pl-1">
                 <x-inputs.text name="phone_number" width="520px" :value="$selected_hotel->phone_number" placeholder="012-3456-7890" />
             </div>
@@ -175,7 +175,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="HP" />
+            <x-labels.label label="HP" required />
             <div class="pl-1">
                 <x-inputs.text name="url" width="520px" :value="$selected_hotel->url" placeholder="https://hellotrip.jp" />
             </div>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="チェックイン" />
+            <x-labels.label label="チェックイン" required />
             <div class="pl-1">
                 <x-inputs.text type="time" name="check_in" width="160px" :value="$selected_hotel->check_in" placeholder="00:00" />
             </div>
@@ -195,7 +195,7 @@
         </div>
 
         <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="チェックアウト" />
+            <x-labels.label label="チェックアウト" required />
             <div class="pl-1">
                 <x-inputs.text type="time" name="check_out" width="160px" :value="$selected_hotel->check_out" placeholder="00:00" />
             </div>
