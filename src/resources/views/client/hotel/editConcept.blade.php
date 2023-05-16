@@ -19,100 +19,17 @@
         @if(isset($selected_hotel))
             @method('PUT')
         @endif
-        
+
         <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="画像" />
-            @for ($i = 0; $i < 4; $i++)
-                <x-inputs.image :image-url="$image_url"/>
-            @endfor
-            @error('images')
-            <span style="color:red;">ホテル画像をアップロードしてください</span>
+            <x-labels.label label="コンセプト文章" />
+            <div class="pl-1">
+                <x-inputs.textarea name="concept" width="520px" height="220px" :description="$selected_hotel->concept" placeholder="コンセプトに関する説明文を入力(最大250文字)" />
+            </div>
+            @error('concept')
+            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">コンセプトを250文字以内で入力してください</span>
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="施設名" />
-            <div class="pl-1">
-                <x-inputs.text name="name" width="520px" :value="$selected_hotel->name" placeholder="名前" />
-            </div>
-            @error('name')
-            <span style="color:red;">ホテル名を20文字以内で入力してください</span>
-            @enderror
-        </div>
-
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="価格" />
-            <div class="pl-1">
-                <x-inputs.text name="price" width="520px" :value="$selected_hotel->price" placeholder="価格" />
-            </div>
-            @error('price')
-            <span class="ml-1-5" style="color:red;">価格を数字で入力してください</span>
-            @enderror
-        </div>
-
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="住所" />
-            <div class="pl-1">
-                <x-inputs.text name="price" width="520px" :value="$selected_hotel->address" placeholder="住所" />
-            </div>
-            @error('address')
-            <span class="ml-1-5" style="color:red;">住所を140文字以内で入力してください</span>
-            @enderror
-        </div>
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="URL" />
-            <div class="pl-1">
-                <x-inputs.text name="url" width="520px" :value="$selected_hotel->url" placeholder="URL" />
-            </div>
-            @error('url')
-            <span class="ml-1-5" style="color:red;">URLを140文字以内で入力してください</span>
-            @enderror
-        </div>
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="電話番号" />
-            <div class="pl-1">
-                <x-inputs.text name="phone_number" width="520px" :value="$selected_hotel->phone_number" placeholder="電話番号" />
-            </div>
-            @error('phone_number')
-            <span class="ml-1-5" style="color:red;">電話番号を入力してください</span>
-            @enderror
-        </div>
-        <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="詳細" />
-            <div class="pl-1">
-                <x-inputs.textarea name="phone_number" width="520px" height="fit-content" :description="$selected_hotel->description" placeholder="詳細" />
-            </div>
-            @error('description')
-            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">詳細を140文字以内で入力してください</span>
-            @enderror
-        </div>
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="カテゴリ" />
-            <div class="pl-1">
-                <x-inputs.select name="category_id" selectedOption="{{ $selected_hotel->category_id }}" width="fit-content" placeholder="カテゴリを選択してください">
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->category_id }}" @if($category->category_id == $selected_hotel->category_id) selected @endif>{{ $category->category_name }}</option>
-                    @endforeach
-                </x-inputs.select>
-            </div>
-            @error('category_id')
-            <span class="ml-1-5" style="color:red;">カテゴリを選択してください</span>
-            @enderror
-        </div>
-
-        <div class="form-group d-flex justify-start items-center ">
-            <x-labels.label label="地域" />
-            <div class="pl-1">
-                <x-inputs.select name="prefecture_id" selectedOption="{{ $selected_hotel->prefecture_id }}" width="fit-content" placeholder="地域を選択してください">
-                    @foreach ($prefectures as $prefecture)
-                        <option value="{{ $prefecture->prefecture_id }}" @if($prefecture->prefecture_id == $selected_hotel->prefecture_id) selected @endif>{{ $prefecture->prefecture_name }}</option>
-                    @endforeach
-                </x-inputs.select>
-            </div>
-            @error('prefecture_id')
-            <span class="ml-1-5" style="color:red;">地域を選択してください</span>
-            @enderror
-        </div>
     </x-project-information-box>
 </form>
 @endsection

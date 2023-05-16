@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('hotels', function (Blueprint $table) {
             $table->dropColumn('region_id');
-            $table->string('phone_number')->after('description');
             $table->unsignedBigInteger('prefecture_id')->nullable()->after('phone_number');
             $table->unsignedBigInteger('area_id')->nullable()->after('prefecture_id');
             // Assuming 'prefectures' and 'areas' are the names of your tables

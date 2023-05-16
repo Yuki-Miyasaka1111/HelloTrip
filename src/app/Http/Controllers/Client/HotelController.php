@@ -55,13 +55,13 @@ class HotelController extends Controller
             'address_3' => 'max:40',
             'phone_number' => 'required|max:20',
             'url' => 'required|max:140',
-            'access' => 'required|max:140',
+            'access' => 'max:140',
             'check_in' => 'required|max:140',
             'check_out' => 'required|max:140',
-            'parking_information' => 'required|max:40',
-            'monthly_holiday' => 'required|max:40',
-            'temporary_holiday' => 'required|max:40',
-            'other_information' => 'required|max:40',
+            'parking_information' => 'max:40',
+            'monthly_holiday' => 'max:40',
+            'temporary_holiday' => 'max:40',
+            'other_information' => 'max:40',
             'other_facility_information' => 'max:140',
         ]);
     
@@ -176,25 +176,6 @@ class HotelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editConcept($hotel_id)
-    {
-        if (Auth::guard('client')->check()) {
-            $client = Auth::user();
-            $categories = Category::all();
-            $prefectures = Prefecture::all();
-            $hotelImage = HotelImage::first();
-            $image_url = $hotelImage ? $hotelImage->url : null;
-            $selected_hotel = Hotel::where('client_id', $client->id)
-                ->where('id', $hotel_id)
-                ->firstOrFail();
-            return view('client.hotel.editConcept', compact('selected_hotel', 'image_url'))
-                ->with('categories', $categories)
-                ->with('prefectures', $prefectures);
-        } else {
-            return redirect()->route('client.login');
-        }
-    }
-
     public function editBasicInformation($hotel_id)
     {
         if (Auth::guard('client')->check()) {
@@ -210,6 +191,19 @@ class HotelController extends Controller
                 ->with('categories', $categories)
                 ->with('prefectures', $prefectures)
                 ->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return redirect()->route('client.login');
+        }
+    }
+
+    public function editConcept($hotel_id)
+    {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            return view('client.hotel.editConcept', compact('selected_hotel'));
         } else {
             return redirect()->route('client.login');
         }
@@ -237,52 +231,6 @@ class HotelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateConcept(Request $request, Hotel $hotel)
-    {
-        $request->validate([
-            'images.*' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'name' => 'required|max:20',
-            'price' => 'required|integer',
-            'category_id' => 'required|integer',
-            'prefecture_id' => 'required|integer',
-            'address' => 'required|max:140',
-            'description' => 'required|max:140',
-            'url' => 'required|max:140',
-            'phone_number' => 'required|max:20',
-        ]);
-
-        // ホテルデータの保存処理
-        $hotel = Hotel::find($request->hotel_id);
-        $hotel->name = $request->input(["name"]);
-        $hotel->price = $request->input(["price"]);
-        $hotel->category_id = $request->input(["category_id"]);
-        $hotel->prefecture_id = $request->input(["prefecture_id"]);
-        $hotel->address = $request->input(["address"]);
-        $hotel->description = $request->input(["description"]);
-        $hotel->url = $request->input(["url"]);
-        $hotel->phone_number = $request->input(["phone_number"]);
-        $hotel->save();
-
-        // 画像ファイルのアップロード処理
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = Storage::putFileAs('public/hotel_images', $image, $filename);
-    
-                $hotelImage = new HotelImage;
-                $hotelImage->hotel = $hotel->id;
-                $hotelImage->filename = $filename;
-                $hotelImage->path = $path;
-    
-                $hotelImage->save();
-            }
-        }
-
-        return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel->id])
-        ->with('page_id',request()->page_id)
-        ->with('success', '保存しました。');
-    }
-
     public function updateBasicInformation(Request $request, Hotel $hotel)
     {
         $request->validate([
@@ -300,13 +248,13 @@ class HotelController extends Controller
             'address_3' => 'max:40',
             'phone_number' => 'required|max:20',
             'url' => 'required|max:140',
-            'access' => 'required|max:140',
+            'access' => 'max:140',
             'check_in' => 'required|max:140',
             'check_out' => 'required|max:140',
-            'parking_information' => 'required|max:40',
+            'parking_information' => 'max:40',
             'monthly_holiday' => 'max:40',
             'temporary_holiday' => 'max:40',
-            'other_information' => 'required|max:40',
+            'other_information' => 'max:40',
             'other_facility_information' => 'max:140',
         ]);
 
@@ -350,6 +298,22 @@ class HotelController extends Controller
         }
 
         return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
+        ->with('page_id',request()->page_id)
+        ->with('success', '保存しました。');
+    }
+
+    public function updateConcept(Request $request, Hotel $hotel)
+    {
+        $request->validate([
+            'concept' => 'max:250'
+        ]);
+
+        // ホテルデータの保存処理
+        $hotel = Hotel::find($request->hotel_id);
+        $hotel->concept = $request->input(["concept"]);
+        $hotel->save();
+
+        return redirect()->route('project.hotel.editConcept', ['hotel_id' => $hotel->id])
         ->with('page_id',request()->page_id)
         ->with('success', '保存しました。');
     }
