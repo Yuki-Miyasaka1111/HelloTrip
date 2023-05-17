@@ -13,17 +13,17 @@
 ]" />
 
 <form action="{{ isset($selected_hotel) ? route('project.hotel.updateBasicInformation', $selected_hotel->id) : route('project.hotel.storeBasicInformation') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+    @csrf
+
+    @if(isset($selected_hotel))
+        @method('PUT')
+    @endif
     <x-partials.preview-save-button :links="[
         ['title' => 'ホテル情報'],
         ['title' => '基本情報']
     ]" />
 
     <x-partials.project-information-box title="基本情報">
-        @csrf
-
-        @if(isset($selected_hotel))
-            @method('PUT')
-        @endif
         <div class="form-group d-flex justify-start items-stretch">
             <x-labels.label label="画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">

@@ -8,18 +8,17 @@
 @include('components.popup.errors.flash-error')
 
 <form action="{{ isset($selected_hotel) ? route('project.hotel.updateConcept', $selected_hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+    @csrf
+
+    @if(isset($selected_hotel))
+        @method('PUT')
+    @endif
     <x-partials.preview-save-button :links="[
         ['title' => 'ホテル情報'],
         ['title' => 'コンセプト']
     ]" />
 
     <x-partials.project-information-box title="コンセプト">
-        @csrf
-
-        @if(isset($selected_hotel))
-            @method('PUT')
-        @endif
-
         <div class="form-group d-flex justify-start items-stretch ">
             <x-labels.label label="コンセプト文章" />
             <div class="p-1">
