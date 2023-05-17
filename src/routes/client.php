@@ -43,40 +43,40 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
     Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
 
-    Route::prefix('/project/hotel')->group(function () {
-        Route::get('/{hotel_id?}', [HotelController::class, 'index'])->name('project.hotel.index');
-        Route::prefix('{hotel_id?}')->group(function () {
-            Route::get('/basic-information', [HotelController::class, 'editBasicInformation'])->name('project.hotel.editBasicInformation');
-            Route::post('/basic-information', [HotelController::class, 'storeBasicInformation'])->name('project.hotel.storeBasicInformation');
-            Route::put('/basic-information', [HotelController::class, 'updateBasicInformation'])->name('project.hotel.updateBasicInformation');
-
-            Route::get('/concept', [HotelController::class, 'editConcept'])->name('project.hotel.editConcept');
-            Route::post('/concept', [HotelController::class, 'storeConcept'])->name('project.hotel.storeConcept');
-            Route::put('/concept', [HotelController::class, 'updateConcept'])->name('project.hotel.updateConcept');
-
-            Route::get('/facilities', [HotelController::class, 'editFacilities'])->name('project.hotel.editFacilities');
-            Route::post('/facilities', [HotelController::class, 'storeFacilities'])->name('project.hotel.storeFacilities');
-            Route::put('/facilities', [HotelController::class, 'updateFacilities'])->name('project.hotel.updateFacilities');
-
-            Route::get('/features', [HotelController::class, 'editFeatures'])->name('project.hotel.editFeatures');
-            Route::post('/features', [HotelController::class, 'storeFeatures'])->name('project.hotel.storeFeatures');
-            Route::put('/features', [HotelController::class, 'updateFeatures'])->name('project.hotel.updateFeatures');
+    Route::prefix('/project')->group(function () {
+        // ホテル情報
+        Route::prefix('hotel')->group(function () {
+            Route::prefix('{hotel_id?}')->group(function () {
+                Route::get('/', [HotelController::class, 'index'])->name('project.hotel.index');
+                Route::get('/basic-information', [HotelController::class, 'editBasicInformation'])->name('project.hotel.editBasicInformation');
+                Route::post('/basic-information', [HotelController::class, 'storeBasicInformation'])->name('project.hotel.storeBasicInformation');
+                Route::put('/basic-information', [HotelController::class, 'updateBasicInformation'])->name('project.hotel.updateBasicInformation');
+    
+                Route::get('/concept', [HotelController::class, 'editConcept'])->name('project.hotel.editConcept');
+                Route::post('/concept', [HotelController::class, 'storeConcept'])->name('project.hotel.storeConcept');
+                Route::put('/concept', [HotelController::class, 'updateConcept'])->name('project.hotel.updateConcept');
+    
+                Route::get('/facilities', [HotelController::class, 'editFacilities'])->name('project.hotel.editFacilities');
+                Route::post('/facilities', [HotelController::class, 'storeFacilities'])->name('project.hotel.storeFacilities');
+                Route::put('/facilities', [HotelController::class, 'updateFacilities'])->name('project.hotel.updateFacilities');
+    
+                Route::get('/features', [HotelController::class, 'editFeatures'])->name('project.hotel.editFeatures');
+                Route::post('/features', [HotelController::class, 'storeFeatures'])->name('project.hotel.storeFeatures');
+                Route::put('/features', [HotelController::class, 'updateFeatures'])->name('project.hotel.updateFeatures');
+            });
         });
-        Route::get('/create', [HotelController::class, 'create'])->name('project.hotel.create');
-        Route::post('/store', [HotelController::class, 'store'])->name('project.hotel.store');
-        Route::get('/edit/{hotel}', [HotelController::class, 'edit'])->name('project.hotel.edit');
-        Route::put('/edit/{hotel}', [HotelController::class, 'update'])->name('project.hotel.update');
-        Route::get('/show/{hotel}', [HotelController::class, 'show'])->name('project.hotel.show');
-        Route::delete('/{hotel}',[HotelController::class, 'destroy'])->name('project.hotel.destroy');
-
+        // キャンペーン情報
         Route::prefix('campaign')->group(function () {
-            Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
-            Route::get('/create', [CampaignController::class, 'create'])->name('project.campaign.create');
-            Route::post('/store', [CampaignController::class, 'store'])->name('project.campaign.store');
-            Route::get('/edit/{campaign}', [CampaignController::class, 'edit'])->name('project.campaign.edit');
-            Route::put('/edit/{campaign}', [CampaignController::class, 'update'])->name('project.campaign.update');
-            Route::get('/show/{campaign}', [CampaignController::class, 'show'])->name('project.campaign.show');
-            Route::delete('/{campaign}',[CampaignController::class, 'destroy'])->name('project.campaign.destroy');
+            Route::prefix('{hotel_id?}')->group(function () {
+                Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
+                Route::get('/register', [CampaignController::class, 'editRegisterCampaign'])->name('project.campaign.editRegisterCampaign');
+                Route::post('/register', [CampaignController::class, 'storeRegisterCampaign'])->name('project.campaign.storeRegisterCampaign');
+                Route::put('/register', [CampaignController::class, 'updateRegisterCampaign'])->name('project.campaign.updateRegisterCampaign');
+
+                Route::get('/manage', [CampaignController::class, 'editManageCampaign'])->name('project.campaign.editManageCampaign');
+                Route::post('/manage', [CampaignController::class, 'storeManageCampaign'])->name('project.campaign.storeManageCampaign');
+                Route::put('/manage', [CampaignController::class, 'updateManageCampaign'])->name('project.campaign.updateManageCampaign');
+            });
         });
     });
 });
