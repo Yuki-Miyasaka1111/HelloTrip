@@ -78,4 +78,8 @@ class Hotel extends Model
     {
         return $this->hasMany(MonthlyHoliday::class);
     }
+    public function temporaryHolidays()
+    {
+        return $this->hasMany(TemporaryHoliday::class);
+    }
 }

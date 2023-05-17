@@ -22,7 +22,7 @@
 
         <div class="form-group d-flex justify-start items-stretch ">
             <x-labels.label label="コンセプト文章" />
-            <div class="pl-1">
+            <div class="p-1">
                 <x-inputs.textarea name="concept" width="520px" height="220px" :description="$selected_hotel->concept" placeholder="コンセプトに関する説明文を入力(最大250文字)" />
             </div>
             @error('concept')

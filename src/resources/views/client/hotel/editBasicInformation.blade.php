@@ -248,9 +248,17 @@
         <div class="form-group d-flex justify-start">
             <x-labels.label label="臨時定休日" alignItems="items-baseline"/>
             <div class="p-1">
-                <div class="form-append temporary-holiday-slot mb-1">
-                    <x-inputs.text type="date" name="temporary_holiday" width="250px" :value="$selected_hotel->temporary_holiday" placeholder="年 / 月 / 日" showDelete="true" />
-                </div>
+                @if ($selected_hotel->temporaryHolidays->count() > 0)
+                    @foreach ($selected_hotel->temporaryHolidays as $temporaryHoliday)
+                        <div class="form-append temporary-holiday-slot mb-1">
+                            <x-inputs.text type="date" name="temporary_holiday[]" width="250px" :value="$temporaryHoliday->date" placeholder="年 / 月 / 日" showDelete="true" />
+                        </div>
+                    @endforeach
+                @else
+                    <div class="form-append temporary-holiday-slot mb-1">
+                        <x-inputs.text type="date" name="temporary_holiday[]" width="250px" placeholder="年 / 月 / 日" showDelete="true" />
+                    </div>
+                @endif
                 <div>
                     <div class="text-center mt-1 js-addTemporaryHoliday cursor-pointer">+臨時定休日を追加</div>
                 </div>
@@ -263,7 +271,7 @@
         <div class="form-group d-flex justify-start items-stretch ">
             <x-labels.label label="その他の情報" alignItems="items-baseline" />
             <div class="p-1">
-                <x-inputs.textarea name="other_information" width="520px" height="fit-content" :description="$selected_hotel->other_information" placeholder="その他に関する説明文を入力(最大250文字)" />
+                <x-inputs.textarea name="other_information" width="520px" height="220px" :description="$selected_hotel->other_information" placeholder="その他に関する説明文を入力(最大250文字)" />
             </div>
             @error('other_information')
             <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">その他に関する説明文を250文字以内で入力してください</span>

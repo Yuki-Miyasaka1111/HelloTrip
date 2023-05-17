@@ -276,7 +276,6 @@ class HotelController extends Controller
         $hotel->check_in = $request->input(["check_in"]);
         $hotel->check_out = $request->input(["check_out"]);
         $hotel->parking_information = $request->input(["parking_information"]);
-        $hotel->temporary_holiday = $request->input(["temporary_holiday"]);
         $hotel->other_information = $request->input(["other_information"]);
         $hotel->other_facility_information = $request->input(["other_facility_information"]);
         $hotel->save();
@@ -290,6 +289,17 @@ class HotelController extends Controller
                 'day' => $request->monthly_holiday_day[$i],
             ];
             $hotel->monthlyHolidays()->create($monthlyHoliday);
+        }
+
+        // すべての臨時定休日を削除
+        $hotel->temporaryHolidays()->delete();
+
+        // 新しい臨時定休日を追加
+        foreach ($request->temporary_holiday as $holiday) {
+            $temporaryHoliday = [
+                'date' => $holiday,
+            ];
+            $hotel->temporaryHolidays()->create($temporaryHoliday);
         }
 
         // 画像ファイルのアップロード処理
