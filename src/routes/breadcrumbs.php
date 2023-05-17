@@ -31,16 +31,20 @@ Breadcrumbs::for('project.hotel.editFacilities', function ($trail, $id) {
     $trail->push('コンセプト', route('project.hotel.editFacilities', $id));
 });
 
-// プロジェクト管理 > 施設 > 特徴
-Breadcrumbs::for('project.hotel.editFeatures', function ($trail, $id) {
-    $trail->parent('project.hotel.index');
-    $trail->push('コンセプト', route('project.hotel.editFeatures', $id));
-});
-
 // プロジェクト管理 > キャンペーン
 Breadcrumbs::for('project.campaign.index', function ($trail) {
     $trail->parent('project.index');
     $trail->push('キャンペーン', route('project.campaign.index'));
 });
 
+// プロジェクト管理 > キャンペーン > キャンペーン新規登録
+Breadcrumbs::for('project.campaign.editRegisterCampaign', function ($trail) {
+    $trail->parent('project.campaign.index');
+    $trail->push('キャンペーン', route('project.campaign.editRegisterCampaign'));
+});
 
+// プロジェクト管理 > キャンペーン > キャンペーン管理
+Breadcrumbs::for('project.campaign.editManageCampaign', function ($trail) {
+    $trail->parent('project.campaign.index');
+    $trail->push('キャンペーン', route('project.campaign.editManageCampaign'));
+});

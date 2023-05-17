@@ -3,30 +3,33 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\Campaign;
-use Carbon\Carbon;
+use App\Models\Hotel;
+use App\Models\Category;
+use App\Models\Prefecture;
+use App\Models\HotelImage;
+use App\Models\Facility;
+use App\Models\Amenity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($hotel_id = null)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
-            if ($client->email === 'info@micado.jp') {
-                $campaigns = Campaign::latest()->paginate(5);
-            } else {
-                $campaigns = Campaign::where('client_id', $client->id)->latest()->paginate(5);
-            }
             $client_name = $client->name;
-            return view('client.campaign.index',compact('campaigns'))
-                ->with('page_id',request()->page)
-                ->with('client_name', $client_name)
-                ->with('i', (request()->input('page', 1) - 1) * 5);
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+
+            return view('client.campaign.index', compact('selected_hotel'))
+                ->with('page_id', request()->page)
+                ->with('client_name', $client_name);
         } else {
             return redirect()->route('client.login');
         }
@@ -71,17 +74,6 @@ class CampaignController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Campaign $campaign)
-    {
-        $hotels = $campaign->hotels;
-
-        return view('client.campaign.show',compact('campaign', 'hotels'))
-            ->with('page_id',request()->page_id);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Campaign $campaign)
@@ -92,6 +84,32 @@ class CampaignController extends Controller
 
         return view('client.campaign.edit', compact('campaign', 'attached_hotels_ids'))
             ->with('page_id',request()->page_id);
+    }
+
+    public function editRegisterCampaign($hotel_id)
+    {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            return view('client.campaign.editRegisterCampaign', compact('selected_hotel'));
+        } else {
+            return redirect()->route('client.login');
+        }
+    }
+
+    public function editManageCampaign($hotel_id)
+    {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            return view('client.campaign.editManageCampaign', compact('selected_hotel'));
+        } else {
+            return redirect()->route('client.login');
+        }
     }
 
     /**
