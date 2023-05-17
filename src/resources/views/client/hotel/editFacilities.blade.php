@@ -9,7 +9,7 @@
 @include('components.popup.errors.flash-error')
 
 
-<form action="{{ isset($selected_hotel) ? route('project.hotel.updateFacilities', $selected_hotel->id) : route('project.hotel.storeFacilities') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($selected_hotel) ? route('project.hotel.updateFacilities', $selected_hotel->id) : route('project.hotel.storeFacilities') }}" method="POST" enctype="multipart/form-data" class="dev-container">
     @csrf
 
     @if(isset($selected_hotel))

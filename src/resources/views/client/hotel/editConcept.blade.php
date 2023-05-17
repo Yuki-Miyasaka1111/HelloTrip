@@ -7,7 +7,7 @@
 
 @include('components.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.hotel.updateConcept', $selected_hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($selected_hotel) ? route('project.hotel.updateConcept', $selected_hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data" class="dev-container">
     <x-partials.preview-save-button :links="[
         ['title' => 'ホテル情報'],
         ['title' => 'コンセプト']
