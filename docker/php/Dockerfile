@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     libpng-dev \
     libonig-dev \
-    libxml2-dev
+    libxml2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Node.jsとNPMのインストール
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
@@ -24,19 +25,19 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 # composerのインストール
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# ユーザーを追加
+RUN adduser --disabled-password --gecos '' user
+
 # 作業ディレクトリの指定
 WORKDIR /var/www/html
 
 # Composerを使って依存関係をインストール
 COPY ./src /var/www/html
-RUN chown -R www-data:www-data /var/www/html && su www-data -s /bin/sh -c "composer install"
+RUN chown -R user:user /var/www/html && su user -s /bin/sh -c "composer install"
 
 # オーナーシップの変更とパーミッションの設定
-RUN chown -R www-data:www-data /var/www/html \
+RUN chown -R user:user /var/www/html \
     && chmod -R 775 /var/www/html/storage
 
-# Laravelのストレージとキャッシュディレクトリのパーミッションを設定
-RUN php artisan cache:clear \
-    && php artisan config:clear \
-    && php artisan view:clear \
-    && php artisan route:clear
+# 以降のRUN、CMD、ENTRYPOINTのコマンドはこのユーザーで実行される
+USER user
