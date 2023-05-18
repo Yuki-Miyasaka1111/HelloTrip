@@ -3,7 +3,6 @@
 .form-group{
     border-bottom: 1px solid color.$border-secondary;
 }
-
 .form-label{
     width: 200px;
     min-width: 200px;
@@ -83,6 +82,47 @@
     background: none;
     width: 15px;
     height: 15px;
+}
+
+.form-checkbox_type2-label{
+    position: relative;
+    padding-left: 45px;
+    cursor: pointer;
+}
+.form-checkbox_type2-label::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border: 3px solid color.$background-tertiary;
+    border-radius: 8px;
+    background: color.$background-secondary;
+    width: 30px;
+    height: 30px;
+    transform: translate(0, -50%);
+}
+.form-checkbox_type2-label::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 16px;
+    height: 8px;
+    border-left: 4px solid color.$background-tertiary;
+    border-bottom: 4px solid color.$background-tertiary;
+    transform: rotate(-45deg) translate(8%, -70%);
+    opacity: 0;
+    transition: ease-in-out .1s;
+}
+.form-checkbox_type2-label:hover::after{
+   opacity: 1;
+}
+.form-checkbox_type2:checked+label::before{
+    border-color: color.$main-primary;
+    background-color: color.$main-primary;
+}
+.form-checkbox_type2:checked+label::after{
+    opacity: 1;
 }
 
 .form-append:first-of-type .js-delete-clone{

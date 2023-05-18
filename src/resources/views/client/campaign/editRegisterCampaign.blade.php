@@ -7,29 +7,101 @@
 
 @include('components.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.hotel.updateConcept', $selected_hotel->id) : route('project.hotel.storeConcept') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($selected_hotel) ? route('project.campaign.updateRegisterCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id]) : route('project.campaign.storeRegisterCampaign') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+    @csrf
+
+    @if(isset($campaign))
+        @method('PUT')
+    @endif
     <x-partials.preview-save-button :links="[
-        ['title' => 'ホテル情報'],
-        ['title' => 'コンセプト']
+        ['title' => 'キャンペーン情報'],
+        ['title' => 'キャンペーン新規登録']
     ]" />
 
-    <x-partials.project-information-box title="コンセプト">
-        @csrf
-
-        @if(isset($selected_hotel))
-            @method('PUT')
-        @endif
-
-        <div class="form-group d-flex justify-start items-stretch ">
-            <x-labels.label label="コンセプト文章" />
-            <div class="p-1">
-                <x-inputs.textarea name="concept" width="520px" height="220px" :description="$selected_hotel->concept" placeholder="コンセプトに関する説明文を入力(最大250文字)" />
+    <x-partials.project-information-box title="投稿設定">
+        {{$errors}}
+        <div class="form-group d-flex justify-start ">
+            <x-labels.label label="公開日" alignItems="items-baseline"/>
+            <div class="py-1-2-5 px-1">
+                <x-inputs.checkbox_type2 label="予約せずにすぐに公開する" id="immediate_publication_set" name="immediate_publication_set" value="$campaign->immediate_publication_set" :checked="$campaign->immediate_publication_set" />
+                <div class="d-flex justify-between mt-1">
+                    <x-inputs.text type="date" width="250px" name="publication_date" value="{{ \Carbon\Carbon::parse($campaign->publication_date)->format('Y-m-d') }}" placeholder="年 / 月 / 日" />
+                    <div class="ml-1">
+                        <x-inputs.text type="time" name="publication_time" width="160px" value="{{ \Carbon\Carbon::parse($campaign->publication_date)->format('H:i') }}" placeholder="00:00" />
+                    </div>
+                </div>
             </div>
             @error('concept')
             <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">コンセプトを250文字以内で入力してください</span>
             @enderror
         </div>
 
+        <div class="form-group d-flex justify-start ">
+            <x-labels.label label="公開終了日" alignItems="items-baseline"/>
+            <div class="py-1-2-5 px-1">
+                <x-inputs.checkbox_type2 label="公開終了日を設定する" id="end_publication_set" name="end_publication_set" value="$campaign->end_publication_set" :checked="$campaign->end_publication_set" />
+                <div class="d-flex justify-between mt-1">
+                    <x-inputs.text type="date" name="end_publication_date" value="{{ \Carbon\Carbon::parse($campaign->end_publication_date)->format('Y-m-d') }}" width="250px" placeholder="年 / 月 / 日" />
+                    <div class="ml-1">
+                        <x-inputs.text type="time" name="end_publication_time" width="160px" value="{{ \Carbon\Carbon::parse($campaign->end_publication_date)->format('H:i') }}" placeholder="00:00" />
+                    </div>
+                </div>
+            </div>
+            @error('concept')
+            <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">コンセプトを250文字以内で入力してください</span>
+            @enderror
+        </div>
+
+        <!-- <div class="d-flex justify-start">
+            <x-labels.label label="ステータス" alignItems="items-center"/>
+            <div class="p-1">
+                <x-inputs.select name="publish_status" selectedOption="{{ $campaign->publish_status ?? '' }}" width="200px" >
+                    <option value="1" @if(old('publish_status', $campaign->publish_status ?? '') == 1) selected @endif>公開</option>
+                    <option value="2" @if(old('publish_status', $campaign->publish_status ?? '') == 2) selected @endif>非公開</option>
+                </x-inputs.select>
+            </div>
+        </div> -->
     </x-project-information-box>
+<!-- 
+    <x-partials.project-information-box title="キャンペーン設定">
+        <div class="form-group d-flex justify-start items-stretch">
+            <x-labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
+            <div class="d-flex flex-wrap">
+                @for ($i = 0; $i < 1; $i++)
+                    <x-inputs.image :image-url="$image_url"/>
+                @endfor
+            </div>
+            @error('images')
+            <span style="color:red;">ホテル画像をアップロードしてください</span>
+            @enderror
+        </div>
+
+        <div class="form-group d-flex justify-start">
+            <x-labels.label label="キャンペーン期間" alignItems="items-center" required/>
+            <div class="p-1 d-flex items-center">
+                <x-inputs.text type="date" name="campaign_start_date" width="250px" placeholder="年 / 月 / 日"  />
+                <p class="px-1">～</p>
+                <x-inputs.text type="date" name="campaign_end_date" width="250px" placeholder="年 / 月 / 日"  />
+            </div>
+        </div>
+
+        <div class="d-flex justify-start">
+            <x-labels.label label="タイトル" alignItems="items-center" required />
+            <div class="p-1">
+                <x-inputs.text name="title" width="520px"  placeholder="タイトルを入力(最大40文字)" />
+            </div>
+            @error('title')
+            <span class="d-flex items-center" style="color:red;">タイトルを40文字以内で入力してください</span>
+            @enderror
+        </div>
+    </x-project-information-box>
+
+    <x-partials.project-information-box title="本文">
+        <div class="p-1-2-5">
+            <div id="campaign-article" style="height:256px;">
+
+            </div>
+        </div>
+    </x-project-information-box> -->
 </form>
 @endsection

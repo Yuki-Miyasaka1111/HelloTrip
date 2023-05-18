@@ -1,3 +1,3 @@
-var quill = new Quill('#editor', {
-    theme: 'campaign-article'
+var quill = new Quill('#campaign-article', {
+    theme: 'snow'
 });

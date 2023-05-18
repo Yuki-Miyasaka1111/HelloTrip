@@ -63,19 +63,20 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
                 Route::get('/features', [HotelController::class, 'editFeatures'])->name('project.hotel.editFeatures');
                 Route::post('/features', [HotelController::class, 'storeFeatures'])->name('project.hotel.storeFeatures');
                 Route::put('/features', [HotelController::class, 'updateFeatures'])->name('project.hotel.updateFeatures');
-            });
-        });
-        // キャンペーン情報
-        Route::prefix('campaign')->group(function () {
-            Route::prefix('{hotel_id?}')->group(function () {
-                Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
-                Route::get('/register', [CampaignController::class, 'editRegisterCampaign'])->name('project.campaign.editRegisterCampaign');
-                Route::post('/register', [CampaignController::class, 'storeRegisterCampaign'])->name('project.campaign.storeRegisterCampaign');
-                Route::put('/register', [CampaignController::class, 'updateRegisterCampaign'])->name('project.campaign.updateRegisterCampaign');
 
-                Route::get('/manage', [CampaignController::class, 'editManageCampaign'])->name('project.campaign.editManageCampaign');
-                Route::post('/manage', [CampaignController::class, 'storeManageCampaign'])->name('project.campaign.storeManageCampaign');
-                Route::put('/manage', [CampaignController::class, 'updateManageCampaign'])->name('project.campaign.updateManageCampaign');
+                // キャンペーン情報
+                Route::prefix('campaign')->group(function () {
+                    Route::prefix('{campaign_id?}')->group(function () {
+                        Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
+                        Route::get('/register', [CampaignController::class, 'editRegisterCampaign'])->name('project.campaign.editRegisterCampaign');
+                        Route::post('/register', [CampaignController::class, 'storeRegisterCampaign'])->name('project.campaign.storeRegisterCampaign');
+                        Route::put('/register', [CampaignController::class, 'updateRegisterCampaign'])->name('project.campaign.updateRegisterCampaign');
+
+                        Route::get('/manage', [CampaignController::class, 'editManageCampaign'])->name('project.campaign.editManageCampaign');
+                        Route::post('/manage', [CampaignController::class, 'storeManageCampaign'])->name('project.campaign.storeManageCampaign');
+                        Route::put('/manage', [CampaignController::class, 'updateManageCampaign'])->name('project.campaign.updateManageCampaign');
+                    });
+                });
             });
         });
     });

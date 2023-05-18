@@ -268,7 +268,7 @@
             @enderror
         </div>
 
-        <div class="form-group d-flex justify-start items-stretch ">
+        <div class="d-flex justify-start items-stretch ">
             <x-labels.label label="その他の情報" alignItems="items-baseline" />
             <div class="p-1">
                 <x-inputs.textarea name="other_information" width="520px" height="220px" :description="$selected_hotel->other_information" placeholder="その他に関する説明文を入力(最大250文字)" />
