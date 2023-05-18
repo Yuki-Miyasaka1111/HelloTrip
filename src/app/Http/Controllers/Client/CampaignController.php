@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class CampaignController extends Controller
 {
@@ -46,8 +47,8 @@ class CampaignController extends Controller
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
-            'publication_date' => 'nullable|date',
-            'publication_time' => 'nullable|date_format:H:i',
+            'publication_date' => 'required_if:immediate_publication_set,1|date',
+            'publication_time' => 'required_if:immediate_publication_set,1|date_format:H:i',
             'end_publication_date' => 'required_if:end_publication_set,1|date',
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'integer',
@@ -64,6 +65,7 @@ class CampaignController extends Controller
         $campaign->end_date = $request->end_date;
         $campaign->client_id = Auth::guard('client')->user()->id;
         $campaign->immediate_publication_set = $request->immediate_publication_set;
+        $campaign->end_publication_set = $request->end_publication_set;
         $campaign->publication_date = $request->publication_date;
         $campaign->end_publication_date = $request->end_publication_date;
         $campaign->publish_status = $request->publish_status;
@@ -136,8 +138,8 @@ class CampaignController extends Controller
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
-            'publication_date' => 'nullable|date',
-            'publication_time' => 'nullable|date_format:H:i',
+            'publication_date' => 'required_if:immediate_publication_set,1|date',
+            'publication_time' => 'required_if:immediate_publication_set,1|date_format:H:i',
             'end_publication_date' => 'required_if:end_publication_set,1|date',
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'integer',
@@ -149,29 +151,48 @@ class CampaignController extends Controller
     
         $hotel = Hotel::find($request->hotel_id);
         $campaign = Campaign::find($request->campaign_id);
-        $campaign->immediate_publication_set = $request->input('immediate_publication_set');
-    
-        if ($request->input('immediate_publication_set')) {
-            $campaign->publication_date = now();
+        
+        if ($request->input('immediate_publication_set') != $campaign->immediate_publication_set) {
+            if($request->input('immediate_publication_set')) {
+                $campaign->publication_date = now();
+            } else{
+                if($request->input('publication_date') && $request->input('publication_time')){
+                    $publication_date = Carbon::parse($request->input('publication_date'));
+                    $publication_time = Carbon::createFromFormat('H:i', $request->input('publication_time'));
+                    $campaign->publication_date = $publication_date->copy()->setTime($publication_time->hour, $publication_time->minute);
+                }
+            }
+            $campaign->immediate_publication_set = $request->input('immediate_publication_set');
         } else {
-            $publication_date = Carbon::parse($request->input('publication_date'));
-            $publication_time = Carbon::createFromFormat('H:i', $request->input('publication_time'));
-            $campaign->publication_date = $publication_date->copy()->setTime($publication_time->hour, $publication_time->minute);
+            if($request->input('publication_date') && $request->input('publication_time')){
+                $publication_date = Carbon::parse($request->input('publication_date'));
+                $publication_time = Carbon::createFromFormat('H:i', $request->input('publication_time'));
+                $campaign->publication_date = $publication_date->copy()->setTime($publication_time->hour, $publication_time->minute);
+            }
         }
+        
+        if($request->input('end_publication_set')) {
+            if($request->input('end_publication_date') && $request->input('end_publication_time')) {
+                $end_publication_date = Carbon::parse($request->input('end_publication_date'));
+                $end_publication_time = Carbon::createFromFormat('H:i', $request->input('end_publication_time'));
+                $campaign->end_publication_date = $end_publication_date->copy()->setTime($end_publication_time->hour, $end_publication_time->minute);
+            } else {
+                // Handle error: Both date and time should be provided if 'end_publication_set' is checked
+                // You could return with an error message or throw an exception
+                return back()->withInput()->withErrors(['end_publication_time' => 'Please provide both date and time.']);
+            }
+            $campaign->end_publication_set = $request->input('end_publication_set');
+        } else {
+            $campaign->end_publication_date = null;
+            $campaign->end_publication_set = $request->input('end_publication_set');
+        }         
     
-        // if($request->input('end_publication_set')) {
-            $end_publication_date = Carbon::parse($request->input('end_publication_date'));
-            $end_publication_time = Carbon::createFromFormat('H:i', $request->input('end_publication_time'));
-            $campaign->end_publication_date = $end_publication_date->copy()->setTime($end_publication_time->hour, $end_publication_time->minute);
-        // } else {
-        //     $campaign->end_publication_date = null;
-        // }
-    
-        // Updating other fields
-        $campaign->publish_status = $request->publish_status;
-        $campaign->campaign_start_date = $request->campaign_start_date;
-        $campaign->campaign_end_date = $request->campaign_end_date;
-        $campaign->content = $request->content;
+        $campaign->publish_status = $request->input('publish_status');
+        $campaign->campaign_start_date = $request->input('campaign_start_date');
+        $campaign->campaign_end_date = $request->input('campaign_end_date');
+        $campaign->title = $request->input('title');
+        Log::info('Received content: ' . $request->input('content'));
+        $campaign->content = $request->input('content');
     
         $campaign->save();
     
@@ -191,7 +212,10 @@ class CampaignController extends Controller
         }
     
         return redirect()->route('project.campaign.editRegisterCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
-            ->with('success', 'キャンペーンを更新しました');
+            ->with('immediate_publication_set', $request->input('immediate_publication_set'))
+            ->with('end_publication_set', $request->input('end_publication_set'))
+            ->with('success', 'キャンペーンを更新しました')
+            ->withInput();
     }
     
 

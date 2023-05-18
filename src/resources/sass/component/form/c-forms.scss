@@ -26,6 +26,11 @@
     background-color: color.$background-secondary;
 }
 
+.form-text:disabled{
+    background-color: color.$background-tertiary;
+    color: color.$text-tertiary;
+}
+
 .form-textarea{
     height: fit-content;
     min-height: fit-content;
