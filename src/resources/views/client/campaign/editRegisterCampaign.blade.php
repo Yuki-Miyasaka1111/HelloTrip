@@ -108,8 +108,9 @@
 
     <x-partials.project-information-box title="本文">
         <div class="p-1-2-5">
-            <div id="campaign-article" style="height:256px;"></div>
-            <input type="hidden" name="content" id="content" value="{{ old('content', optional($campaign)->content) }}">
+            <input id="campaign-article" value="{{ old('content', optional($campaign)->content) }}" type="hidden" name="content">
+            <trix-editor input="campaign-article" style="height:256px;"></trix-editor>
+            <div id="preview-area"></div>
         </div>
     </x-project-information-box>
 </form>
