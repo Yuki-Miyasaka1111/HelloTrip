@@ -35,4 +35,26 @@ class ProjectController extends Controller
         }
     }
 
+    public function createProject()
+    {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            if ($client->email === 'info@micado.jp') {
+                $hotels = Hotel::latest()->paginate(5);
+            } else {
+                $hotels = Hotel::where('client_id', $client->id)->latest()->paginate(5);
+            }
+            $client_name = $client->name;
+    
+            // Breadcrumbs::render()に適切な名前を渡します。
+            $breadcrumbs = Breadcrumbs::render('project.hotel.index');
+    
+            return view('client.index',compact('hotels', 'breadcrumbs'))
+                ->with('page_id',request()->page)
+                ->with('client_name', $client_name)
+                ->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return redirect()->route('client.login');
+        }
+    }
 }

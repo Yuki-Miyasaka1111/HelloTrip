@@ -7,19 +7,19 @@
 
 @include('components.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.campaign.updateRegisterCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id]) : route('project.campaign.storeRegisterCampaign') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+<form action="{{ isset($selected_hotel) ? route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id]) : route('project.campaign.storeCampaign') }}" method="POST" enctype="multipart/form-data" class="dev-container">
     @csrf
 
     @if(isset($campaign))
         @method('PUT')
     @endif
+    
     <x-partials.preview-save-button :links="[
         ['title' => 'キャンペーン情報'],
         ['title' => 'キャンペーン新規登録']
     ]" />
 
     <x-partials.project-information-box title="投稿設定">
-        {{$errors}}
         <div class="form-group d-flex justify-start ">
             <x-labels.label label="公開日" alignItems="items-baseline"/>
             <div class="py-1-2-5 px-1">

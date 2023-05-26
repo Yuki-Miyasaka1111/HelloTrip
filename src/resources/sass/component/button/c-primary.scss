@@ -3,7 +3,13 @@
 
 .c-primary__button{
     border-radius: 3rem;
-    background-color: color.$main-primary;
+    background: linear-gradient(to right, color.$sub-primary, color.$main-primary);
+    color: color.$text-senary;
+    box-shadow: elevation.$shadow-level-3;
+}
+.c-secondary__button{
+    border-radius: 3rem;
+    background: color.$main-primary;
     color: color.$text-senary;
     box-shadow: elevation.$shadow-level-3;
 }

@@ -29,72 +29,12 @@ class CampaignController extends Controller
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-
             return view('client.campaign.index', compact('selected_hotel'))
                 ->with('page_id', request()->page)
                 ->with('client_name', $client_name);
         } else {
             return redirect()->route('client.login');
         }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function storeRegisterCampaign(Request $request)
-    {
-        $request->validate([
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
-            'immediate_publication_set' => 'boolean',
-            'end_publication_set' => 'boolean',
-            'publication_date' => 'required_if:immediate_publication_set,1|date',
-            'publication_time' => 'required_if:immediate_publication_set,1|date_format:H:i',
-            'end_publication_date' => 'required_if:end_publication_set,1|date',
-            'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
-            'publish_status' => 'integer',
-            'campaign_start_date' => 'nullable|date',
-            'campaign_end_date' => 'nullable|date',
-            'title' => 'string',
-            'content' => 'nullable|string',
-        ]);
-    
-        $campaign = new Campaign;
-        $campaign->title = $request->title;
-        $campaign->description = $request->description;
-        $campaign->start_date = $request->start_date;
-        $campaign->end_date = $request->end_date;
-        $campaign->client_id = Auth::guard('client')->user()->id;
-        $campaign->immediate_publication_set = $request->immediate_publication_set;
-        $campaign->end_publication_set = $request->end_publication_set;
-        $campaign->publication_date = $request->publication_date;
-        $campaign->end_publication_date = $request->end_publication_date;
-        $campaign->publish_status = $request->publish_status;
-        $campaign->image_url = $request->image_url;
-        $campaign->campaign_start_date = $request->campaign_start_date;
-        $campaign->campaign_end_date = $request->campaign_end_date;
-        $campaign->content = $request->content;
-        
-        $campaign->save();
-
-        $campaign->hotels()->attach($request->hotels);
-
-        // 画像ファイルのアップロード処理
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = Storage::putFileAs('public/campaign_images', $image, $filename);
-
-                $campaignImage = new CampaignImage;
-                $campaignImage->campaign_id = $campaign->id;
-                $campaignImage->filename = $filename;
-                $campaignImage->path = $path;
-
-                $campaignImage->save();
-            }
-        }
-    
-        return redirect()->route('project.campaign.editRegisterCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
-            ->with('success', 'キャンペーンを登録しました');
     }
 
     /**
@@ -116,23 +56,98 @@ class CampaignController extends Controller
         }
     }
 
-    public function editManageCampaign($hotel_id)
+
+    public function createCampaign($hotel_id, $campaign_id = null)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-            return view('client.campaign.editManageCampaign', compact('selected_hotel'));
+            $campaign = $campaign_id ? Campaign::findOrFail($campaign_id) : new Campaign;
+            $hotelImage = HotelImage::first();
+            $image_url = $hotelImage ? $hotelImage->url : null;
+            return view('client.campaign.createCampaign', compact('selected_hotel', 'campaign_id', 'campaign', 'image_url'));
         } else {
             return redirect()->route('client.login');
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function updateRegisterCampaign(Request $request, $hotel_id, $campaign_id)
+    public function storeCampaign(Request $request, $hotel_id)
+    {
+        $request->validate([
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'immediate_publication_set' => 'boolean',
+            'end_publication_set' => 'boolean',
+            'publication_date' => 'required_if:immediate_publication_set,0|date',
+            'publication_time' => 'required_if:immediate_publication_set,0|date_format:H:i',
+            'end_publication_date' => 'required_if:end_publication_set,1|date',
+            'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
+            'publish_status' => 'integer',
+            'campaign_start_date' => 'nullable|date',
+            'campaign_end_date' => 'nullable|date',
+            'title' => 'string',
+            'content' => 'nullable|string',
+        ]);
+    
+        $campaign = new Campaign;
+        $campaign->title = $request->title;
+        $campaign->client_id = Auth::guard('client')->user()->id;
+    
+        if ($request->immediate_publication_set) {
+            $campaign->publication_date = now();
+        } elseif($request->publication_date && $request->publication_time){
+            $publication_date = Carbon::parse($request->publication_date);
+            $publication_time = Carbon::createFromFormat('H:i', $request->publication_time);
+            $campaign->publication_date = $publication_date->copy()->setTime($publication_time->hour, $publication_time->minute);
+        }
+        $campaign->immediate_publication_set = $request->immediate_publication_set;
+    
+        if($request->end_publication_set && $request->publication_date && $request->end_publication_time) {
+            $end_publication_date = Carbon::parse($request->publication_date);
+            $end_publication_time = Carbon::createFromFormat('H:i', $request->end_publication_time);
+            $campaign->end_publication_date = $end_publication_date->copy()->setTime($end_publication_time->hour, $end_publication_time->minute);
+            $campaign->end_publication_set = $request->end_publication_set;
+        } else {
+            $campaign->end_publication_date = null;
+            $campaign->end_publication_set = $request->end_publication_set;
+        } 
+    
+        $campaign->publish_status = $request->publish_status;
+        $campaign->image_url = $request->image_url;
+        $campaign->campaign_start_date = $request->campaign_start_date;
+        $campaign->campaign_end_date = $request->campaign_end_date;
+        $campaign->content = $request->content;
+        
+        $campaign->save();
+    
+        $campaign->hotels()->attach($request->hotels);
+    
+        $client = Auth::user();
+        $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+    
+        // 画像ファイルのアップロード処理
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = $image->getClientOriginalName();
+                $path = Storage::putFileAs('public/campaign_images', $image, $filename);
+    
+                $campaignImage = new CampaignImage;
+                $campaignImage->campaign_id = $campaign->id;
+                $campaignImage->filename = $filename;
+                $campaignImage->path = $path;
+    
+                $campaignImage->save();
+            }
+        }
+    
+        return redirect()->route('project.campaign.manageCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id])
+            ->with('success', 'キャンペーンを登録しました');
+    }    
+
+    public function updateCampaign(Request $request, $hotel_id, $campaign_id)
     {
         $request->validate([
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
@@ -211,11 +226,25 @@ class CampaignController extends Controller
             }
         }
     
-        return redirect()->route('project.campaign.editRegisterCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
+        return redirect()->route('project.campaign.createCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
             ->with('immediate_publication_set', $request->input('immediate_publication_set'))
             ->with('end_publication_set', $request->input('end_publication_set'))
             ->with('success', 'キャンペーンを更新しました')
             ->withInput();
+    }
+
+    public function manageCampaign($hotel_id)
+    {
+        if (Auth::guard('client')->check()) {
+            $client = Auth::user();
+            $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+            $campaigns = Campaign::where('client_id', $client->id)->get();
+            return view('client.campaign.manageCampaign', compact('selected_hotel', 'campaigns'));
+        } else {
+            return redirect()->route('client.login');
+        }
     }
     
 

@@ -30,10 +30,10 @@
             </div>
             <ul class="sidebar-nav-dropdown-item">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.campaign.editRegisterCampaign', $selected_hotel->id) }}" class="d-block pb-0-5 px-1-5">キャンペーン新規登録</a>
+                    <a href="{{ route('project.campaign.createCampaign', $selected_hotel->id) }}" class="d-block pb-0-5 px-1-5">キャンペーン新規登録</a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('project.campaign.editManageCampaign', $selected_hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">キャンペーン管理</a>
+                    <a href="{{ route('project.campaign.manageCampaign', $selected_hotel->id) }}" class="d-block pt-0-5 px-1-5 pb-1-5">キャンペーン管理</a>
                 </li>
             </ul>
         </li>
