@@ -16,7 +16,6 @@
     ]" />
 
     <x-partials.project-information-box title="投稿設定">
-        {{$errors}}
         <div class="form-group d-flex justify-start ">
             <x-labels.label label="公開日" alignItems="items-baseline"/>
             <div class="py-1-2-5 px-1">
@@ -28,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            @error('concept')
+            @error('publication_date')
             <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">コンセプトを250文字以内で入力してください</span>
             @enderror
         </div>

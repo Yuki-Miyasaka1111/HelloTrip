@@ -7,6 +7,12 @@
             </a>
         </li>
         <li class="sidebar-nav-items">
+            <a href="{{ route('project.hotel.index', $selected_hotel->id) }}" class="d-block p-1-5 font-weight-bold">
+                <img src="" alt="">
+                <p>ホーム</p>
+            </a>
+        </li>
+        <li class="sidebar-nav-items">
             <div class="d-block p-1-5 font-weight-bold">
                 <img src="" alt="">
                 <p>施設情報</p>

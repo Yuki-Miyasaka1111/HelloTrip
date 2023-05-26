@@ -44,7 +44,13 @@ Breadcrumbs::for('project.campaign.createCampaign', function ($trail, $id) {
 });
 
 // プロジェクト管理 > キャンペーン > キャンペーン管理
-Breadcrumbs::for('project.campaign.manageCampaign', function ($trail, $id) {
+Breadcrumbs::for('project.campaign.manageCampaign', function ($trail) {
     $trail->parent('project.campaign.index');
-    $trail->push('キャンペーン管理', route('project.campaign.manageCampaign', $id));
+    $trail->push('キャンペーン管理', route('project.campaign.manageCampaign'));
+});
+
+// プロジェクト管理 > キャンペーン > キャンペーン管理
+Breadcrumbs::for('project.campaign.editCampaign', function ($trail, $id) {
+    $trail->parent('project.campaign.manageCampaign');
+    $trail->push('キャンペーン編集', route('project.campaign.editCampaign', $id));
 });

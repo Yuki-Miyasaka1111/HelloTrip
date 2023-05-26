@@ -3,12 +3,26 @@
 .campaign-table > tbody > tr:nth-of-type(2n){
     background-color: color.$background-secondary;
 }
+.campaign-table > tbody > tr > th{
+    color: color.$text-tertiary;
+}
+.campaign-table > tbody > tr > td{
+    color: color.$main-primary;
+}
 .campaign-table > tbody > tr > th, .campaign-table > tbody > tr > td{
     font-size: 0.875rem;
+    font-weight: bold;
     border-right: 1px solid color.$border-secondary;
 }
+.campaign-table > tbody > tr > td:first-of-type > div{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .campaign-table > tbody > tr > th:first-of-type, .campaign-table > tbody > tr > td:first-of-type{
-    width: 36%;
+    width: 34%;
+    max-width: 420px;
 }
 .campaign-table > tbody > tr > th:nth-of-type(2), .campaign-table > tbody > tr > td:nth-of-type(2){
     width: 12%;
@@ -23,6 +37,9 @@
     width: 12%;
 }
 .campaign-table > tbody > tr > th:last-of-type, .campaign-table > tbody > tr > td:last-of-type{
-    width: 16%;
+    width: 18%;
     border-right: none;
+}
+.private_status{
+    color: color.$text-tertiary!important;
 }

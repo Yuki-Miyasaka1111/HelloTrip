@@ -69,7 +69,6 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
                 Route::prefix('campaign')->group(function () {
                     Route::get('/register', [CampaignController::class, 'createCampaign'])->name('project.campaign.createCampaign');
                     Route::post('/register', [CampaignController::class, 'storeCampaign'])->name('project.campaign.storeCampaign');
-                    Route::put('/register', [CampaignController::class, 'updateCampaign'])->name('project.campaign.updateCampaign');
 
                     Route::get('/manage', [CampaignController::class, 'manageCampaign'])->name('project.campaign.manageCampaign');
                     // Route::post('/manage', [CampaignController::class, 'storeManageCampaign'])->name('project.campaign.storeManageCampaign');
@@ -77,6 +76,8 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
                     
                     Route::prefix('{campaign_id?}')->group(function () {
                         Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
+                        Route::get('/edit', [CampaignController::class, 'editCampaign'])->name('project.campaign.editCampaign');
+                        Route::put('/edit', [CampaignController::class, 'updateCampaign'])->name('project.campaign.updateCampaign');
                     });
                 });
             });

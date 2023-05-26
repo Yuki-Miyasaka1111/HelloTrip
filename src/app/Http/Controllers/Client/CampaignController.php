@@ -40,17 +40,17 @@ class CampaignController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editRegisterCampaign($hotel_id, $campaign_id = null)
+    public function editCampaign($hotel_id, $campaign_id = null)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-            $campaign = $campaign_id ? Campaign::findOrFail($campaign_id) : new Campaign;
+            $selected_campaign = $campaign_id ? Campaign::findOrFail($campaign_id) : new Campaign;
             $hotelImage = HotelImage::first();
             $image_url = $hotelImage ? $hotelImage->url : null;
-            return view('client.campaign.editRegisterCampaign', compact('selected_hotel', 'campaign_id', 'campaign', 'image_url'));
+            return view('client.campaign.editCampaign', compact('selected_hotel', 'campaign_id', 'selected_campaign', 'image_url'));
         } else {
             return redirect()->route('client.login');
         }
@@ -153,8 +153,8 @@ class CampaignController extends Controller
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
-            'publication_date' => 'required_if:immediate_publication_set,1|date',
-            'publication_time' => 'required_if:immediate_publication_set,1|date_format:H:i',
+            'publication_date' => 'required_if:immediate_publication_set,0|date',
+            'publication_time' => 'required_if:immediate_publication_set,0|date_format:H:i',
             'end_publication_date' => 'required_if:end_publication_set,1|date',
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'integer',
@@ -226,7 +226,7 @@ class CampaignController extends Controller
             }
         }
     
-        return redirect()->route('project.campaign.createCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
+        return redirect()->route('project.campaign.editCampaign', ['hotel_id' => $hotel->id, 'campaign_id' => $campaign->id])
             ->with('immediate_publication_set', $request->input('immediate_publication_set'))
             ->with('end_publication_set', $request->input('end_publication_set'))
             ->with('success', 'キャンペーンを更新しました')
@@ -240,8 +240,8 @@ class CampaignController extends Controller
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-            $campaigns = Campaign::where('client_id', $client->id)->get();
-            return view('client.campaign.manageCampaign', compact('selected_hotel', 'campaigns'));
+            $selected_campaigns = Campaign::where('client_id', $client->id)->get();
+            return view('client.campaign.manageCampaign', compact('selected_hotel', 'selected_campaigns'));
         } else {
             return redirect()->route('client.login');
         }
