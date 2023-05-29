@@ -92,8 +92,8 @@ class HotelController extends Controller
         // 画像ファイルのアップロード処理
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = Storage::putFileAs('public/hotel_images', $image, $filename);
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $path = Storage::putFileAs('public/img/hotel_images', $image, $filename);
     
                 $hotelImage = new HotelImage;
                 $hotelImage->hotel_id = $hotel->id;
@@ -144,7 +144,7 @@ class HotelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editBasicInformation($hotel_id)
+    public function editBasicInformation($hotel_id, $imageSlots = 8)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
@@ -153,13 +153,13 @@ class HotelController extends Controller
                 ->firstOrFail();
             $categories = Category::all();
             $prefectures = Prefecture::all();
-            $hotelImage = HotelImage::first();
-            $image_url = $hotelImage ? $hotelImage->url : null;
-            return view('client.hotel.editBasicInformation', compact('selected_hotel', 'categories', 'prefectures', 'image_url'));
+            $hotelImages = HotelImage::where('hotel_id', $hotel_id)->take($imageSlots)->get();
+    
+            return view('client.hotel.editBasicInformation', compact('selected_hotel', 'categories', 'prefectures', 'hotelImages', 'imageSlots'));
         } else {
             return redirect()->route('client.login');
         }
-    }
+    }    
 
     public function editConcept($hotel_id)
     {
@@ -272,21 +272,22 @@ class HotelController extends Controller
         // 画像ファイルのアップロード処理
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = Storage::putFileAs('public/hotel_images', $image, $filename);
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $path = $image->store('img/hotel_images', 'public');
     
                 $hotelImage = new HotelImage;
-                $hotelImage->hotel = $hotel->id;
+                $hotelImage->hotel_id = $hotel->id;
                 $hotelImage->filename = $filename;
                 $hotelImage->path = $path;
-    
                 $hotelImage->save();
             }
         }
-
+        // dd($hotelImage);
         return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
-        ->with('page_id',request()->page_id)
-        ->with('success', '保存しました。');
+            ->with('page_id',request()->page_id)
+            ->with('hotelImage', $hotelImage)
+            // ->with('img_path', $hotelImage->path)
+            ->with('success', '保存しました。');
     }
 
     public function updateConcept(Request $request, Hotel $hotel)
