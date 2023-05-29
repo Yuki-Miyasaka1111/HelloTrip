@@ -44,7 +44,8 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
     Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
 
     Route::prefix('/project')->group(function () {
-
+        Route::get('/register', [ProjectController::class, 'createProject'])->name('project.createProject');
+        Route::post('/register', [ProjectController::class, 'storeProject'])->name('project.storeProject');
         // ホテル情報
         Route::prefix('hotel')->group(function () {
             Route::prefix('{hotel_id?}')->group(function () {

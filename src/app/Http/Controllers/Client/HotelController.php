@@ -26,7 +26,6 @@ class HotelController extends Controller
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-
             return view('client.hotel.index', compact('selected_hotel'))
                 ->with('page_id', request()->page)
                 ->with('client_name', $client_name);
