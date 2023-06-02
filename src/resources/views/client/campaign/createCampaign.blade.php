@@ -73,12 +73,14 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-                @for ($i = 0; $i < 1; $i++)
-                    <x-inputs.image :image-url="$image_url"/>
-                @endfor
+            @if(isset($campaignImages))
+                <x-inputs.image name="campaign_image" multiple="False" />
+            @else
+                <x-inputs.image name="campaign_image" multiple="False" />
+            @endif
             </div>
-            @error('images')
-            <span style="color:red;">ホテル画像をアップロードしてください</span>
+            @error('campaign_image')
+            <span style="color:red;">キャンペーン画像をアップロードしてください</span>
             @enderror
         </div>
 

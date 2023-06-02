@@ -7,16 +7,12 @@
 
 @include('components.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $selected_campaign->id]) : route('project.campaign.storeCampaign') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+<form action="{{ isset($selected_hotel) ? route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $selected_campaign->id]) : route('project.campaign.storeCampaign') }}" method="PUT" enctype="multipart/form-data" class="dev-container">
     @csrf
-
-    @if(isset($selected_campaign))
-        @method('PUT')
-    @endif
     
     <x-partials.preview-save-button :links="[
         ['title' => 'キャンペーン情報'],
-        ['title' => 'キャンペーン新規登録']
+        ['title' => 'キャンペーン編集']
     ]" />
 
     <x-partials.project-information-box title="投稿設定">
@@ -77,9 +73,11 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-                @for ($i = 0; $i < 1; $i++)
-                    <x-inputs.image :image-url="$image_url"/>
-                @endfor
+            @if(isset($campaignImages))
+                <x-inputs.image name="campaign_image" multiple="False" :img_path="$campaignImage" />
+            @else
+                <x-inputs.image name="campaign_image" multiple="False" />
+            @endif
             </div>
             @error('images')
             <span style="color:red;">ホテル画像をアップロードしてください</span>
