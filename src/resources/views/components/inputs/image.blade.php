@@ -4,7 +4,11 @@
     <input type="file" name="{{ $name }}{{ $multiple == 'True' ? '[]' : '' }}" multiple class="d-none input-image">
     <div class="upload-image-zone width-full height-full d-flex justify-center items-center flex-wrap text-center">
         <img src="" class="drop-image show-drop-image">
-        <img src="{{ asset('storage/' . $img_path) }}" class="show-db-image">
-        <img src="{{ asset('assets/img/icons/c-image_icon.svg') }}" class="default-image">
+        
+        @if(empty($img_path))
+            <img src="{{ asset('assets/img/icons/c-image_icon.svg') }}" class="default-image">
+        @else
+            <img src="{{ asset('storage/' . $img_path) }}" class="show-db-image">
+        @endif
     </div>
 </label>

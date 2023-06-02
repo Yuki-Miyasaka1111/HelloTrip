@@ -73,7 +73,7 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-            @if(isset($campaignImages))
+            @if(isset($campaignImage))
                 <x-inputs.image name="campaign_image" multiple="False" :img_path="$campaignImage" />
             @else
                 <x-inputs.image name="campaign_image" multiple="False" />

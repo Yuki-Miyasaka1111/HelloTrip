@@ -54,7 +54,7 @@ class CampaignController extends Controller
     public function storeCampaign(Request $request, $hotel_id)
     {
         $request->validate([
-            'campaign_image.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'campaign_image' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
             'publication_date' => 'required_if:immediate_publication_set,0|date',
@@ -76,15 +76,42 @@ class CampaignController extends Controller
         $campaign = new Campaign;
 
         // 画像ファイルのアップロード処理
-        if ($request->hasFile('campaign_image')) {
-            $file = $request->file('campaign_image');
+        // if ($request->hasFile('campaign_image')) {
+        //     $file = $request->file('campaign_image');
         
-            // publicディレクトリにファイルを保存し、そのパスを取得
-            $path = $file->store('public/img/campaign_images');
-        
-            // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
-            $image_url = str_replace('public/img/campaign_images/', '', $path);
-            $campaign->image_url = $image_url;
+        //     // publicディレクトリにファイルを保存し、そのパスを取得
+        //     $path = $file->store('public/img/campaign_images');
+        //     // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
+        //     $image_url = str_replace('public/', '', $path);
+        //     $campaign->image_url = $image_url;
+        // }
+        if ($request->has('campaign_image')) {
+            if ($request->file('campaign_image')) {
+                // If it is a normal file upload
+                $file = $request->file('campaign_image');
+                $path = $file->store('public/campaign_images');
+                $image_url = str_replace('public/', '', $path);
+                $campaign->image_url = $image_url;
+            } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
+                // If it is a Base64 encoded image
+                try {
+                    preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
+                    $extension = $matches[1];
+
+                    $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
+                    $img = str_replace(' ', '+', $img);
+                    $fileData = base64_decode($img);
+
+                    $fileName = md5($img) . '.' . $extension;
+                    $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
+
+                    // Save the path of the image file
+                    $campaign->image_url = $path;
+                } catch (Exception $e) {
+                    Log::error($e);
+                    // return or throw an error
+                }
+            }
         }
 
         $campaign->title = $request->title;
@@ -130,7 +157,7 @@ class CampaignController extends Controller
                 ->firstOrFail();
             $selected_campaign = Campaign::findOrFail($campaign_id);
             $campaignImage = $selected_campaign->image_url;
-            dd($campaignImage);
+            // dd($campaignImage);
             return view('client.campaign.editCampaign', compact('selected_hotel', 'campaign_id', 'selected_campaign', 'campaignImage'));
         } else {
             return redirect()->route('client.login');
@@ -140,7 +167,7 @@ class CampaignController extends Controller
     public function updateCampaign(Request $request, $hotel_id, $campaign_id)
     {
         $request->validate([
-            'campaign_image.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'campaign_image' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
             'publication_date' => 'required_if:immediate_publication_set,0|date',
@@ -165,7 +192,7 @@ class CampaignController extends Controller
             $path = $file->store('public/campaign_images');
 
             // 'public/campaign_images/'から始まるパスを取り除き、その結果をデータベースに保存
-            $image_url = str_replace('public/campaign_images/', '', $path);
+            $image_url = str_replace('public/', '', $path);
             $campaign->image_url = $image_url;
         }
         

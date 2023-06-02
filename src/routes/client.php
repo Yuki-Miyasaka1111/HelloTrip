@@ -72,8 +72,6 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
                     Route::post('/register', [CampaignController::class, 'storeCampaign'])->name('project.campaign.storeCampaign');
 
                     Route::get('/manage', [CampaignController::class, 'manageCampaign'])->name('project.campaign.manageCampaign');
-                    // Route::post('/manage', [CampaignController::class, 'storeManageCampaign'])->name('project.campaign.storeManageCampaign');
-                    // Route::put('/manage', [CampaignController::class, 'updateManageCampaign'])->name('project.campaign.updateManageCampaign');
                     
                     Route::prefix('{campaign_id?}')->group(function () {
                         Route::get('/', [CampaignController::class, 'index'])->name('project.campaign.index');
