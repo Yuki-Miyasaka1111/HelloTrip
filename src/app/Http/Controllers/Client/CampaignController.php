@@ -130,6 +130,7 @@ class CampaignController extends Controller
                 ->firstOrFail();
             $selected_campaign = Campaign::findOrFail($campaign_id);
             $campaignImage = $selected_campaign->image_url;
+            dd($campaignImage);
             return view('client.campaign.editCampaign', compact('selected_hotel', 'campaign_id', 'selected_campaign', 'campaignImage'));
         } else {
             return redirect()->route('client.login');

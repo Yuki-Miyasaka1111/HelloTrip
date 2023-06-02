@@ -26,7 +26,8 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # ユーザーを追加
-RUN adduser --disabled-password --gecos '' user
+RUN groupadd -g 1000 user && \
+    useradd -u 1000 -g user -m user
 
 # 作業ディレクトリの指定
 WORKDIR /var/www/html
