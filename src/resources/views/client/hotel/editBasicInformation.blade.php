@@ -216,25 +216,47 @@
         <div class="form-group d-flex justify-start">
             <x-labels.label label="月定休日" alignItems="items-baseline" />
             <div class="p-1">
-                @foreach($selected_hotel->monthlyHolidays as $monthlyHoliday)
-                <div class="form-append monthly-holiday-slot d-flex items-center mb-1" data-id="{{ $monthlyHoliday->id }}">
-                    <x-inputs.select name="monthly_holiday_week[]" selectedOption="{{ $monthlyHoliday->week }}" width="90px">
-                        <option value="1" @if($monthlyHoliday->week == 1) selected @endif>第1</option>
-                        <option value="2" @if($monthlyHoliday->week == 2) selected @endif>第2</option>
-                        <option value="3" @if($monthlyHoliday->week == 3) selected @endif>第3</option>
-                        <option value="4" @if($monthlyHoliday->week == 4) selected @endif>第4</option>
-                        <option value="5" @if($monthlyHoliday->week == 5) selected @endif>第5</option>
+                @if ($selected_hotel->temporaryHolidays->count() > 0)
+                    @foreach($selected_hotel->monthlyHolidays as $monthlyHoliday)
+                    <div class="form-append monthly-holiday-slot d-flex items-center mb-1" data-id="{{ $monthlyHoliday->id }}">
+                        <x-inputs.select name="monthly_holiday_week[]" selectedOption="{{ $monthlyHoliday->week }}" width="90px">
+                            <option value="1" @if($monthlyHoliday->week == 1) selected @endif>第1</option>
+                            <option value="2" @if($monthlyHoliday->week == 2) selected @endif>第2</option>
+                            <option value="3" @if($monthlyHoliday->week == 3) selected @endif>第3</option>
+                            <option value="4" @if($monthlyHoliday->week == 4) selected @endif>第4</option>
+                            <option value="5" @if($monthlyHoliday->week == 5) selected @endif>第5</option>
+                        </x-inputs.select>
+
+                        <x-inputs.select name="monthly_holiday_day[]" selectedOption="{{ $monthlyHoliday->day }}" width="90px" class="ml-1" showDelete="true" outside="曜日">
+                            <option value="月" @if($monthlyHoliday->day == "月") selected @endif>月</option>
+                            <option value="火" @if($monthlyHoliday->day == "火") selected @endif>火</option>
+                            <option value="水" @if($monthlyHoliday->day == "水") selected @endif>水</option>
+                            <option value="木" @if($monthlyHoliday->day == "木") selected @endif>木</option>
+                            <option value="金" @if($monthlyHoliday->day == "金") selected @endif>金</option>
+                        </x-inputs.select>
+                    </div>
+                    @endforeach
+                @else
+                <div class="form-append monthly-holiday-slot d-flex items-center mb-1">
+                    <x-inputs.select name="monthly_holiday_week[]" width="90px">
+                        <option value="" selected></option>
+                        <option value="1">第1</option>
+                        <option value="2">第2</option>
+                        <option value="3">第3</option>
+                        <option value="4">第4</option>
+                        <option value="5">第5</option>
                     </x-inputs.select>
 
-                    <x-inputs.select name="monthly_holiday_day[]" selectedOption="{{ $monthlyHoliday->day }}" width="90px" class="ml-1" showDelete="true" outside="曜日">
-                        <option value="月" @if($monthlyHoliday->day == "月") selected @endif>月</option>
-                        <option value="火" @if($monthlyHoliday->day == "火") selected @endif>火</option>
-                        <option value="水" @if($monthlyHoliday->day == "水") selected @endif>水</option>
-                        <option value="木" @if($monthlyHoliday->day == "木") selected @endif>木</option>
-                        <option value="金" @if($monthlyHoliday->day == "金") selected @endif>金</option>
+                    <x-inputs.select name="monthly_holiday_day[]" width="90px" class="ml-1" showDelete="true" outside="曜日">
+                        <option value="" selected></option>
+                        <option value="月">月</option>
+                        <option value="火">火</option>
+                        <option value="水">水</option>
+                        <option value="木">木</option>
+                        <option value="金">金</option>
                     </x-inputs.select>
                 </div>
-                @endforeach
+                @endif
                 <div>
                     <div class="text-center mt-1 js-addMonthlyHoliday cursor-pointer">+定休日を追加</div>
                 </div>
@@ -276,6 +298,6 @@
             <span class="my-1-2-5 ml-1-5 d-flex items-center" style="color:red;">その他に関する説明文を250文字以内で入力してください</span>
             @enderror
         </div>
-    </x-project-information-box>
+    </x-partials.project-information-box>
 </form>
 @endsection

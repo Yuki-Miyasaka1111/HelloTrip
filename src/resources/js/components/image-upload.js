@@ -13,7 +13,7 @@ $(document).ready(function () {
         evt.preventDefault();
         fileArea.classList.remove('dragover');
     });
-
+    
     fileArea.addEventListener('drop', function(evt){
         evt.preventDefault();
         fileArea.classList.remove('dragenter');
@@ -51,7 +51,6 @@ $(document).ready(function () {
             }
             preview.appendChild(img);
         };
-
         reader.readAsDataURL(file);
     }
 });

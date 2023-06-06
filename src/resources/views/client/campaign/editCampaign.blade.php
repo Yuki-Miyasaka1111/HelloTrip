@@ -67,7 +67,7 @@
                 </x-inputs.select>
             </div>
         </div>
-    </x-project-information-box>
+    </x-partials.project-information-box>
 
     <x-partials.project-information-box title="キャンペーン設定">
         <div class="form-group d-flex justify-start items-stretch">
@@ -102,7 +102,7 @@
             <span class="d-flex items-center" style="color:red;">タイトルを40文字以内で入力してください</span>
             @enderror
         </div>
-    </x-project-information-box>
+    </x-partials.project-information-box>
 
     <x-partials.project-information-box title="本文">
         <div class="p-1-2-5">
@@ -110,6 +110,6 @@
             <trix-editor input="campaign-article" style="height:256px;"></trix-editor>
             <div id="preview-area"></div>
         </div>
-    </x-project-information-box>
+    </x-partials.project-information-box>
 </form>
 @endsection

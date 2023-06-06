@@ -8,7 +8,11 @@
                     <h3 class="preview-save-button-breadcrumb-item py-1-1-2-5">プロジェクト情報</h3>
                 </div>
                 <div>
-                    <a href="" class="c-primary__button px-4 py-1-1-2-5 ml-1 font-weight-bold">プロジェクト新規作成</a>
+                    <button id="openModalButton" class="c-primary__button px-4 py-1-1-2-5 ml-1 font-weight-bold">
+                        プロジェクト新規作成
+                    </button>
+
+                    <x-popup.modal.modal_window route="project.storeProject" modalTitle="プロジェクト設定" btnTitle="プロジェクトを作成" />
                 </div>
             </div>
         </div>
