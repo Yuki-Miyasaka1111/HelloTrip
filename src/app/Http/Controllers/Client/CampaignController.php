@@ -76,43 +76,43 @@ class CampaignController extends Controller
         $campaign = new Campaign;
 
         // 画像ファイルのアップロード処理
-        // if ($request->hasFile('campaign_image')) {
-        //     $file = $request->file('campaign_image');
+        if ($request->hasFile('campaign_image')) {
+            $file = $request->file('campaign_image');
         
-        //     // publicディレクトリにファイルを保存し、そのパスを取得
-        //     $path = $file->store('public/img/campaign_images');
-        //     // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
-        //     $image_url = str_replace('public/', '', $path);
-        //     $campaign->image_url = $image_url;
-        // }
-        if ($request->has('campaign_image')) {
-            if ($request->file('campaign_image')) {
-                // If it is a normal file upload
-                $file = $request->file('campaign_image');
-                $path = $file->store('public/campaign_images');
-                $image_url = str_replace('public/', '', $path);
-                $campaign->image_url = $image_url;
-            } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
-                // If it is a Base64 encoded image
-                try {
-                    preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
-                    $extension = $matches[1];
-
-                    $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
-                    $img = str_replace(' ', '+', $img);
-                    $fileData = base64_decode($img);
-
-                    $fileName = md5($img) . '.' . $extension;
-                    $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
-
-                    // Save the path of the image file
-                    $campaign->image_url = $path;
-                } catch (Exception $e) {
-                    Log::error($e);
-                    // return or throw an error
-                }
-            }
+            // publicディレクトリにファイルを保存し、そのパスを取得
+            $path = $file->store('public/img/campaign_images');
+            // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
+            $image_url = str_replace('public/', '', $path);
+            $campaign->image_url = $image_url;
         }
+        // if ($request->has('campaign_image')) {
+        //     if ($request->file('campaign_image')) {
+        //         // If it is a normal file upload
+        //         $file = $request->file('campaign_image');
+        //         $path = $file->store('public/campaign_images');
+        //         $image_url = str_replace('public/', '', $path);
+        //         $campaign->image_url = $image_url;
+        //     } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
+        //         // If it is a Base64 encoded image
+        //         try {
+        //             preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
+        //             $extension = $matches[1];
+
+        //             $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
+        //             $img = str_replace(' ', '+', $img);
+        //             $fileData = base64_decode($img);
+
+        //             $fileName = md5($img) . '.' . $extension;
+        //             $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
+
+        //             // Save the path of the image file
+        //             $campaign->image_url = $path;
+        //         } catch (Exception $e) {
+        //             Log::error($e);
+        //             // return or throw an error
+        //         }
+        //     }
+        // }
 
         $campaign->title = $request->title;
         $campaign->client_id = Auth::guard('client')->user()->id;
@@ -195,6 +195,34 @@ class CampaignController extends Controller
             $image_url = str_replace('public/', '', $path);
             $campaign->image_url = $image_url;
         }
+        // if ($request->has('campaign_image')) {
+        //     if ($request->file('campaign_image')) {
+        //         // If it is a normal file upload
+        //         $file = $request->file('campaign_image');
+        //         $path = $file->store('public/campaign_images');
+        //         $image_url = str_replace('public/', '', $path);
+        //         $campaign->image_url = $image_url;
+        //     } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
+        //         // If it is a Base64 encoded image
+        //         try {
+        //             preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
+        //             $extension = $matches[1];
+
+        //             $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
+        //             $img = str_replace(' ', '+', $img);
+        //             $fileData = base64_decode($img);
+
+        //             $fileName = md5($img) . '.' . $extension;
+        //             $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
+
+        //             // Save the path of the image file
+        //             $campaign->image_url = $path;
+        //         } catch (Exception $e) {
+        //             Log::error($e);
+        //             // return or throw an error
+        //         }
+        //     }
+        // }
         
         if ($request->input('immediate_publication_set') != $campaign->immediate_publication_set) {
             if($request->input('immediate_publication_set')) {

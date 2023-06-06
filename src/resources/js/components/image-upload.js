@@ -1,80 +1,57 @@
 $(document).ready(function () {
+    var fileArea = document.getElementById('dragDropArea');
+    var fileInput = document.getElementById('fileInput');
+    var dbImage = document.getElementById('show-db-image');
+    var defaultImage = document.getElementById('default-image');
 
-    function initializeDropZone($dropArea) {
-        var $inputFile = $dropArea.find(".input-image");
-        var $showDropImage = $dropArea.find(".show-drop-image");
-        var $showDbImage = $dropArea.find(".show-db-image");
-        var $defaultImage = $dropArea.find(".default-image");
-
-        // Drag & Drop event handlers
-        $dropArea.on("dragover", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).addClass("dragging");
-        });
-
-        $dropArea.on("dragleave", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).removeClass("dragging");
-        });
-
-        $dropArea.on("drop", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).removeClass("dragging");
-            var files = event.originalEvent.dataTransfer.files;
-            handleFiles(files, $showDropImage, $showDbImage, $defaultImage);
-        });
-
-        // Click to select image
-        $dropArea.on("click", function () {
-            $inputFile.click();
-        });
-
-        // Input change event handler
-        // $inputFile.on("change", function (event) {
-        //     var files = event.target.files;
-        //     handleFiles(files, $showDropImage, $showDbImage, $defaultImage);
-        
-        $(document).ready(function () {
-            $('.input-image').on('change', function () {
-                var reader = new FileReader();
-        
-                reader.onload = function (e) {
-                    var $showDropImage = $('.show-drop-image');
-                    $showDropImage.attr('src', e.target.result);
-                    $showDbImage.hide();
-                    $defaultImage.hide();
-                };
-        
-                reader.readAsDataURL(this.files[0]);
-            });
-        });
-    }
-
-    function handleFiles(files, $showDropImage, $showDbImage, $defaultImage) {
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            if (!file.type.startsWith("image/")) {
-                continue;
-            }
-            var reader = new FileReader();
-            reader.onload = (function (file) {
-                return function (e) {
-                    $showDropImage.attr("src", e.target.result).show();
-                    $showDbImage.hide();
-                    $defaultImage.hide();
-                };
-            })(file);
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Initialize drop zones
-    $(".upload-image-zone").each(function () {
-        var $dropArea = $(this);
-        initializeDropZone($dropArea);
+    fileArea.addEventListener('dragover', function(evt){
+        evt.preventDefault();
+        fileArea.classList.add('dragover');
     });
 
+    fileArea.addEventListener('dragleave', function(evt){
+        evt.preventDefault();
+        fileArea.classList.remove('dragover');
+    });
+
+    fileArea.addEventListener('drop', function(evt){
+        evt.preventDefault();
+        fileArea.classList.remove('dragenter');
+        var files = evt.dataTransfer.files;
+        fileInput.files = files;
+        photoPreview('onChenge',files[0]);
+    });
+
+    fileInput.addEventListener('change', function(evt){
+        if (fileInput.files.length > 0) {
+            photoPreview('onChange', fileInput.files[0]);
+        }
+    });
+
+    function photoPreview(event, f = null) {
+        var file = f;
+        if(file === null){
+            file = event.target.files[0];
+        }
+        var reader = new FileReader();
+        var preview = document.getElementById("previewArea");
+        var previewImage = document.getElementById("previewImage");
+
+        if(previewImage != null) {
+            preview.removeChild(previewImage);
+        }
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", reader.result);
+            img.setAttribute("id", "previewImage");
+            if ( dbImage !== null ){
+                dbImage.style.display = "none";
+            } else if( defaultImage !== null ){
+                defaultImage.style.display = "none";
+            }
+            preview.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    }
 });
