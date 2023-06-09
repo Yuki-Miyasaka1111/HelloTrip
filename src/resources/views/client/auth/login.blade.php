@@ -48,12 +48,7 @@
         </div>
 
         <div class="flex items-center justify-center mt-2">
-<<<<<<< HEAD
-            <x-buttons.primary class="px-5 py-1"
-            >
-=======
             <x-buttons.primary class="px-5 py-1">
->>>>>>> 2bc9b717b158768d8d24487e0e926e1c82e24765
                 {{ __('ログイン') }}
             </x-buttons.primary>
         </div>
