@@ -1,1 +1,2 @@
 docker/db/data/*
+src/resources/views/client/auth/login.blade.php
