@@ -17,37 +17,67 @@ class CategoriesSeeder extends Seeder
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'リゾート',
+                'name'=> '関東',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'アート',
+                'name'=> '関西',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> '海鮮',
+                'name'=> '昔の日本',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> '自然豊か',
+                'name'=> 'リゾート',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'シティ',
+                'name'=> 'アート',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'ビズネス',
+                'name'=> '海鮮',
             ],
-                        [
+            [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'ラグジュアリー',
+                'name'=> '自然豊か',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '温泉地',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '写真映え',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '水族館',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '日本の文化',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '山登り',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> 'ゴルフ',
             ],
         ]);
     }
