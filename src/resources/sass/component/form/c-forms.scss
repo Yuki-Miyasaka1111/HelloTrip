@@ -1,4 +1,5 @@
 @use '../../variables/color' as color;
+@use '../../variables/elevation' as elevation;
 
 .form-group{
     border-bottom: 1px solid color.$border-secondary;
@@ -29,6 +30,18 @@
 .form-text:disabled{
     background-color: color.$background-tertiary;
     color: color.$text-tertiary;
+}
+
+.form-searchbox{
+    border-radius: 2rem;
+    border: none;
+    padding-left: 3rem;
+    box-shadow: elevation.$shadow-level-3;
+    background: #fafafa url(assets/img/icons/c-input_searchbox.svg) no-repeat 1rem center;
+}
+.form-searchbox::placeholder{
+    color: color.$main-primary;
+    font-size: 0.75rem;
 }
 
 .form-textarea{

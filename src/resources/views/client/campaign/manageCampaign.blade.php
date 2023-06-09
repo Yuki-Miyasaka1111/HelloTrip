@@ -3,18 +3,18 @@
 
 @section('content')
 
-@include('components.popup.success.flash-success')
+@include('components.client.popup.success.flash-success')
 
-@include('components.popup.errors.flash-error')
+@include('components.client.popup.errors.flash-error')
 <div class="dev-container">
-    <x-partials.preview-save-button :links="[
+    <x-client.partials.preview-save-button :links="[
             ['title' => 'キャンペーン情報'],
             ['title' => 'キャンペーン管理']
         ]"
         :btn="false" 
     />
 
-    <x-partials.project-information-table-box title="キャンペーン管理" btnTitle="新規キャンペーン登録" :selected_hotel="$selected_hotel">
+    <x-client.partials.project-information-table-box title="キャンペーン管理" btnTitle="新規キャンペーン登録" :selected_hotel="$selected_hotel">
         <table class="campaign-table width-full">
             <tbody>
                 <tr>

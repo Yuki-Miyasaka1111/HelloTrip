@@ -12,12 +12,12 @@
                         プロジェクト新規作成
                     </button>
 
-                    <x-popup.modal.modal_window route="project.storeProject" modalTitle="プロジェクト設定" btnTitle="プロジェクトを作成" />
+                    <x-client.popup.modal.modal_window route="project.storeProject" modalTitle="プロジェクト設定" btnTitle="プロジェクトを作成" />
                 </div>
             </div>
         </div>
         @foreach ($hotels as $hotel)
-                <x-partials.project-card class="width-large bg-primary mx-auto my-2" :hotel="$hotel" clickable="true" />
+            <x-client.partials.project-card class="width-large bg-primary mx-auto my-2" :hotel="$hotel" clickable="true" />
         @endforeach
     </div>
 @endsection

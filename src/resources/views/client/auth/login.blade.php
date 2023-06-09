@@ -7,8 +7,8 @@
 
         <!-- Email Address -->
         <div>
-            <x-labels.input for="email" :value="__('メールアドレス')" />
-            <x-inputs.text 
+            <x-client.labels.input for="email" :value="__('メールアドレス')" />
+            <x-client.inputs.text 
                 id="email" 
                 class="d-block mt-0-5 width-full" 
                 type="email" 
@@ -17,20 +17,20 @@
                 placeholder="name@example.co.jp" 
                 required autofocus autocomplete="username" />
 
-            <x-errors.input :messages="$errors->get('email')" class="mt-1" />
+            <x-client.labels.input :messages="$errors->get('email')" class="mt-1" />
         </div>
 
         <!-- Password -->
         <div class="mt-2">
-            <x-labels.input for="password" :value="__('パスワード')" />
+            <x-client.labels.input for="password" :value="__('パスワード')" />
 
-            <x-inputs.text id="password" class="d-block mt-1 width-full"
+            <x-client.inputs.text id="password" class="d-block mt-1 width-full"
                 type="password"
                 name="password"
                 placeholder="半角英数字8文字以上" 
                 required autocomplete="current-password" />
 
-            <x-errors.input :messages="$errors->get('password')" class="mt-1" />
+            <x-client.labels.input :messages="$errors->get('password')" class="mt-1" />
         </div>
 
         <!-- Remember Me -->
@@ -48,9 +48,9 @@
         </div>
 
         <div class="flex items-center justify-center mt-2">
-            <x-buttons.primary class="px-5 py-1">
+            <x-client.buttons.primary class="px-5 py-1">
                 {{ __('ログイン') }}
-            </x-buttons.primary>
+            </x-client.buttons.primary>
         </div>
     </form>
 </x-guest-layout>

@@ -7,7 +7,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body id="app" class="bg-secondary" style="display:none;">
-        @include('components.navigation.header')
+        @include('components.client.navigation.header')
 
         <main>
             @yield('content')

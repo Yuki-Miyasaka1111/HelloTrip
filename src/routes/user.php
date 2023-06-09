@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\User\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\User\Auth\EmailVerificationNotificationController;
@@ -38,8 +38,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('user.register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
@@ -67,7 +65,8 @@ Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:web')->name('user.logout');
 
 
-//ユーザーの施設登録
+//トップページ
+Route::get('/', [HomeController::class, 'index'])->name('user.top');
 Route::prefix('hotels')->group(function () {
     Route::get('/', [HotelController::class, 'index'])->name('hotel.index');
     Route::get('/create', [HotelController::class, 'create'])->name('hotel.create');

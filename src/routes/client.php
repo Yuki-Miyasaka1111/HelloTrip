@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\HotelController;
 use App\Http\Controllers\Client\CampaignController;

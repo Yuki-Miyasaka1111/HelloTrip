@@ -9,10 +9,10 @@
     <body id="app" class="bg-secondary" style="display:none;">
         <section class="card p-guest">
             <a href="/" class="p-guest__logo text-center d-block py-1-5">
-                <x-img.logo_01 class="mx-auto" />
+                <x-common.img.logo_01 class="mx-auto" />
             </a>
 
-            <x-buttons.login-register 
+            <x-common.buttons.login-register 
                 class="d-flex text-center px-1 pt-2" 
                 loginText="ログイン" 
                 registerText="新規登録" 
