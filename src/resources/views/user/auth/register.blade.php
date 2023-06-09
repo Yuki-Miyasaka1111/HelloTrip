@@ -62,7 +62,7 @@
         </div>
 
         <div class="flex items-center justify-center mt-2">
-            <x-buttons.primary>
+            <x-buttons.primary class="px-5 py-1">
                 {{ __('新規登録') }}
             </x-buttons.primary>
         </div>
