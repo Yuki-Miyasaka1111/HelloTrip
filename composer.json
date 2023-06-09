@@ -1,0 +1,5 @@
+{
+    "require": {
+        "kitloong/laravel-migrations-generator": "^6.10"
+    }
+}

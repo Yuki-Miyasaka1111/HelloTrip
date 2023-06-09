@@ -1,6 +1,2 @@
 docker/db/data/*
-<<<<<<< HEAD
-src/resources/views/client/auth/login.blade.php
-=======
 src/storage/logs/laravel.log
->>>>>>> 2bc9b717b158768d8d24487e0e926e1c82e24765
