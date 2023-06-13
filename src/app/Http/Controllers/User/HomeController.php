@@ -8,26 +8,33 @@ use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\Category;
 use App\Models\Prefecture;
+use App\Models\HotelImage;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $hotels = Hotel::latest()->paginate(5);
+        $hotels = Hotel::All();
+        $hotelImages = HotelImage::All();
         $categories = Category::all();
-        $user_name = '未ログイン';
-        $client_name = '未ログイン';
+        // dd($hotelImages);
     
         if (Auth::guard('web')->check()) {
             $user = Auth::guard('web')->user();
             $user_name = $user->name;
-        } elseif (Auth::guard('client')->check()) {
+        } else{
+            $user_name = '未ログイン';
+        }
+        
+        if (Auth::guard('client')->check()) {
             $client = Auth::guard('client')->user();
             $client_name = $client->name;
+        } else {
+            $client_name = '未ログイン';
         }
     
-        return view('user.top',compact('hotels', 'categories', 'user_name', 'client_name'))
+        return view('user.top',compact('hotels', 'hotelImages', 'categories', 'user_name', 'client_name'))
             ->with('page_id',request()->page)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }

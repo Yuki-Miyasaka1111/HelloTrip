@@ -19,36 +19,50 @@
             </div>
             <div class="text-right">
             <a class="btn btn-success" href="/">新規登録</a>
-            @if(Auth::check())
-                <p>ログインユーザー名: {{ Auth::user()->name }}</p>
                 <form method="POST" action="{{ route('user.logout') }}">
                     @csrf
                     <button class="btn btn-success" type="submit">ログアウト</button>
                 </form>
-            @endif
             </div>
         </div>
     </div>
  
-    <table class="table table-bordered">
-        <tr>
-            <th style="text-align:right">No</th>
-            <th style="text-align:right">ホテル名</th>
-            <th style="text-align:right">価格</th>
-            <th style="text-align:right">カテゴリ</th>
-            <th style="text-align:right">地域</th>
-        </tr>
+    <!-- どのホテルを表示させるか検討 -->
+    <section class="top-hotelSlider">
         @foreach ($hotels as $hotel)
-        <tr>
-            <td style="text-align:right">{{ $hotel->id }}</td>
-            <td style="text-align:right"><a href="/">{{ $hotel->name }}</a></td>
-            <td style="text-align:right">{{ $hotel->price }}円</td>
-            <td style="text-align:right"></td>
-            <td style="text-align:right"></td>
-        </tr>
+        <a class="d-block width-3">
+            @foreach($hotel->images as $image)
+                <img src="{{ asset('storage/' . $image->path) }}" class="width-full">
+            @endforeach
+            <b>{{ $hotel->name }}</b>
+            <p>{{ $hotel->address_1 }}{{ $hotel->address_2 }}</p>
+            <div class="d-flex justify-between itmes-center">
+                <p>{{ $hotel->catch_copy }}</p>
+                <p>{{ number_format($hotel->minimum_price) }}円〜</p>
+            </div>
+        </a>
         @endforeach
-    </table>
+    </section>
 
-    {!! $hotels->links('pagination::bootstrap-5') !!}
+    <!-- どのホテルを表示させるか検討 -->
+    <h2>PICK UP</h2>
+    <section class="top-pickupHotel">
+        @foreach ($hotels as $hotel)
+            @if ($loop->index == 3)
+            <a class="d-block width-3">
+                @foreach($hotel->images as $image)
+                    <img src="{{ asset('storage/' . $image->path) }}" class="width-full">
+                @endforeach
+                <b>{{ $hotel->name }}</b>
+                <p>{{ $hotel->address_1 }}{{ $hotel->address_2 }}</p>
+                <div class="d-flex justify-between itmes-center">
+                    <p>{{ $hotel->catch_copy }}</p>
+                    <p>{{ number_format($hotel->minimum_price) }}円〜</p>
+                </div>
+            </a>
+            @endif
+        @endforeach
+    </section>
+
 
 @endsection
