@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hotel;
+use App\Models\PublishedHotel;
 use App\Models\Category;
 use App\Models\Prefecture;
 use App\Models\HotelImage;
+use App\Models\PublishedHotelImage;
 use App\Models\Facility;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
@@ -36,19 +38,38 @@ class HotelController extends Controller
     public function publication(Request $request, $hotel_id = null){
         $client = Auth::user();
         $selected_hotel = Hotel::where('client_id', $client->id)
-                ->where('id', $hotel_id)
-                ->firstOrFail();
+            ->where('id', $hotel_id)
+            ->firstOrFail();
     
         if ($request->input('action') === 'publish') {
             $selected_hotel->is_public = true;
+    
+            $publishedHotel = $selected_hotel->publishedHotel ?: new PublishedHotel;
+            $publishedHotel->fill($selected_hotel->toArray());
+    
+            // 公開前に、対象のホテルIDに紐づく全てのPublishedHotelImageを削除
+            PublishedHotelImage::where('published_hotel_id', $publishedHotel->id)->delete();
+    
+            // 更新したホテル画像をpublished_hotel_imagesテーブルに保存
+            foreach ($selected_hotel->images as $image) {
+                $publishedImage = new PublishedHotelImage;
+                $publishedImage->fill($image->toArray());
+                $publishedImage->published_hotel_id = $publishedHotel->id;
+                $publishedImage->save();
+            }
+    
+            $selected_hotel->publishedHotel()->save($publishedHotel);
+            $selected_hotel->save();
+            
+            return redirect()->route('project.hotel.index', ['hotel_id' => $selected_hotel->id])
+                ->with('success', '公開しました。');
         } elseif ($request->input('action') === 'unpublish') {
             $selected_hotel->is_public = false;
+            $selected_hotel->save();
+    
+            return redirect()->route('project.hotel.index', ['hotel_id' => $selected_hotel->id])
+                ->with('success', '非公開に設定しました。');
         }
-    
-        $selected_hotel->save();
-    
-        return redirect()->route('project.hotel.index', ['hotel_id' => $selected_hotel->id])
-            ->with('success', '更新しました。');
     }
 
     public function storeBasicInformation(Request $request)
@@ -288,7 +309,10 @@ class HotelController extends Controller
                 $hotelImage->path = $path;
                 $hotelImage->save();
             }
+        } else {
+            $hotelImage = null;
         }
+
         return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
             ->with('page_id',request()->page_id)
             ->with('hotelImage', $hotelImage)

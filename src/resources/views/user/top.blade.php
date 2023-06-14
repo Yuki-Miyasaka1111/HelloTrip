@@ -29,35 +29,39 @@
  
     <!-- どのホテルを表示させるか検討 -->
     <section class="top-hotelSlider">
-        @foreach ($hotels as $hotel)
-        <a class="d-block width-3">
-            @foreach($hotel->images as $image)
-                <img src="{{ asset('storage/' . $image->path) }}" class="width-full">
-            @endforeach
-            <b>{{ $hotel->name }}</b>
-            <p>{{ $hotel->address_1 }}{{ $hotel->address_2 }}</p>
-            <div class="d-flex justify-between itmes-center">
-                <p>{{ $hotel->catch_copy }}</p>
-                <p>{{ number_format($hotel->minimum_price) }}円〜</p>
-            </div>
-        </a>
+        @foreach ($publishedHotels as $publishedHotel)
+            <a class="d-block width-3">
+                @if(isset($publishedHotel->images) && count($publishedHotel->images) > 0)
+                    @foreach($publishedHotel->images as $image)
+                        <img src="{{ asset('storage/' . $image->path) }}" class="width-full">
+                    @endforeach
+                @else
+                    <p>画像なし</p>
+                @endif
+                <b>{{ $publishedHotel->name }}</b>
+                <p>{{ $publishedHotel->address_1 }}{{ $publishedHotel->address_2 }}</p>
+                <div class="d-flex justify-between itmes-center">
+                    <p>{{ $publishedHotel->catch_copy }}</p>
+                    <p>{{ number_format($publishedHotel->minimum_price) }}円〜</p>
+                </div>
+            </a>
         @endforeach
     </section>
 
     <!-- どのホテルを表示させるか検討 -->
     <h2>PICK UP</h2>
     <section class="top-pickupHotel">
-        @foreach ($hotels as $hotel)
+        @foreach ($publishedHotels as $publishedHotel)
             @if ($loop->index == 3)
             <a class="d-block width-3">
-                @foreach($hotel->images as $image)
+                @foreach($publishedHotel->images as $image)
                     <img src="{{ asset('storage/' . $image->path) }}" class="width-full">
                 @endforeach
-                <b>{{ $hotel->name }}</b>
-                <p>{{ $hotel->address_1 }}{{ $hotel->address_2 }}</p>
+                <b>{{ $publishedHotel->name }}</b>
+                <p>{{ $publishedHotel->address_1 }}{{ $publishedHotel->address_2 }}</p>
                 <div class="d-flex justify-between itmes-center">
-                    <p>{{ $hotel->catch_copy }}</p>
-                    <p>{{ number_format($hotel->minimum_price) }}円〜</p>
+                    <p>{{ $publishedHotel->catch_copy }}</p>
+                    <p>{{ number_format($publishedHotel->minimum_price) }}円〜</p>
                 </div>
             </a>
             @endif

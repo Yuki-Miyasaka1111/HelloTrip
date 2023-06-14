@@ -42,6 +42,10 @@ class Hotel extends Model
         'last_updated'
     ];
 
+    public function publishedHotel()
+    {
+        return $this->hasOne(PublishedHotel::class, 'id', 'id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
