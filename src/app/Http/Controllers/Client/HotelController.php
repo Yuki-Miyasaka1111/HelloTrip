@@ -155,9 +155,6 @@ class HotelController extends Controller
             ->with('success');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function editBasicInformation($hotel_id, $imageSlots = 8)
     {
         if (Auth::guard('client')->check()) {
@@ -206,10 +203,6 @@ class HotelController extends Controller
         }
     }
     
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function updateBasicInformation(Request $request, Hotel $hotel)
     {
         $request->validate([
@@ -335,9 +328,6 @@ class HotelController extends Controller
             ->with('success', '設備情報を保存しました。');
     }    
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Hotel $hotel)
     {
         $hotel->delete();
