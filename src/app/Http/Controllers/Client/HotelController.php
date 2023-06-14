@@ -35,7 +35,8 @@ class HotelController extends Controller
         }
     }
 
-    public function publication(Request $request, $hotel_id = null){
+    public function publication(Request $request, $hotel_id = null)
+    {
         $client = Auth::user();
         $selected_hotel = Hotel::where('client_id', $client->id)
             ->where('id', $hotel_id)

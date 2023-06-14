@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('publication_date')->nullable();
             $table->boolean('end_publication_set')->nullable();
             $table->dateTime('end_publication_date')->nullable();
-            $table->boolean('publish_status')->nullable()->default(true);
+            $table->boolean('publish_status')->nullable()->default(false);
             $table->string('image_url')->nullable();
             $table->dateTime('campaign_start_date')->nullable();
             $table->dateTime('campaign_end_date')->nullable();

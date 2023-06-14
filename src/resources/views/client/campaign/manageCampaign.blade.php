@@ -38,7 +38,7 @@
                             -
                         @endif
                     </td>
-                    <td class="text-center p-1 {{ $selected_campaign->publish_status == 2 ? 'private_status' : '' }}">
+                    <td class="text-center p-1 {{ $selected_campaign->publish_status == 0 ? 'private_status' : '' }}">
                         {{ $selected_campaign->publish_status == 1 ? '公開中' : '非公開' }}
                     </td>
                     <td class="text-center p-1">{{ $selected_campaign->total_amount }}</td>

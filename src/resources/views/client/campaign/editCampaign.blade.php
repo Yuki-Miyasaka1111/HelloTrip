@@ -63,7 +63,7 @@
             <div class="p-1">
                 <x-client.inputs.select name="publish_status" selectedOption="{{ $selected_campaign->publish_status ?? '' }}" width="200px" >
                     <option value="1" @if(old('publish_status', $selected_campaign->publish_status ?? '') == 1) selected @endif>公開</option>
-                    <option value="2" @if(old('publish_status', $selected_campaign->publish_status ?? '') == 2) selected @endif>非公開</option>
+                    <option value="0" @if(old('publish_status', $selected_campaign->publish_status ?? '') == 0) selected @endif>非公開</option>
                 </x-client.inputs.select>
             </div>
         </div>
