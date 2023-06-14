@@ -18,7 +18,6 @@ class HomeController extends Controller
         $hotels = Hotel::All();
         $hotelImages = HotelImage::All();
         $categories = Category::all();
-        // dd($hotelImages);
     
         if (Auth::guard('web')->check()) {
             $user = Auth::guard('web')->user();

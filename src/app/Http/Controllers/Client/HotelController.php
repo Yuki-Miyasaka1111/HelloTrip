@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index($hotel_id = null)
     {
         if (Auth::guard('client')->check()) {
@@ -36,9 +33,24 @@ class HotelController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function publication(Request $request, $hotel_id = null){
+        $client = Auth::user();
+        $selected_hotel = Hotel::where('client_id', $client->id)
+                ->where('id', $hotel_id)
+                ->firstOrFail();
+    
+        if ($request->input('action') === 'publish') {
+            $selected_hotel->is_public = true;
+        } elseif ($request->input('action') === 'unpublish') {
+            $selected_hotel->is_public = false;
+        }
+    
+        $selected_hotel->save();
+    
+        return redirect()->route('project.hotel.index', ['hotel_id' => $selected_hotel->id])
+            ->with('success', '更新しました。');
+    }
+
     public function storeBasicInformation(Request $request)
     {
         $request->validate([
@@ -284,7 +296,6 @@ class HotelController extends Controller
                 $hotelImage->save();
             }
         }
-        // dd($hotelImage);
         return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
             ->with('page_id',request()->page_id)
             ->with('hotelImage', $hotelImage)

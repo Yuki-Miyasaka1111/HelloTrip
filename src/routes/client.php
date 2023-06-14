@@ -49,6 +49,7 @@ Route::middleware(['auth:client', 'checkAuthenticated'])->group(function () {
         Route::prefix('hotel')->group(function () {
             Route::prefix('{hotel_id?}')->group(function () {
                 Route::get('/', [HotelController::class, 'index'])->name('project.hotel.index');
+                Route::put('/', [HotelController::class, 'publication'])->name('project.hotel.publication');
                 Route::get('/basic-information', [HotelController::class, 'editBasicInformation'])->name('project.hotel.editBasicInformation');
                 Route::post('/basic-information', [HotelController::class, 'storeBasicInformation'])->name('project.hotel.storeBasicInformation');
                 Route::put('/basic-information', [HotelController::class, 'updateBasicInformation'])->name('project.hotel.updateBasicInformation');
