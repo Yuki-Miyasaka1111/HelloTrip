@@ -36,6 +36,8 @@ class Hotel extends Model
         'other_information',
         'other_facility_information',
         'other_equipment_information',
+        'is_public',
+        'last_updated'
     ];
 
     public function user()

@@ -8,6 +8,9 @@
             :btn="false"
         />
 
-        <x-client.partials.project-card class="width-full p-1-5" :hotel="$selected_hotel" clickable="false" />
+        <div class="d-flex justify-between p-1-5">
+            <x-client.partials.project-card class="dashboard_project_card" :hotel="$selected_hotel" clickable="false" />
+            <x-client.partials.project-dashboard-publication class="dashboard_publication" :hotel="$selected_hotel" />
+        </div>
     </div>
 @endsection

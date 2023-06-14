@@ -12,7 +12,7 @@
     </div>
     @if ($btn)
     <div>
-        <x-user.buttons.primary class="px-4 py-1-1-2-5 font-weight-bold" bg-color="#AABAC6">プレビュー</x-user.buttons.primary>
+        <x-user.buttons.primary class="px-4 py-1-1-2-5 font-weight-bold" bgColor="#AABAC6">プレビュー</x-user.buttons.primary>
         <x-user.buttons.primary class="px-4 py-1-1-2-5 ml-1 font-weight-bold">保存する</x-user.buttons.primary>
     </div>
     @endif
