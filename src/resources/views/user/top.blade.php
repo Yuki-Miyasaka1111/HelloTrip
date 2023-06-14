@@ -48,6 +48,20 @@
         @endforeach
     </section>
 
+        <!-- どのホテルを表示させるか検討 -->
+        <section class="top-hotelSlider">
+        @foreach ($publishedCampaigns as $publishedCampaign)
+            <a class="d-block width-3">
+                @if(isset($publishedCampaign->image_url))
+                    <img src="{{ asset('storage/' . $publishedCampaign->image_url) }}" class="width-full">
+                @else
+                    <p>画像なし</p>
+                @endif
+                <b>{{ $publishedCampaign->title }}</b>
+            </a>
+        @endforeach
+    </section>
+
     <!-- どのホテルを表示させるか検討 -->
     <h2>PICK UP</h2>
     <section class="top-pickupHotel">

@@ -7,6 +7,7 @@ use App\Models\Home;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\PublishedHotel;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Prefecture;
 use App\Models\HotelImage;
@@ -20,7 +21,8 @@ class HomeController extends Controller
         $publishedHotels = PublishedHotel::whereHas('hotel', function ($query) {
             $query->where('is_public', true);
         })->get();
-
+        // 公開されているキャンペーンのみを取得
+        $publishedCampaigns = Campaign::where('publish_status', true)->get();
         $hotelImages = HotelImage::All();
         $categories = Category::all();
     
@@ -38,7 +40,7 @@ class HomeController extends Controller
             $client_name = '未ログイン';
         }
     
-        return view('user.top',compact('publishedHotels', 'hotelImages', 'categories', 'user_name', 'client_name'))
+        return view('user.top',compact('publishedHotels', 'publishedCampaigns', 'hotelImages', 'categories', 'user_name', 'client_name'))
             ->with('page_id',request()->page)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
