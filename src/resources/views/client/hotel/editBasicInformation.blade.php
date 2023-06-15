@@ -22,13 +22,16 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-client.labels.label label="画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-            @for ($i = 0; $i < $imageSlots; $i++)
-                @if(isset($hotelImages[$i]))
-                    <x-client.inputs.image name="images" :img_path="$hotelImages[$i]->path" />
-                @else
-                    <x-client.inputs.image name="images" />
-                @endif
-            @endfor
+                <x-client.inputs.image name="hotel_images">
+                    @if(isset($hotelImages))
+                        @foreach ($hotelImages as $i => $hotelImage)
+                            <x-client.inputs.image_displayArea :img_path="$hotelImage->path" :index="$i + 1" />
+                        @endforeach
+                        @for ($i = count($hotelImages); $i < $imageSlots; $i++)
+                            <x-client.inputs.image_displayArea :index="$i + 1" />
+                        @endfor
+                    @endif
+                </x-client.inputs.image>
             </div>
             @error('images')
             <span style="color:red;">ホテル画像をアップロードしてください</span>

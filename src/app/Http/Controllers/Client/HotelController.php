@@ -94,7 +94,8 @@ class HotelController extends Controller
             'check_in' => 'required|max:140',
             'check_out' => 'required|max:140',
             'parking_information' => 'max:40',
-            'monthly_holiday' => 'max:40',
+            'monthly_holiday_week' => 'max:40',
+            'monthly_holiday_day' => 'max:40',
             'temporary_holiday' => 'max:40',
             'other_information' => 'max:40',
             'other_facility_information' => 'max:140',
@@ -126,17 +127,33 @@ class HotelController extends Controller
         $hotel->save();
 
         // 画像ファイルのアップロード処理
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+        if ($request->hasFile('hotel_images')) {
+            $existingImages = HotelImage::where('hotel_id', $hotel->id)->get();
+
+            foreach ($request->file('hotel_images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
-                $path = Storage::putFileAs('public/img/hotel_images', $image, $filename);
-    
-                $hotelImage = new HotelImage;
-                $hotelImage->hotel_id = $hotel->id;
-                $hotelImage->filename = $filename;
-                $hotelImage->path = $path;
-    
-                $hotelImage->save();
+                $path = $image->store('img/hotel_images', 'public');
+                $hash = hash_file('sha256', $path);
+                dd($path);
+
+                // Check if the hash of the new file is the same as any of the existing files
+                $duplicate = false;
+                foreach ($existingImages as $existingImage) {
+                    if ($existingImage->hash === $hash) {
+                        $duplicate = true;
+                        break;
+                    }
+                }
+
+                // If there is no duplicate, save the new file
+                if (!$duplicate) {
+                    $hotelImage = new HotelImage;
+                    $hotelImage->hotel_id = $hotel->id;
+                    $hotelImage->filename = $filename;
+                    $hotelImage->path = $path;
+                    $hotelImage->hash = $hash;
+                    $hotelImage->save();
+                }
             }
         }
     
@@ -187,12 +204,11 @@ class HotelController extends Controller
             $categories = Category::all();
             $prefectures = Prefecture::all();
             $hotelImages = HotelImage::where('hotel_id', $hotel_id)->take($imageSlots)->get();
-    
             return view('client.hotel.editBasicInformation', compact('selected_hotel', 'categories', 'prefectures', 'hotelImages', 'imageSlots'));
         } else {
             return redirect()->route('client.login');
         }
-    }    
+    }  
 
     public function editConcept($hotel_id)
     {
@@ -299,25 +315,39 @@ class HotelController extends Controller
         }
 
         // 画像ファイルのアップロード処理
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+        $hotelImage = null;
+        if ($request->hasFile('hotel_images')) {
+            $existingImages = HotelImage::where('hotel_id', $hotel->id)->get();
+
+            foreach ($request->file('hotel_images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
                 $path = $image->store('img/hotel_images', 'public');
-    
-                $hotelImage = new HotelImage;
-                $hotelImage->hotel_id = $hotel->id;
-                $hotelImage->filename = $filename;
-                $hotelImage->path = $path;
-                $hotelImage->save();
+                $hash = hash_file('sha256', storage_path('app/public/' . $path));
+
+                // Check if the hash of the new file is the same as any of the existing files
+                $duplicate = false;
+                foreach ($existingImages as $existingImage) {
+                    if ($existingImage->hash === $hash) {
+                        $duplicate = true;
+                        break;
+                    }
+                }
+
+                // If there is no duplicate, save the new file
+                if (!$duplicate) {
+                    $hotelImage = new HotelImage;
+                    $hotelImage->hotel_id = $hotel->id;
+                    $hotelImage->filename = $filename;
+                    $hotelImage->path = $path;
+                    $hotelImage->hash = $hash;
+                    $hotelImage->save();
+                }
             }
-        } else {
-            $hotelImage = null;
         }
 
         return redirect()->route('project.hotel.editBasicInformation', ['hotel_id' => $hotel->id])
             ->with('page_id',request()->page_id)
             ->with('hotelImage', $hotelImage)
-            // ->with('img_path', $hotelImage->path)
             ->with('success', '保存しました。');
     }
 

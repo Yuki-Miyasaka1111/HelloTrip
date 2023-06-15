@@ -12,7 +12,8 @@ class HotelImage extends Model
     protected $fillable = [
         'hotel_id',
         'filename',
-        'path'
+        'path',
+        'hash'
     ];
 
     public function hotel()
