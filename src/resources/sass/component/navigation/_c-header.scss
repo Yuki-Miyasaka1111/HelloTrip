@@ -1,6 +1,7 @@
 @use '../../variables/color' as color;
 
 .header{
+    position: relative;
     border-bottom: 1px solid color.$main-primary;
 }
 .humberger{
