@@ -91,6 +91,9 @@
                 <p class="px-1">～</p>
                 <x-client.inputs.text type="date" name="campaign_end_date" :value="isset($campaign->campaign_end_date) ? \Carbon\Carbon::parse($campaign->campaign_end_date)->format('Y-m-d') : ''" width="250px" placeholder="年 / 月 / 日"  />
             </div>
+            @error('campaign_end_date')
+            <span style="color:red;">キャンペーン期間を正しく設定してください</span>
+            @enderror
         </div>
 
         <div class="d-flex justify-start">

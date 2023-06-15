@@ -63,7 +63,7 @@ class CampaignController extends Controller
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'boolean',
             'campaign_start_date' => 'nullable|date',
-            'campaign_end_date' => 'nullable|date',
+            'campaign_end_date' => 'nullable|date|date_greater_than:campaign_start_date',
             'title' => 'string',
             'content' => 'nullable|string',
         ]);
@@ -172,11 +172,11 @@ class CampaignController extends Controller
             'end_publication_set' => 'boolean',
             'publication_date' => 'required_if:immediate_publication_set,0|date',
             'publication_time' => 'required_if:immediate_publication_set,0|date_format:H:i',
-            'end_publication_date' => 'required_if:end_publication_set,1|date',
+            'end_publication_date' => 'required_if:end_publication_set,1|date|date_greater_than:publication_date',
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'boolean',
             'campaign_start_date' => 'nullable|date',
-            'campaign_end_date' => 'nullable|date',
+            'campaign_end_date' => 'nullable|date|date_greater_than:campaign_start_date',
             'title' => 'string',
             'content' => 'nullable|string',
         ]);
