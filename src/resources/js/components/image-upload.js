@@ -4,29 +4,32 @@ $(document).ready(function () {
     var dbImage = document.getElementById('show-db-image');
     var defaultImage = document.getElementById('default-image');
 
-    fileArea.addEventListener('dragover', function(evt){
-        evt.preventDefault();
-        fileArea.classList.add('dragover');
-    });
+    if(fileArea) {
+        // fileAreaが存在するときのみ、以下のコードを実行します。
+        fileArea.addEventListener('dragover', function(evt){
+            evt.preventDefault();
+            fileArea.classList.add('dragover');
+        });
 
-    fileArea.addEventListener('dragleave', function(evt){
-        evt.preventDefault();
-        fileArea.classList.remove('dragover');
-    });
+        fileArea.addEventListener('dragleave', function(evt){
+            evt.preventDefault();
+            fileArea.classList.remove('dragover');
+        });
     
-    fileArea.addEventListener('drop', function(evt){
-        evt.preventDefault();
-        fileArea.classList.remove('dragenter');
-        var files = evt.dataTransfer.files;
-        fileInput.files = files;
-        photoPreview('onChenge',files[0]);
-    });
+        fileArea.addEventListener('dragover', function(evt){
+            evt.preventDefault();
+            fileArea.classList.add('dragover');
+        });
+    }
 
-    fileInput.addEventListener('change', function(evt){
-        if (fileInput.files.length > 0) {
-            photoPreview('onChange', fileInput.files[0]);
-        }
-    });
+    if(fileInput) {
+        // fileInputが存在するときのみ、以下のコードを実行します。
+        fileInput.addEventListener('change', function(evt){
+            if (fileInput.files.length > 0) {
+                photoPreview('onChange', fileInput.files[0]);
+            }
+        });
+    }
 
     function photoPreview(event, f = null) {
         var file = f;

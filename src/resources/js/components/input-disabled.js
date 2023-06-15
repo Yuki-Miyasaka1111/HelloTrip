@@ -4,11 +4,12 @@ const elements = [
 ];
 
 window.onload = function() {
-    // ページ読み込み時の処理
     elements.forEach(({ checkboxId, inputIds, disableWhenChecked }) => {
         const checkbox = document.querySelector(checkboxId);
-        checkbox.addEventListener('change', () => toggleInputDisabled(checkbox, inputIds, disableWhenChecked));
-        toggleInputDisabled(checkbox, inputIds, disableWhenChecked);
+        if(checkbox) {
+            checkbox.addEventListener('change', () => toggleInputDisabled(checkbox, inputIds, disableWhenChecked));
+            toggleInputDisabled(checkbox, inputIds, disableWhenChecked);
+        }
     });
 };
 

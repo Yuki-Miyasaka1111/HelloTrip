@@ -48,7 +48,7 @@
         @endforeach
     </section>
 
-        <!-- どのホテルを表示させるか検討 -->
+        <!-- どのキャンペーンを表示させるか検討 -->
         <section class="top-hotelSlider">
         @foreach ($publishedCampaigns as $publishedCampaign)
             <a class="d-block width-3">
