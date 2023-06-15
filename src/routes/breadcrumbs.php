@@ -8,9 +8,9 @@ Breadcrumbs::for('project.index', function ($trail) {
 });
 
 // プロジェクト管理 > 施設
-Breadcrumbs::for('project.hotel.index', function ($trail, $hotel_id) {
+Breadcrumbs::for('project.hotel.index', function ($trail) {
     $trail->parent('project.index');
-    $trail->push('施設情報', route('project.hotel.index', ['hotel_id' => $hotel_id]));
+    $trail->push('施設情報', route('project.hotel.index'));
 });
 
 // プロジェクト管理 > 施設 > 基本情報
