@@ -7,8 +7,9 @@
 
 @include('components.client.popup.errors.flash-error')
 
-<form action="{{ route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id]) }}" method="PUT" enctype="multipart/form-data" class="dev-container">
+<form action="{{ route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $selected_campaign->id]) }}" method="POST" enctype="multipart/form-data" class="dev-container">
     @csrf
+    @method('PUT')
     
     <x-client.partials.preview-save-button :links="[
         ['title' => 'キャンペーン情報'],
