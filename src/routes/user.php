@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HotelController;
+use App\Http\Controllers\User\HotelController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\User\Auth\ConfirmablePasswordController;
@@ -68,11 +68,8 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->midd
 //トップページ
 Route::get('/', [HomeController::class, 'index'])->name('user.top');
 Route::prefix('hotels')->group(function () {
-    Route::get('/', [HotelController::class, 'index'])->name('hotel.index');
-    Route::get('/create', [HotelController::class, 'create'])->name('hotel.create');
-    Route::post('/store', [HotelController::class, 'store'])->name('hotel.store');
-    Route::get('/edit/{hotel}', [HotelController::class, 'edit'])->name('hotel.edit');
-    Route::put('/edit/{hotel}', [HotelController::class, 'update'])->name('hotel.update');
-    Route::get('/show/{hotel}', [HotelController::class, 'show'])->name('hotel.show');
-    Route::delete('/{hotel}',[HotelController::class, 'destroy'])->name('hotel.destroy');
+    // 各施設ページ
+    Route::prefix('{hotel_id}')->group(function () {
+        Route::get('/', [HotelController::class, 'index'])->name('hotel.index');
+    });
 });

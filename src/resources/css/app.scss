@@ -10,6 +10,7 @@
 
 // layout
 @use "../sass/layout/l-container";
+@use "../sass/layout/l-content";
 @use "../sass/layout/l-sidebar";
 
 
@@ -37,6 +38,7 @@
 
 // project
 @use "../sass/project/p-guest-form";
+@use "../sass/project/p-article";
 
 // mixin
 

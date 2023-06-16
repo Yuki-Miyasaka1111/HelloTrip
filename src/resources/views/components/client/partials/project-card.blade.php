@@ -14,10 +14,10 @@
             <div class="project_card_right-flex flex items-center mt-2">
             @if ($hotel->is_public)
                 <p class="project_card_right-public mr-1 font-weight-bold">公開</p>
-                <p class="project_card_right-public_url font-weight-bold">{{ route('hotel.show', $hotel->id) }}</p>
+                <p class="project_card_right-public_url font-weight-bold">{{ route('hotel.index', $hotel->id) }}</p>
             @else
                 <p class="project_card_right-private mr-1 font-weight-bold">非公開</p>
-                <p class="project_card_right-private_url font-weight-bold">{{ route('hotel.show', $hotel->id) }}</p>
+                <p class="project_card_right-private_url font-weight-bold">{{ route('hotel.index', $hotel->id) }}</p>
             @endif
             </div>
         </div>

@@ -30,7 +30,7 @@
     <!-- どのホテルを表示させるか検討 -->
     <section class="top-hotelSlider">
         @foreach ($publishedHotels as $publishedHotel)
-            <a class="d-block width-3">
+            <a href="{{ route('hotel.index', $publishedHotel->id) }}" class="d-block width-3">
                 @if(isset($publishedHotel->images) && count($publishedHotel->images) > 0)
                     @foreach($publishedHotel->images as $image)
                         <img src="{{ asset('storage/' . $image->path) }}" class="width-full">

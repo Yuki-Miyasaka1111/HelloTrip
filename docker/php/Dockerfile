@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     vim \
+    cron \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
