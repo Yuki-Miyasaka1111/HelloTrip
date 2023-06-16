@@ -21,16 +21,16 @@ $(document).ready(function () {
             fileArea.classList.remove('dragover');
             activeAreaIndex = evt.currentTarget.dataset.index; // ドロップされたエリアのインデックスを保存
             var items = evt.dataTransfer.items; // ドロップされたアイテムを取得
-            var newDT = new DataTransfer(); // 新しい DataTransfer オブジェクトを作成
             for (var i = 0; i < items.length; i++) {
                 if (items[i].kind === 'file') {
-                            var file = items[i].getAsFile();
-                    newDT.items.add(file); // ファイルを新しい DataTransfer オブジェクトに追加
-                    // インデックスは1ベースから0ベースに変換
-                    photoPreview(fileAreas[parseInt(activeAreaIndex) - 1], file);
+                    var file = items[i].getAsFile();
+                    if (parseInt(activeAreaIndex) - 1 + i < fileAreas.length) {
+                        var targetArea = fileAreas[parseInt(activeAreaIndex) - 1 + i];
+                        photoPreview(targetArea, file);
+                    }
                 }
             }
-            fileInput.files = newDT.files; // 新しいファイルリストを input 要素に関連付け
+            fileInput.files = evt.dataTransfer.files; // 新しいファイルリストを input 要素に関連付け
         });
 
         fileArea.addEventListener('click', function(evt){
