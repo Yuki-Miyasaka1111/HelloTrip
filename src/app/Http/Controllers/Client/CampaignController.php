@@ -273,7 +273,9 @@ class CampaignController extends Controller
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-            $selected_campaigns = Campaign::where('client_id', $client->id)->get();
+            $selected_campaigns = Campaign::where('client_id', $client->id)
+                ->where('hotel_id', $hotel_id)
+                ->get();
             return view('client.campaign.manageCampaign', compact('selected_hotel', 'selected_campaigns'));
         } else {
             return redirect()->route('client.login');
