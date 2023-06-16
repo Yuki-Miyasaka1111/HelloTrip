@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <p>ご登録ありがとうございます。アカウントの有効化メールが送信されました。メール内のリンクをクリックしてアカウントを有効化してください。</p>
-                        <a href="{{ route('home.index') }}" class="btn btn-primary">ホームページに戻る</a>
+                        <a href="{{ route('user.home.index') }}" class="btn btn-primary">ホームページに戻る</a>
                     </div>
                 </div>
             </div>

@@ -6,8 +6,9 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        @include('components.navigation.header')
+    <body id="app" class="bg-tertiary" style="display:none;">
+        @include('components.user.navigation.header')
+        @include('components.user.navigation.category-bar')
 
         <main>
             @yield('content')

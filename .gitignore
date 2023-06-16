@@ -1,1 +1,2 @@
 docker/db/data/*
+src/storage/logs/laravel.log

@@ -12,7 +12,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    // base: '/HelloTrip/',
+    base: '/public/assets/'
     // build: {
     //     outDir: resolve(__dirname, 'public'),
     //     assetsDir: '',

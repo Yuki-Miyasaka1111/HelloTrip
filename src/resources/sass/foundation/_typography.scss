@@ -1,35 +1,27 @@
-h1, h2, h3, h4, h5, h6 {
-    font-family: $font-family-serif;
-    font-weight: $font-weight-bold;
-    line-height: $line-height-heading;
-    margin-bottom: 1rem;
+h1{
+    font-size: 3rem;
+    font-weight: bold;
 }
-
+h2{
+    font-size: 2rem;
+    font-weight: bold;
+}
+h3{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+h4{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+h5{
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+h6{
+    font-size: 1rem;
+    font-weight: bold;
+}
 p {
-    margin-bottom: 1.5rem;
-    font-size: $font-size-base;
-    line-height: $line-height-base;
-}
-
-a {
-    color: $link-color;
-    text-decoration: none;
-    transition: color 0.3s;
-
-    &:hover {
-        color: $link-hover-color;
-    }
-}
-
-ul, ol {
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-}
-
-ul {
-    list-style-type: disc;
-}
-
-ol {
-    list-style-type: decimal;
+    font-size: 1rem;
 }

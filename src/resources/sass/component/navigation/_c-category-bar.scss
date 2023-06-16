@@ -1,0 +1,18 @@
+@use '../../variables/color' as color;
+@use '../../variables/z-index' as z-index;
+
+.category-bar{
+    width: 1240px;
+    margin: auto;
+}
+.category-bar > a{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.category-bar > a > p{
+    color: color.$main-primary;
+    font-weight: bold;
+    margin-top: 0.25rem;
+}

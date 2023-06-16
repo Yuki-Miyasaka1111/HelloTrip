@@ -1,5 +1,8 @@
+@use '../../variables/z-index' as z-index;
+
 .system-bar{
     position: fixed;
     top: 0;
     left: 0;
+    z-index: z-index.$z-index-fixed;
 }

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16.414" height="16.414" viewBox="0 0 16.414 16.414">
+  <g id="グループ_524" data-name="グループ 524" transform="translate(-29 -81)">
+    <line id="線_1099" data-name="線 1099" x2="3" y2="3" transform="translate(41 93)" fill="none" stroke="#606e77" stroke-linecap="round" stroke-width="2"/>
+    <g id="楕円形_55" data-name="楕円形 55" transform="translate(29 81)" fill="#fff" stroke="#606e77" stroke-width="2">
+      <circle cx="7.25" cy="7.25" r="7.25" stroke="none"/>
+      <circle cx="7.25" cy="7.25" r="6.25" fill="none"/>
+    </g>
+  </g>
+</svg>

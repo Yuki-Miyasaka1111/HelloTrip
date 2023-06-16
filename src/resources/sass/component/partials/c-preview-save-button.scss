@@ -1,0 +1,26 @@
+@use '../../variables/z-index' as z-index;
+
+.preview-save-button-wrap{
+    position: fixed;
+    top: 113px;
+    width: calc(100% - 270px);
+    z-index: z-index.$z-index-fixed;
+}
+.preview-save-button-breadcrumb-item{
+    position: relative;
+}
+.preview-save-button-breadcrumb-item::after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: -1.25rem;
+    width: 12px;
+    height: 12px;
+    border-top: 3px solid #000;
+    border-right: 3px solid #000;
+    transform: translateX(25%) translateY(-40%) rotate(45deg);
+}
+.preview-save-button-breadcrumb-item:last-of-type::after{
+    display: none;
+}

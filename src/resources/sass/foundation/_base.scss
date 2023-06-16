@@ -12,6 +12,13 @@ html {
     box-sizing: inherit;
 }
 
+*:focus {
+    outline: none;
+}
+input[type=checkbox]:focus {
+    outline: none;
+}
+
 body {
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: normal;

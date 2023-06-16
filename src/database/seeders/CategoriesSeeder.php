@@ -17,37 +17,80 @@ class CategoriesSeeder extends Seeder
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'リゾート',
+                'name'=> '関東',
+                'slug'=> 'kanto',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'アート',
+                'name'=> '関西',
+                'slug'=> 'kansai',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> '海鮮',
+                'name'=> '昔の日本',
+                'slug'=> 'history',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> '自然豊か',
+                'name'=> 'リゾート',
+                'slug'=> 'resort',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'シティ',
+                'name'=> 'アート',
+                'slug'=> 'art',
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'ビズネス',
+                'name'=> '海鮮',
+                'slug'=> 'seafood',
             ],
-                        [
+            [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'category_name'=> 'ラグジュアリー',
+                'name'=> '自然豊か',
+                'slug'=> 'nature',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '温泉地',
+                'slug'=> 'onsen',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '写真映え',
+                'slug'=> 'photo',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '水族館',
+                'slug'=> 'aquarium',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '日本の文化',
+                'slug'=> 'culture',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> '山登り',
+                'slug'=> 'climbing',
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
+                'name'=> 'ゴルフ',
+                'slug'=> 'golf',
             ],
         ]);
     }

@@ -1,0 +1,1 @@
+{!! Breadcrumbs::render(Route::currentRouteName(), $hotel_id, $campaign_id) !!}

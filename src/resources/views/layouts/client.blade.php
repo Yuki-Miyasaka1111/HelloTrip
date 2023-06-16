@@ -7,11 +7,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body id="app" class="bg-secondary" style="display:none;">
-        @include('components.navigation.system-bar')
-        @include('components.navigation.breadcrumbs')
+        @include('components.client.navigation.system-bar')
+        @include('components.client.navigation.breadcrumbs')
 
         @if (Route::currentRouteName() !== 'project.index')
-            @include('components.navigation.dev-sidebar')
+            @include('components.client.navigation.dev-sidebar')
         @endif
 
         <main>

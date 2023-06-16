@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        KitLoong\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -196,7 +197,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\UserAuthServiceProvider::class,
         App\Providers\ClientAuthServiceProvider::class,
-
+        App\Providers\ValidatorServiceProvider::class,
     ],
 
     /*

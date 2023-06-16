@@ -1,0 +1,14 @@
+@use '../../variables/color' as color;
+
+.dashboard_publication{
+    width: calc(25% - 1rem);
+}
+.dashboard_publication_heading > p{
+    color: color.$main-primary;
+    font-weight: bold;
+}
+.dashboard_publication_heading > span{
+    color: color.$main-secondary;
+    font-weight: bold;
+    font-size: 0.75rem;
+}

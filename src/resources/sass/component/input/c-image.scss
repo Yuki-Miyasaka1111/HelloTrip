@@ -1,16 +1,18 @@
 .upload-image-wrap{
-    width: 25%;
-    max-width: 25%;
+    width: calc(25% - 3rem);
+    max-width: calc(25% - 3rem);
     display: flex;
     justify-content: center;
     text-align: center;
-    border: 2px dashed #707070;
     background-color: #fff;
     align-items: center;
     color: #a5a5a5;
     min-width: 160px;
     aspect-ratio: 1/1;
     cursor: pointer;
+}
+.upload-image-zone{
+    border: 2px dashed #707070;
 }
 
 .drop-image {

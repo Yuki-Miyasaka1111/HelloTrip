@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <p>ありがとうございます。</p>
-                        <a href="{{ route('home.index') }}" class="btn btn-primary">ホームページに戻る</a>
+                        <a href="{{ route('client.home.index') }}" class="btn btn-primary">ホームページに戻る</a>
                     </div>
                 </div>
             </div>

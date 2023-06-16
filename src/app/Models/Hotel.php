@@ -13,17 +13,39 @@ class Hotel extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'category_id',
-        'region_id',
-        'address',
-        'description',
-        'url',
+        'concept',
         'phone_number',
+        'prefecture_id',
+        'area_id',
+        'category_id',
+        'url',
         'client_id',
-        'user_id'
+        'user_id',
+        'facility_scale',
+        'prefecture',
+        'catch_copy',
+        'minimum_price',
+        'postal_code',
+        'address_1',
+        'address_2',
+        'address_3',
+        'access',
+        'check_in',
+        'check_out',
+        'parking_information',
+        'monthly_holiday',
+        'temporary_holiday',
+        'other_information',
+        'other_facility_information',
+        'other_equipment_information',
+        'is_public',
+        'last_updated'
     ];
 
+    public function publishedHotel()
+    {
+        return $this->hasOne(PublishedHotel::class, 'id', 'id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -32,9 +54,13 @@ class Hotel extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    public function region()
+    public function prefecture()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Prefecture::class, 'prefecture_id');
+    }
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
     }
     public function client()
     {
@@ -47,5 +73,21 @@ class Hotel extends Model
     public function images()
     {
         return $this->hasMany(HotelImage::class);
+    }
+    public function facilities()
+    {
+        return $this->belongsToMany(Facility::class, 'hotel_facilities');
+    }
+    public function amenities()
+    {
+        return $this->belongsToMany(Amenity::class, 'hotel_amenities');
+    }
+    public function monthlyHolidays()
+    {
+        return $this->hasMany(MonthlyHoliday::class);
+    }
+    public function temporaryHolidays()
+    {
+        return $this->hasMany(TemporaryHoliday::class);
     }
 }

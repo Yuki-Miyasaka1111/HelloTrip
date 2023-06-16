@@ -30,7 +30,7 @@
             <div class="mt-6">
                 <x-input for="password" value="{{ __('Password') }}" class="sr-only" />
 
-                <x-inputs.text
+                <x-client.inputs.text
                     id="password"
                     name="password"
                     type="password"

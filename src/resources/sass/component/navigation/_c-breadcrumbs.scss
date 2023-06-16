@@ -1,4 +1,5 @@
 @use '../../variables/color' as color;
+@use '../../variables/z-index' as z-index;
 
 .breadcrumb{
     width: 100%;
@@ -12,6 +13,7 @@
     position: fixed;
     top: 72px;
     left: 0;
+    z-index: z-index.$z-index-fixed;
 }
 .breadcrumb-item{
     margin-right: 2rem;

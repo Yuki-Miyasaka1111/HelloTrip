@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Models\Category;
-use App\Models\Region;
+use App\Models\Prefecture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,10 +40,10 @@ class HotelController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $regions = Region::all();
+        $prefectures = Prefecture::all();
         return view('create')
             ->with('categories', $categories)
-            ->with('regions', $regions)
+            ->with('prefectures', $prefectures)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -56,7 +56,7 @@ class HotelController extends Controller
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
             'address' => 'required|max:140',
             'description' => 'required|max:140',
             'url' => 'required|max:140',
@@ -67,7 +67,7 @@ class HotelController extends Controller
         $hotel->name = $request->name;
         $hotel->price = $request->price;
         $hotel->category_id = $request->category_id;
-        $hotel->region_id = $request->region_id;
+        $hotel->prefecture_id = $request->prefecture_id;
         $hotel->address = $request->address;
         $hotel->description = $request->description;
         $hotel->url = $request->url;
@@ -87,11 +87,11 @@ class HotelController extends Controller
     public function show(Hotel $hotel)
     {
         $categories = Category::all();
-        $regions = Region::all();
+        $prefectures = Prefecture::all();
         return view('show',compact('hotel'))
             ->with('page_id',request()->page_id)
             ->with('categories', $categories)
-            ->with('regions', $regions);
+            ->with('prefectures', $prefectures);
     }
 
     /**
@@ -100,11 +100,11 @@ class HotelController extends Controller
     public function edit(Hotel $hotel)
     {
         $categories = Category::all();
-        $regions = Region::all();
+        $prefectures = Prefecture::all();
         return view('edit', compact('hotel'))
             ->with('page_id',request()->page_id)
             ->with('categories', $categories)
-            ->with('regions', $regions);
+            ->with('prefectures', $prefectures);
     }
 
     /**
@@ -116,7 +116,7 @@ class HotelController extends Controller
             'name' => 'required|max:20',
             'price' => 'required|integer',
             'category_id' => 'required|integer',
-            'region_id' => 'required|integer',
+            'prefecture_id' => 'required|integer',
             'address' => 'required|max:140',
             'description' => 'required|max:140',
             'url' => 'required|max:140',
@@ -126,7 +126,7 @@ class HotelController extends Controller
         $hotel->name = $request->input(["name"]);
         $hotel->price = $request->input(["price"]);
         $hotel->category_id = $request->input(["category_id"]);
-        $hotel->region_id = $request->input(["region_id"]);
+        $hotel->prefecture_id = $request->input(["prefecture_id"]);
         $hotel->address = $request->input(["address"]);
         $hotel->description = $request->input(["description"]);
         $hotel->url = $request->input(["url"]);
