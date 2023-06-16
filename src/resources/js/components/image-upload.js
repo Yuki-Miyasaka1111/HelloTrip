@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    var fileArea = document.getElementById('dragDropArea');
+    var fileAreas = document.querySelectorAll('.upload-image-wrap');
     var fileInput = document.getElementById('fileInput');
-    var dbImage = document.getElementById('show-db-image');
-    var defaultImage = document.getElementById('default-image');
+    var activeAreaIndex = 0; // クリックまたはドロップされたエリアを追跡する変数
 
-    if(fileArea) {
-        // fileAreaが存在するときのみ、以下のコードを実行します。
+    var images = [];
+
+    fileAreas.forEach(function(fileArea) {
         fileArea.addEventListener('dragover', function(evt){
             evt.preventDefault();
             fileArea.classList.add('dragover');
@@ -15,41 +15,61 @@ $(document).ready(function () {
             evt.preventDefault();
             fileArea.classList.remove('dragover');
         });
-    
-        fileArea.addEventListener('dragover', function(evt){
+
+        fileArea.addEventListener('drop', function(evt){
             evt.preventDefault();
-            fileArea.classList.add('dragover');
+            fileArea.classList.remove('dragover');
+            activeAreaIndex = evt.currentTarget.dataset.index; // ドロップされたエリアのインデックスを保存
+            var items = evt.dataTransfer.items; // ドロップされたアイテムを取得
+            var newDT = new DataTransfer(); // 新しい DataTransfer オブジェクトを作成
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file') {
+                            var file = items[i].getAsFile();
+                    newDT.items.add(file); // ファイルを新しい DataTransfer オブジェクトに追加
+                    // インデックスは1ベースから0ベースに変換
+                    photoPreview(fileAreas[parseInt(activeAreaIndex) - 1], file);
+                }
+            }
+            fileInput.files = newDT.files; // 新しいファイルリストを input 要素に関連付け
         });
-    }
+
+        fileArea.addEventListener('click', function(evt){
+            activeAreaIndex = evt.currentTarget.dataset.index; // クリックされたエリアのインデックスを保存
+        });
+    });
 
     if(fileInput) {
-        // fileInputが存在するときのみ、以下のコードを実行します。
         fileInput.addEventListener('change', function(evt){
-            if (fileInput.files.length > 0) {
-                photoPreview('onChange', fileInput.files[0]);
+            var files = Array.from(fileInput.files);
+            if (files.length > 0) {
+                files.forEach(function(file, index) {
+                    var targetIndex = parseInt(activeAreaIndex) + index;
+                    if (targetIndex <= fileAreas.length) {
+                        photoPreview(fileAreas[targetIndex - 1], file); // インデックスは0ベースなので-1
+                        images.push(file);
+                    }
+                });
             }
         });
     }
 
-    function photoPreview(event, f = null) {
-        var file = f;
-        if(file === null){
-            file = event.target.files[0];
-        }
+    function photoPreview(fileArea, file) {
         var reader = new FileReader();
-        var preview = document.getElementById("previewArea");
-        var previewImage = document.getElementById("previewImage");
-
+        var preview = fileArea.querySelector(".upload-image-zone");
+        var previewImage = fileArea.querySelector(".previewImage");
+        var dbImage = fileArea.querySelector(".show-db-image");
+        var defaultImage = fileArea.querySelector(".default-image");
+    
         if(previewImage != null) {
             preview.removeChild(previewImage);
         }
         reader.onload = function(event) {
             var img = document.createElement("img");
             img.setAttribute("src", reader.result);
-            img.setAttribute("id", "previewImage");
-            if ( dbImage !== null ){
+            img.setAttribute("class", "previewImage");
+            if (dbImage !== null) {
                 dbImage.style.display = "none";
-            } else if( defaultImage !== null ){
+            } else if(defaultImage !== null) {
                 defaultImage.style.display = "none";
             }
             preview.appendChild(img);
