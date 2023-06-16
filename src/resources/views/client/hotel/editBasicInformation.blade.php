@@ -33,7 +33,7 @@
                     @endif
                 </x-client.inputs.image>
             </div>
-            @error('images')
+            @error('hotel_images')
             <span style="color:red;">ホテル画像をアップロードしてください</span>
             @enderror
         </div>

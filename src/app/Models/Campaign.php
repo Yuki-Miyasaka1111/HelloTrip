@@ -32,4 +32,8 @@ class Campaign extends Model
     {
         return $this->belongsToMany(Hotel::class, 'campaign_hotel', 'campaign_id', 'hotel_id');
     }
+    public function images()
+    {
+        return $this->hasMany(CampaignImage::class);
+    }
 }

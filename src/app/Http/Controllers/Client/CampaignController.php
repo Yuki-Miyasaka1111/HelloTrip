@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Prefecture;
 use App\Models\HotelImage;
+use App\Models\CampaignImage;
 use App\Models\Facility;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class CampaignController extends Controller
         }
     }
 
-    public function createCampaign($hotel_id, $campaign_id = null)
+    public function createCampaign($hotel_id, $campaign_id = null, $imageSlots = 1)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
@@ -45,7 +46,7 @@ class CampaignController extends Controller
                 ->where('id', $hotel_id)
                 ->firstOrFail();
             $campaign = new Campaign;
-            return view('client.campaign.createCampaign', compact('selected_hotel', 'campaign_id', 'campaign'));
+            return view('client.campaign.createCampaign', compact('selected_hotel', 'campaign_id', 'campaign', 'imageSlots'));
         } else {
             return redirect()->route('client.login');
         }
@@ -54,12 +55,12 @@ class CampaignController extends Controller
     public function storeCampaign(Request $request, $hotel_id)
     {
         $request->validate([
-            'campaign_image' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'campaign_images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
             'publication_date' => 'required_if:immediate_publication_set,0|date',
             'publication_time' => 'required_if:immediate_publication_set,0|date_format:H:i',
-            'end_publication_date' => 'required_if:end_publication_set,1|date',
+            'end_publication_date' => 'required_if:end_publication_set,1|date|date_greater_than:publication_date',
             'end_publication_time' => 'required_if:end_publication_set,1|date_format:H:i',
             'publish_status' => 'boolean',
             'campaign_start_date' => 'nullable|date',
@@ -74,46 +75,6 @@ class CampaignController extends Controller
                 ->firstOrFail();
     
         $campaign = new Campaign;
-
-        // 画像ファイルのアップロード処理
-        if ($request->hasFile('campaign_image')) {
-            $file = $request->file('campaign_image');
-        
-            // publicディレクトリにファイルを保存し、そのパスを取得
-            $path = $file->store('public/img/campaign_images');
-            // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
-            $image_url = str_replace('public/', '', $path);
-            $campaign->image_url = $image_url;
-        }
-        // if ($request->has('campaign_image')) {
-        //     if ($request->file('campaign_image')) {
-        //         // If it is a normal file upload
-        //         $file = $request->file('campaign_image');
-        //         $path = $file->store('public/campaign_images');
-        //         $image_url = str_replace('public/', '', $path);
-        //         $campaign->image_url = $image_url;
-        //     } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
-        //         // If it is a Base64 encoded image
-        //         try {
-        //             preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
-        //             $extension = $matches[1];
-
-        //             $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
-        //             $img = str_replace(' ', '+', $img);
-        //             $fileData = base64_decode($img);
-
-        //             $fileName = md5($img) . '.' . $extension;
-        //             $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
-
-        //             // Save the path of the image file
-        //             $campaign->image_url = $path;
-        //         } catch (Exception $e) {
-        //             Log::error($e);
-        //             // return or throw an error
-        //         }
-        //     }
-        // }
-
         $campaign->title = $request->title;
         $campaign->client_id = Auth::guard('client')->user()->id;
     
@@ -143,22 +104,50 @@ class CampaignController extends Controller
         $campaign->hotel_id = $selected_hotel->id;
         
         $campaign->save();
+
+        // 画像ファイルのアップロード処理
+        // if ($request->hasFile('campaign_image')) {
+        //     $file = $request->file('campaign_image');
+        
+        //     // publicディレクトリにファイルを保存し、そのパスを取得
+        //     $path = $file->store('public/img/campaign_images');
+        //     // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
+        //     $image_url = str_replace('public/', '', $path);
+        //     $campaign->image_url = $image_url;
+        // }
+
+        // 画像ファイルのアップロード処理
+        if ($request->hasFile('campaign_images')) {
+            foreach ($request->file('campaign_images') as $image) {
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $path = $image->store('img/campaign_images', 'public');
+                $hash = hash_file('sha256', storage_path('app/public/' . $path));
+
+                $campaignImage = new CampaignImage;
+                $campaignImage->campaign_id = $campaign->id;
+                $campaignImage->filename = $filename;
+                $campaignImage->path = $path;
+                $campaignImage->hash = $hash;
+                $campaignImage->save();
+            }
+        }
     
         return redirect()->route('project.campaign.manageCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id])
             ->with('success', 'キャンペーンを登録しました');
-    }  
+    }
 
-    public function editCampaign($hotel_id, $campaign_id = null)
+    public function editCampaign($hotel_id, $campaign_id = null, $imageSlots = 1)
     {
         if (Auth::guard('client')->check()) {
             $client = Auth::user();
             $selected_hotel = Hotel::where('client_id', $client->id)
                 ->where('id', $hotel_id)
                 ->firstOrFail();
-            $selected_campaign = Campaign::findOrFail($campaign_id);
-            $campaignImage = $selected_campaign->image_url;
-            // dd($campaignImage);
-            return view('client.campaign.editCampaign', compact('selected_hotel', 'campaign_id', 'selected_campaign', 'campaignImage'));
+            $selected_campaign = Campaign::where('client_id', $client->id)
+                ->where('id', $campaign_id)
+                ->firstOrFail();
+            $campaignImages = CampaignImage::where('campaign_id', $campaign_id)->take($imageSlots)->get();
+            return view('client.campaign.editCampaign', compact('selected_hotel', 'selected_campaign', 'campaign_id', 'campaignImages', 'imageSlots'));
         } else {
             return redirect()->route('client.login');
         }
@@ -167,7 +156,7 @@ class CampaignController extends Controller
     public function updateCampaign(Request $request, $hotel_id, $campaign_id)
     {
         $request->validate([
-            'campaign_image' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'campaign_images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'immediate_publication_set' => 'boolean',
             'end_publication_set' => 'boolean',
             'publication_date' => 'required_if:immediate_publication_set,0|date',
@@ -185,44 +174,47 @@ class CampaignController extends Controller
         $campaign = Campaign::find($request->campaign_id);
 
         // 画像ファイルのアップロード処理
-        if ($request->hasFile('campaign_image')) {
-            $file = $request->file('campaign_image');
+        // if ($request->hasFile('campaign_image')) {
+        //     $file = $request->file('campaign_image');
 
-            // publicディレクトリにファイルを保存し、そのパスを取得
-            $path = $file->store('public/campaign_images');
+        //     // publicディレクトリにファイルを保存し、そのパスを取得
+        //     $path = $file->store('public/campaign_images');
 
-            // 'public/campaign_images/'から始まるパスを取り除き、その結果をデータベースに保存
-            $image_url = str_replace('public/', '', $path);
-            $campaign->image_url = $image_url;
-        }
-        // if ($request->has('campaign_image')) {
-        //     if ($request->file('campaign_image')) {
-        //         // If it is a normal file upload
-        //         $file = $request->file('campaign_image');
-        //         $path = $file->store('public/campaign_images');
-        //         $image_url = str_replace('public/', '', $path);
-        //         $campaign->image_url = $image_url;
-        //     } else if (preg_match('/^data:image\/(\w+);base64,/', $request->campaign_image)) {
-        //         // If it is a Base64 encoded image
-        //         try {
-        //             preg_match('/data:image\/(\w+);base64,/', $request->campaign_image, $matches);
-        //             $extension = $matches[1];
-
-        //             $img = preg_replace('/^data:image.*base64,/', '', $request->campaign_image);
-        //             $img = str_replace(' ', '+', $img);
-        //             $fileData = base64_decode($img);
-
-        //             $fileName = md5($img) . '.' . $extension;
-        //             $path = Storage::disk('public')->put('campaign_images/' . $fileName, $fileData);
-
-        //             // Save the path of the image file
-        //             $campaign->image_url = $path;
-        //         } catch (Exception $e) {
-        //             Log::error($e);
-        //             // return or throw an error
-        //         }
-        //     }
+        //     // 'public/campaign_images/'から始まるパスを取り除き、その結果をデータベースに保存
+        //     $image_url = str_replace('public/', '', $path);
+        //     $campaign->image_url = $image_url;
         // }
+
+        // 画像ファイルのアップロード処理
+        $campaignImage = null;
+        if ($request->hasFile('campaign_image')) {
+            $existingImages = CampaignImage::where('campaign_id', $campaign->id)->get();
+
+            foreach ($request->file('campaign_image') as $image) {
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $path = $image->store('img/campaign_images', 'public');
+                $hash = hash_file('sha256', storage_path('app/public/' . $path));
+
+                // データベースに同じ画像が保存してあるかの確認
+                $duplicate = false;
+                foreach ($existingImages as $existingImage) {
+                    if ($existingImage->hash === $hash) {
+                        $duplicate = true;
+                        break;
+                    }
+                }
+
+                // データベースに同じ画像が保存してなかった場合の処理
+                if (!$duplicate) {
+                    $campaignImage = new CampaignImage;
+                    $campaignImage->campaign_id = $campaign->id;
+                    $campaignImage->filename = $filename;
+                    $campaignImage->path = $path;
+                    $campaignImage->hash = $hash;
+                    $campaignImage->save();
+                }
+            }
+        }
         
         if ($request->input('immediate_publication_set') != $campaign->immediate_publication_set) {
             if($request->input('immediate_publication_set')) {

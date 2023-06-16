@@ -7,7 +7,7 @@
 
 @include('components.client.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $selected_campaign->id]) : route('project.campaign.storeCampaign') }}" method="PUT" enctype="multipart/form-data" class="dev-container">
+<form action="{{ route('project.campaign.updateCampaign', ['hotel_id' => $selected_hotel->id]) }}" method="PUT" enctype="multipart/form-data" class="dev-container">
     @csrf
     
     <x-client.partials.preview-save-button :links="[
@@ -73,14 +73,19 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-client.labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-            @if(isset($campaignImage))
-                <x-client.inputs.image name="campaign_image" multiple="False" :img_path="$campaignImage" />
-            @else
-                <x-client.inputs.image name="campaign_image" multiple="False" />
-            @endif
+                <x-client.inputs.image name="campaign_images">
+                    @if(isset($campaignImages))
+                        @foreach ($campaignImages as $i => $campaignImage)
+                            <x-client.inputs.image_displayArea :img_path="$campaignImage->path" :index="$i + 1" />
+                        @endforeach
+                        @for ($i = count($campaignImages); $i < $imageSlots; $i++)
+                            <x-client.inputs.image_displayArea :index="$i + 1" />
+                        @endfor
+                    @endif
+                </x-client.inputs.image>
             </div>
             @error('images')
-            <span style="color:red;">ホテル画像をアップロードしてください</span>
+            <span style="color:red;">キャンペーン画像をアップロードしてください</span>
             @enderror
         </div>
 

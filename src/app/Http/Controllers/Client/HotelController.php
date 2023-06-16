@@ -76,7 +76,7 @@ class HotelController extends Controller
     public function storeBasicInformation(Request $request)
     {
         $request->validate([
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'hotel_images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'name' => 'required|max:20',
             'facility_scale' => 'required|integer',
             'category_id' => 'required|integer',
@@ -133,8 +133,7 @@ class HotelController extends Controller
             foreach ($request->file('hotel_images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
                 $path = $image->store('img/hotel_images', 'public');
-                $hash = hash_file('sha256', $path);
-                dd($path);
+                $hash = hash_file('sha256', storage_path('app/public/' . $path));
 
                 // Check if the hash of the new file is the same as any of the existing files
                 $duplicate = false;
@@ -244,7 +243,7 @@ class HotelController extends Controller
     public function updateBasicInformation(Request $request, Hotel $hotel)
     {
         $request->validate([
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'hotel_images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'name' => 'required|max:20',
             'facility_scale' => 'required|integer',
             'category_id' => 'required|integer',
@@ -290,7 +289,6 @@ class HotelController extends Controller
         $hotel->parking_information = $request->input(["parking_information"]);
         $hotel->other_information = $request->input(["other_information"]);
         $hotel->other_facility_information = $request->input(["other_facility_information"]);
-        $hotel->save();
 
         // 既存の月定休日データを全て削除
         $hotel->monthlyHolidays()->delete();
@@ -313,6 +311,8 @@ class HotelController extends Controller
             ];
             $hotel->temporaryHolidays()->create($temporaryHoliday);
         }
+
+        $hotel->save();
 
         // 画像ファイルのアップロード処理
         $hotelImage = null;

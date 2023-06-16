@@ -7,7 +7,7 @@
 
 @include('components.client.popup.errors.flash-error')
 
-<form action="{{ isset($selected_hotel) ? route('project.campaign.storeCampaign', ['hotel_id' => $selected_hotel->id, 'campaign_id' => $campaign->id]) : route('project.campaign.storeCampaign') }}" method="POST" enctype="multipart/form-data" class="dev-container">
+<form action="{{ route('project.campaign.storeCampaign', ['hotel_id' => $selected_hotel->id]) }}" method="POST" enctype="multipart/form-data" class="dev-container">
     @csrf
     
     <x-client.partials.preview-save-button :links="[
@@ -73,13 +73,13 @@
         <div class="form-group d-flex justify-start items-stretch">
             <x-client.labels.label label="アイキャッチ画像" class="flex-wrap" alignItems="items-baseline"  />
             <div class="d-flex flex-wrap">
-            @if(isset($campaignImages))
-                <x-client.inputs.image name="campaign_image" multiple="False" />
-            @else
-                <x-client.inputs.image name="campaign_image" multiple="False" />
-            @endif
+                <x-client.inputs.image name="campaign_images">
+                    @for ($i = 0; $i < $imageSlots; $i++)
+                        <x-client.inputs.image_displayArea :index="$i + 1" />
+                    @endfor
+                </x-client.inputs.image>
             </div>
-            @error('campaign_image')
+            @error('images')
             <span style="color:red;">キャンペーン画像をアップロードしてください</span>
             @enderror
         </div>
