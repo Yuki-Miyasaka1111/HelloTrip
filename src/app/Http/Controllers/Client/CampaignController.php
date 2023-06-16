@@ -102,19 +102,8 @@ class CampaignController extends Controller
         $campaign->campaign_end_date = $request->campaign_end_date;
         $campaign->content = $request->content;
         $campaign->hotel_id = $selected_hotel->id;
-        
-        $campaign->save();
 
-        // 画像ファイルのアップロード処理
-        // if ($request->hasFile('campaign_image')) {
-        //     $file = $request->file('campaign_image');
-        
-        //     // publicディレクトリにファイルを保存し、そのパスを取得
-        //     $path = $file->store('public/img/campaign_images');
-        //     // 'public/'から始まるパスを取り除き、その結果をデータベースに保存
-        //     $image_url = str_replace('public/', '', $path);
-        //     $campaign->image_url = $image_url;
-        // }
+        $campaign->save();
 
         // 画像ファイルのアップロード処理
         if ($request->hasFile('campaign_images')) {
@@ -174,23 +163,11 @@ class CampaignController extends Controller
         $campaign = Campaign::find($request->campaign_id);
 
         // 画像ファイルのアップロード処理
-        // if ($request->hasFile('campaign_image')) {
-        //     $file = $request->file('campaign_image');
-
-        //     // publicディレクトリにファイルを保存し、そのパスを取得
-        //     $path = $file->store('public/campaign_images');
-
-        //     // 'public/campaign_images/'から始まるパスを取り除き、その結果をデータベースに保存
-        //     $image_url = str_replace('public/', '', $path);
-        //     $campaign->image_url = $image_url;
-        // }
-
-        // 画像ファイルのアップロード処理
         $campaignImage = null;
-        if ($request->hasFile('campaign_image')) {
+        if ($request->hasFile('campaign_images')) {
             $existingImages = CampaignImage::where('campaign_id', $campaign->id)->get();
 
-            foreach ($request->file('campaign_image') as $image) {
+            foreach ($request->file('campaign_images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
                 $path = $image->store('img/campaign_images', 'public');
                 $hash = hash_file('sha256', storage_path('app/public/' . $path));
