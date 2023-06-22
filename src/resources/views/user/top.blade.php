@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends(auth()->check() ? 'layouts.user' : 'layouts.guest')
 
 @section('content')
     <div class="row">

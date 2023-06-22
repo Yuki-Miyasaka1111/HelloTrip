@@ -23,10 +23,12 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard(self::GUARD_USER)->check() && $request->routeIs('user.*')) {
-                return redirect()->guest(route('user.login'));
-            }
-            if (Auth::guard(self::GUARD_CLIENT)->check() && $request->routeIs('client.*')) {
+            // if (Auth::guard(self::GUARD_USER)->check() && $request->routeIs('user.*')) {
+            //     return redirect()->guest(route('user.login'));
+            // }
+            if (Auth::guard(self::GUARD_CLIENT)->check() && $request->routeIs('client.login')){
+                return redirect(route('project.index'));
+            } elseif (Auth::guard(self::GUARD_CLIENT)->check() && $request->routeIs('client.*')) {
                 return redirect()->guest(route('client.login'));
             }
         }
