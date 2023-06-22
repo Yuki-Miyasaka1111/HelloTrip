@@ -14,6 +14,8 @@
             @yield('content')
         </main>
 
+        @include('components.user.navigation.footer')
+
         @include('partials.scripts')
     </body>
 </html>

@@ -1,0 +1,35 @@
+@use '../../variables/color' as color;
+
+footer{
+    background-color: color.$main-primary;
+    color: color.$text-senary;
+}
+footer > div{
+    width: 1240px;
+    margin: auto;
+}
+.footer-icons > a{
+    width: 3rem;
+    margin: 0 0.5rem;
+    aspect-ratio: 1/1;
+    background-color: color.$text-senary;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer-icons > a > svg{
+    width: 50%;
+    height: 50%;
+}
+.footer-left > a > svg{
+    width: 100%;
+}
+.footer-right{
+    color: color.$text-primary;
+}
+.footer-right > .form-searchbox-wrap{
+    top: inherit;
+    left: inherit;
+    transform: inherit;
+}

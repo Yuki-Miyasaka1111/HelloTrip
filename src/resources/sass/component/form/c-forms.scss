@@ -33,7 +33,6 @@
 }
 
 .form-searchbox-wrap{
-    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -43,7 +42,7 @@
     border: none;
     padding-left: 3rem;
     box-shadow: elevation.$shadow-level-3;
-    background: #fafafa url(assets/img/icons/c-input_searchbox.svg) no-repeat 1rem center;
+    background: #fafafa url(/assets/img/icons/c-input_searchbox.svg) no-repeat 1rem center;
 }
 .form-searchbox::placeholder{
     color: color.$main-primary;
