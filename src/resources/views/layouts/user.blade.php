@@ -8,7 +8,6 @@
     </head>
     <body id="app" class="bg-tertiary" style="display:none;">
         @include('components.user.navigation.header')
-        @include('components.user.navigation.category-bar')
 
         <main>
             @yield('content')

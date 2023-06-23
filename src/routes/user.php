@@ -72,4 +72,7 @@ Route::prefix('hotels')->group(function () {
     Route::prefix('{hotel_id}')->group(function () {
         Route::get('/', [HotelController::class, 'index'])->name('hotel.index');
     });
+    Route::prefix('{category}')->group(function () {
+        Route::get('/', [HotelController::class, 'category'])->name('hotel.category');
+    });
 });

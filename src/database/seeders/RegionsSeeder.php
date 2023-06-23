@@ -17,42 +17,50 @@ class RegionsSeeder extends Seeder
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '北海道',
+                'name'=> '北海道',
+                'slug'=> 'hokkaido'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '東北',
+                'name'=> '東北',
+                'slug'=> 'tohoku'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '中部',
+                'name'=> '中部',
+                'slug'=> 'chubu'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '関東',
+                'name'=> '関東',
+                'slug'=> 'kanto'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '近畿',
+                'name'=> '近畿',
+                'slug'=> 'kinki'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '中国',
+                'name'=> '中国',
+                'slug'=> 'chugoku'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '四国',
+                'name'=> '四国',
+                'slug'=> 'shikoku'
             ],
             [
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null,
-                'region_name'=> '九州',
+                'name'=> '九州',
+                'slug'=> 'kyushu'
             ],
         ]);
     }
