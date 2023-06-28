@@ -142,10 +142,6 @@
 
         $('.swiper2').each(function() {
             const swiper2 = new Swiper(this, {
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false
-                },
                 slidesPerView: 1,
                 nested: true
             });
