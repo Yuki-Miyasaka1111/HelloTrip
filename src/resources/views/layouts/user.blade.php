@@ -16,5 +16,7 @@
         @include('components.user.navigation.footer')
 
         @include('partials.scripts')
+
+        @yield('scripts')
     </body>
 </html>
