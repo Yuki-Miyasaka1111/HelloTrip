@@ -5,7 +5,7 @@
         <div class="category-bar py-1 px-1 flex justify-between items-center">
             @foreach($categories as $index => $category)
             <a href="{{ $category->slug }}">
-                <img src="{{ asset('assets/img/icons/c-navigation_categoryBar'. sprintf('%02d', $index+1) .'.svg') }}" alt="">
+                <img src="{{ asset('assets/img/user/icons/c-navigation_categoryBar'. sprintf('%02d', $index+1) .'.svg') }}" alt="">
                 <p>{{ $category->name }}</p>
             </a>
             @endforeach
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         @else
-                            <p>画像なし</p>
+                            <img src="{{ asset('assets/img/user/no-image.png') }}" id="default-image">
                         @endif
                         <b>{{ $publishedHotel->name }}</b>
                         <p>{{ $publishedHotel->address_1 }}{{ $publishedHotel->address_2 }}</p>

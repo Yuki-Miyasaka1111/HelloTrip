@@ -6,7 +6,7 @@
         <div id="previewArea"></div>
         
         @if(empty($img_path))
-            <img src="{{ asset('assets/img/icons/c-image_icon.svg') }}" id="default-image">
+            <img src="{{ asset('assets/img/user/icons/c-image_icon.svg') }}" id="default-image">
         @else
             <img src="{{ asset('storage/' . $img_path) }}" id="show-db-image">
         @endif
