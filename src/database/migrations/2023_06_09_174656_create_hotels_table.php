@@ -27,7 +27,6 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('facility_scale')->nullable();
-            $table->string('prefecture')->nullable();
             $table->string('catch_copy')->nullable();
             $table->integer('minimum_price')->nullable();
             $table->string('postal_code')->nullable();

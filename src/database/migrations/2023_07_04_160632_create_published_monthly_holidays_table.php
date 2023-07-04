@@ -8,14 +8,12 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('monthly_holidays', function (Blueprint $table) {
+        Schema::create('published_monthly_holidays', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('hotel_id')->index('monthly_holidays_hotel_id_foreign');
+            $table->unsignedBigInteger('published_hotel_id')->index('published_monthly_holidays_hotel_id_foreign');
             $table->string('week')->nullable();
             $table->string('day')->nullable();
             $table->timestamps();
@@ -24,11 +22,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('monthly_holidays');
+        Schema::dropIfExists('published_monthly_holidays');
     }
 };
