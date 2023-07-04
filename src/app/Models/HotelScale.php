@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Facility extends Model
+class HotelScale extends Model
 {
+    use HasFactory;
+
+    protected $primaryKey = 'facility_scale';
+
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'hotel_facilities');
+        return $this->hasMany(Hotel::class);
     }
     public function publishedHotels()
     {
-        return $this->belongsToMany(Hotel::class, 'hotel_facilities', 'facility_id', 'hotel_id');
+        return $this->hasMany(PublishedHotel::class);
     }
 }

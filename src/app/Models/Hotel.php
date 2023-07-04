@@ -54,9 +54,13 @@ class Hotel extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function hotelScale()
+    {
+        return $this->belongsTo(hotelScale::class, 'facility_scale', 'id');
+    }
     public function prefecture()
     {
-        return $this->belongsTo(Prefecture::class, 'prefecture_id');
+        return $this->belongsTo(Prefecture::class, 'prefecture_id', 'id');
     }
     public function area()
     {
@@ -76,7 +80,7 @@ class Hotel extends Model
     }
     public function facilities()
     {
-        return $this->belongsToMany(Facility::class, 'hotel_facilities');
+        return $this->belongsToMany(Facility::class, 'hotel_facilities', 'hotel_id', 'facility_id');
     }
     public function amenities()
     {

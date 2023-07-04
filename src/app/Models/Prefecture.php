@@ -15,6 +15,10 @@ class Prefecture extends Model
     {
         return $this->hasMany(Hotel::class);
     }
+    public function publishedHotels()
+    {
+        return $this->hasMany(PublishedHotel::class);
+    }
     public function areas()
     {
         return $this->hasMany(Area::class);

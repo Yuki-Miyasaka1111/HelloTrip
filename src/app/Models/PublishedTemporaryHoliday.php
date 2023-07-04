@@ -5,23 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PublishedHotelImage extends Model
+class PublishedTemporaryHoliday extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'published_hotel_id',
-        'filename',
-        'path'
+        'date',
     ];
 
     public function publishedHotel()
     {
         return $this->belongsTo(PublishedHotel::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(HotelImage::class);
     }
 }

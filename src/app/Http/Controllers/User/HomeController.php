@@ -21,10 +21,17 @@ class HomeController extends Controller
         $publishedHotels = PublishedHotel::whereHas('hotel', function ($query) {
             $query->where('is_public', true);
         })->get();
+    
         // 公開されているキャンペーンのみを取得
         $publishedCampaigns = Campaign::where('publish_status', true)->get();
         $hotelImages = HotelImage::All();
         $categories = Category::all();
+    
+        // Each category with corresponding hotels
+        $hotelsByCategory = [];
+        foreach($categories as $category){
+            $hotelsByCategory[$category->id] = $publishedHotels->where('hotel.category_id', $category->id);
+        }
     
         if (Auth::guard('web')->check()) {
             $user = Auth::guard('web')->user();
@@ -32,7 +39,7 @@ class HomeController extends Controller
         } else{
             $user_name = '未ログイン';
         }
-        
+    
         if (Auth::guard('client')->check()) {
             $client = Auth::guard('client')->user();
             $client_name = $client->name;
@@ -40,7 +47,7 @@ class HomeController extends Controller
             $client_name = '未ログイン';
         }
     
-        return view('user.top',compact('publishedHotels', 'publishedCampaigns', 'hotelImages', 'categories', 'user_name', 'client_name'))
+        return view('user.top',compact('publishedHotels', 'publishedCampaigns', 'hotelImages', 'categories', 'user_name', 'client_name', 'hotelsByCategory'))
             ->with('page_id',request()->page)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }

@@ -8,7 +8,13 @@ use App\Models\PublishedHotel;
 use App\Models\Category;
 use App\Models\Prefecture;
 use App\Models\HotelImage;
+use App\Models\MonthlyHoliday;
+use App\Models\TemporaryHoliday;
 use App\Models\PublishedHotelImage;
+use App\Models\PublishedHotelFacility;
+use App\Models\PublishedHotelAmenity;
+use App\Models\PublishedMonthlyHoliday;
+use App\Models\PublishedTemporaryHoliday;
 use App\Models\Facility;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
@@ -45,11 +51,16 @@ class HotelController extends Controller
         if ($request->input('action') === 'publish') {
             $selected_hotel->is_public = true;
     
+            // 更新したホテル情報をpublished_hotelテーブルに保存
             $publishedHotel = $selected_hotel->publishedHotel ?: new PublishedHotel;
             $publishedHotel->fill($selected_hotel->toArray());
     
-            // 公開前に、対象のホテルIDに紐づく全てのPublishedHotelImageを削除
+            // 公開前に、対象のホテルIDに紐づく全てのPublishedHotelImage、PublishedHotelFacility、PublishedHotelAmenityを削除
             PublishedHotelImage::where('published_hotel_id', $publishedHotel->id)->delete();
+            PublishedHotelFacility::where('published_hotel_id', $publishedHotel->id)->delete();
+            PublishedHotelAmenity::where('published_hotel_id', $publishedHotel->id)->delete();
+            PublishedMonthlyHoliday::where('published_hotel_id', $publishedHotel->id)->delete();
+            PublishedTemporaryHoliday::where('published_hotel_id', $publishedHotel->id)->delete();
     
             // 更新したホテル画像をpublished_hotel_imagesテーブルに保存
             foreach ($selected_hotel->images as $image) {
@@ -58,6 +69,40 @@ class HotelController extends Controller
                 $publishedImage->published_hotel_id = $publishedHotel->id;
                 $publishedImage->save();
             }
+
+            // 更新したホテル施設をpublished_hotel_facilitiesテーブルに保存
+            foreach ($selected_hotel->facilities as $facility) {
+                $publishedFacility = new PublishedHotelFacility;
+                $publishedFacility->facility_id = $facility->id;
+                $publishedFacility->published_hotel_id = $publishedHotel->id;
+                $publishedFacility->save();
+            }
+
+            // 更新したホテルアメニティをpublished_hotel_amenitiesテーブルに保存
+            foreach ($selected_hotel->amenities as $amenity) {
+                $publishedAmenity = new PublishedHotelAmenity;
+                $publishedAmenity->amenity_id = $amenity->id;
+                $publishedAmenity->published_hotel_id = $publishedHotel->id;
+                $publishedAmenity->save();
+            }
+
+            // 更新した月定休日をpublished_monthly_holidaysテーブルに保存
+            foreach ($selected_hotel->monthlyHolidays as $monthlyHoliday) {
+                $publishedMonthlyHoliday = new PublishedMonthlyHoliday;
+                $publishedMonthlyHoliday->published_hotel_id = $publishedHotel->id;
+                $publishedMonthlyHoliday->week = $monthlyHoliday->week;
+                $publishedMonthlyHoliday->day = $monthlyHoliday->day;
+                $publishedMonthlyHoliday->save();
+            }
+
+            // 更新した臨時定休日をpublished_temporary_holidaysテーブルに保存
+            foreach ($selected_hotel->temporaryHolidays as $temporaryHoliday) {
+                $publishedTemporaryHoliday = new PublishedTemporaryHoliday;
+                $publishedTemporaryHoliday->published_hotel_id = $publishedHotel->id;
+                $publishedTemporaryHoliday->date = $temporaryHoliday->date;
+                $publishedTemporaryHoliday->save();
+            }
+
     
             $selected_hotel->publishedHotel()->save($publishedHotel);
             $selected_hotel->save();

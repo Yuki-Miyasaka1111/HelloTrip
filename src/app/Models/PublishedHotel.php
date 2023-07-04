@@ -59,13 +59,17 @@ class PublishedHotel extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function hotelScale()
+    {
+        return $this->belongsTo(HotelScale::class, 'facility_scale', 'id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
     public function prefecture()
     {
-        return $this->belongsTo(Prefecture::class, 'prefecture_id');
+        return $this->belongsTo(Prefecture::class, 'prefecture_id', 'id');
     }
     public function area()
     {
@@ -91,6 +95,10 @@ class PublishedHotel extends Model
     {
         return $this->belongsToMany(Amenity::class, 'hotel_amenities');
     }
+    public function publishedAmenities()
+    {
+        return $this->belongsToMany(Facility::class, 'published_hotel_amenities', 'published_hotel_id', 'amenity_id');
+    }
     public function monthlyHolidays()
     {
         return $this->hasMany(MonthlyHoliday::class);
@@ -98,5 +106,13 @@ class PublishedHotel extends Model
     public function temporaryHolidays()
     {
         return $this->hasMany(TemporaryHoliday::class);
+    }
+    public function publishedMonthlyHolidays()
+    {
+        return $this->hasMany(PublishedMonthlyHoliday::class);
+    }
+    public function publishedTemporaryHolidays()
+    {
+        return $this->hasMany(PublishedTemporaryHoliday::class);
     }
 }

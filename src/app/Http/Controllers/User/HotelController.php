@@ -9,6 +9,10 @@ use App\Models\Category;
 use App\Models\Prefecture;
 use App\Models\HotelImage;
 use App\Models\PublishedHotelImage;
+use App\Models\PublishedHotelFacility;
+use App\Models\PublishedHotelAmenity;
+use App\Models\PublishedMonthlyHoliday;
+use App\Models\PublishedTemporaryHoliday;
 use App\Models\Facility;
 use App\Models\Amenity;
 use App\Models\Campaign;
@@ -23,31 +27,27 @@ class HotelController extends Controller
         if (Auth::guard('web')->check()) {
             $user = Auth::user();
             $user_name = $user->name;
-            // 選択したホテルのみの情報を取得
-            $publishedHotel = PublishedHotel::whereHas('hotel', function ($query) use ($hotel_id) {
-                $query->where('id', $hotel_id)->where('is_public', true);
-            })->first();
-            // 公開されているキャンペーンのみを取得
-            $publishedCampaigns = Campaign::where('publish_status', true)->get();
-            $hotelImages = HotelImage::All();
-            $categories = Category::all();
-            return view('user.hotel.index', compact('publishedHotel', 'publishedCampaigns', 'hotelImages', 'categories', 'user_name'))
-                ->with('page_id', request()->page)
-                ->with('user_name', $user_name);
         } else {
             $user_name = '未ログイン';
-            // 選択したホテルのみの情報を取得
-            $publishedHotel = PublishedHotel::whereHas('hotel', function ($query) use ($hotel_id) {
-                $query->where('id', $hotel_id)->where('is_public', true);
-            })->first();
-            // 公開されているキャンペーンのみを取得
-            $publishedCampaigns = Campaign::where('publish_status', true)->get();
-            $hotelImages = HotelImage::All();
-            $categories = Category::all();
-            return view('user.hotel.index', compact('publishedHotel', 'publishedCampaigns', 'hotelImages', 'categories', 'user_name'))
-                ->with('page_id', request()->page)
-                ->with('user_name', $user_name);
         }
+        // 選択したホテルのみの情報を取得
+        $publishedHotel = PublishedHotel::with('hotel')->whereHas('hotel', function ($query) use ($hotel_id) {
+            $query->where('id', $hotel_id)->where('is_public', true);
+        })->first();
+        // 公開されているキャンペーンのみを取得
+        $publishedCampaigns = Campaign::where('publish_status', true)->get();
+        $publishedFacilities = PublishedHotelFacility::All();
+        $publishedAmenities = PublishedHotelAmenity::All();
+        $publishedHotelImages = PublishedHotelImage::All();
+        $publishedAmenity = PublishedHotelAmenity::All();
+        $publishedMonthlyHoliday = PublishedMonthlyHoliday::All();
+        $publishedTemporaryHoliday = PublishedTemporaryHoliday::All();
+        $categories = Category::All();
+        $facilities = Facility::All();
+        $amenities = Amenity::All();
+        return view('user.hotel.index', compact('publishedHotel', 'publishedCampaigns', 'publishedFacilities', 'publishedAmenities', 'publishedHotelImages', 'publishedAmenity', 'publishedMonthlyHoliday', 'publishedTemporaryHoliday', 'categories', 'facilities', 'amenities', 'user_name'))
+            ->with('page_id', request()->page)
+            ->with('user_name', $user_name);
     }
 
     public function publication(Request $request, $hotel_id = null)
