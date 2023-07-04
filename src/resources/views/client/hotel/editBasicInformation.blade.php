@@ -223,14 +223,17 @@
                     @foreach($selected_hotel->monthlyHolidays as $monthlyHoliday)
                     <div class="form-append monthly-holiday-slot d-flex items-center mb-1" data-id="{{ $monthlyHoliday->id }}">
                         <x-client.inputs.select name="monthly_holiday_week[]" selectedOption="{{ $monthlyHoliday->week }}" width="90px">
-                            <option value="1" @if($monthlyHoliday->week == 1) selected @endif>第1</option>
-                            <option value="2" @if($monthlyHoliday->week == 2) selected @endif>第2</option>
-                            <option value="3" @if($monthlyHoliday->week == 3) selected @endif>第3</option>
-                            <option value="4" @if($monthlyHoliday->week == 4) selected @endif>第4</option>
-                            <option value="5" @if($monthlyHoliday->week == 5) selected @endif>第5</option>
+                            <option value="" @if($monthlyHoliday->week == 0) selected @endif></option>
+                            <option value="毎週" @if($monthlyHoliday->week == "毎週") selected @endif>毎週</option>
+                            <option value="第1" @if($monthlyHoliday->week == "第1") selected @endif>第1</option>
+                            <option value="第2" @if($monthlyHoliday->week == "第2") selected @endif>第2</option>
+                            <option value="第3" @if($monthlyHoliday->week == "第3") selected @endif>第3</option>
+                            <option value="第4" @if($monthlyHoliday->week == "第4") selected @endif>第4</option>
+                            <option value="第5" @if($monthlyHoliday->week == "第5") selected @endif>第5</option>
                         </x-client.inputs.select>
 
                         <x-client.inputs.select name="monthly_holiday_day[]" selectedOption="{{ $monthlyHoliday->day }}" width="90px" class="ml-1" showDelete="true" outside="曜日">
+                            <option value="" @if($monthlyHoliday->day == "") selected @endif></option>
                             <option value="月" @if($monthlyHoliday->day == "月") selected @endif>月</option>
                             <option value="火" @if($monthlyHoliday->day == "火") selected @endif>火</option>
                             <option value="水" @if($monthlyHoliday->day == "水") selected @endif>水</option>
