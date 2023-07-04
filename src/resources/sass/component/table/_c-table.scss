@@ -43,3 +43,19 @@
 .private_status{
     color: color.$text-tertiary!important;
 }
+
+.article-table{
+    width: 100%;
+}
+.article-table_th, .article-table_td{
+    border-top: 1px solid color.$border-primary;
+    padding: 1rem 0;
+}
+.article-table_th{
+    width: 130px;
+    vertical-align: baseline;
+    text-align: left;
+}
+.article-table_td{
+    width: calc(100% - 130px);
+}

@@ -1,3 +1,55 @@
+@use '../variables/color' as color;
+
 .p-hotelDetail {
     position: relative;
+}
+.p-hotelDetail__tags{
+    color: color.$text-tertiary;
+}
+.p-hotelDetail__tags > p{
+    font-size: 0.875rem;
+}
+.p-hotelDetail__address > span{
+    width: 12px;
+}
+.p-hotelDetail__category > span{
+    width: 14px;
+}
+.p-hotelDetail__catch-copy{
+    color: color.$main-primary;
+    font-weight: bold;
+}
+.p-hotelDetail__concept{
+    white-space:pre-wrap;
+}
+.p-hotelSpecList{
+    border: 1px solid color.$border-primary;
+    border-right: none;
+    border-bottom: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 40px;
+}
+.p-hotelSpecList_list{
+    border-right: 1px solid color.$border-primary;
+    border-bottom: 1px solid color.$border-primary;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    flex-basis: calc(100% / 3);
+}
+.p-hotelSpecList_key{
+    line-height: 1.4;
+    padding: 4px 10px;
+    flex-basis: 80%;
+}
+.p-hotelSpecList_value{
+    border-left: 1px solid color.$border-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: 700;
+    text-align: center;
+    flex-basis: 20%;
 }

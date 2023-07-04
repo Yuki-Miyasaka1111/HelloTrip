@@ -1,19 +1,19 @@
-@use '../../variables/color' as color;
-@use '../../variables/elevation' as elevation;
+@use "../../variables/color" as color;
+@use "../../variables/elevation" as elevation;
 
-.form-group{
+.form-group {
     border-bottom: 1px solid color.$border-secondary;
 }
-.form-label{
+.form-label {
     width: 200px;
     min-width: 200px;
     background-color: color.$background-secondary;
 }
-.form-label-title{
+.form-label-title {
     color: color.$main-primary;
 }
-.form-label-required{
-    background-color: #DB0000;
+.form-label-required {
+    background-color: #db0000;
     color: color.$text-senary;
     padding: 0.125rem 0.5rem;
     border-radius: 0.25rem;
@@ -21,43 +21,44 @@
     line-height: 1.5;
 }
 
-.form-input{
+.form-input {
     border-radius: 0.25rem;
     border: none;
     background-color: color.$background-secondary;
 }
 
-.form-text:disabled{
+.form-text:disabled {
     background-color: color.$background-tertiary;
     color: color.$text-tertiary;
 }
 
-.form-searchbox-wrap{
+.form-searchbox-wrap {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.form-searchbox{
+.form-searchbox {
     border-radius: 2rem;
     border: none;
     padding-left: 3rem;
     box-shadow: elevation.$shadow-level-3;
-    background: #fafafa url(/assets/img/icons/c-input_searchbox.svg) no-repeat 1rem center;
+    background: #fafafa url(/assets/img/user/icons/c-input_searchbox.svg)
+        no-repeat 1rem center;
 }
-.form-searchbox::placeholder{
+.form-searchbox::placeholder {
     color: color.$main-primary;
     font-size: 0.75rem;
 }
 
-.form-textarea{
+.form-textarea {
     height: fit-content;
     min-height: fit-content;
 }
 
-.form-checkbox-wrap{
+.form-checkbox-wrap {
     border-bottom: 1px solid color.$border-tertiary;
 }
-.form-checkbox-label{
+.form-checkbox-label {
     position: relative;
     border-radius: 4px;
     background: #eee;
@@ -66,7 +67,7 @@
     height: 30px;
     cursor: pointer;
 }
-.form-checkbox-label::before{
+.form-checkbox-label::before {
     content: "";
     position: absolute;
     top: 0;
@@ -78,9 +79,9 @@
     width: 30px;
     height: 30px;
     transition-timing-function: ease-out;
-    transition-duration: .15s;
+    transition-duration: 0.15s;
 }
-.form-checkbox-label::after{
+.form-checkbox-label::after {
     position: absolute;
     top: 50%;
     right: 8px;
@@ -90,15 +91,15 @@
     content: "";
     width: 15px;
     height: 2px;
-    transition: left opacity .2s ease-out;
+    transition: left opacity 0.2s ease-out;
     transform: translateY(-50%);
 }
-.form-checkbox:checked+label::before{
+.form-checkbox:checked + label::before {
     border-radius: 4px 0 0 4px;
     background-color: color.$main-primary;
     transform: translateX(-30px);
 }
-.form-checkbox:checked+label::after{
+.form-checkbox:checked + label::after {
     left: 8px;
     border: 2px solid color.$background-primary;
     border-radius: 50%;
@@ -107,12 +108,12 @@
     height: 15px;
 }
 
-.form-checkbox_type2-label{
+.form-checkbox_type2-label {
     position: relative;
     padding-left: 45px;
     cursor: pointer;
 }
-.form-checkbox_type2-label::before{
+.form-checkbox_type2-label::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -124,7 +125,7 @@
     height: 30px;
     transform: translate(0, -50%);
 }
-.form-checkbox_type2-label::after{
+.form-checkbox_type2-label::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -135,19 +136,19 @@
     border-bottom: 4px solid color.$background-tertiary;
     transform: rotate(-45deg) translate(8%, -70%);
     opacity: 0;
-    transition: ease-in-out .1s;
+    transition: ease-in-out 0.1s;
 }
-.form-checkbox_type2-label:hover::after{
-   opacity: 1;
+.form-checkbox_type2-label:hover::after {
+    opacity: 1;
 }
-.form-checkbox_type2:checked+label::before{
+.form-checkbox_type2:checked + label::before {
     border-color: color.$main-primary;
     background-color: color.$main-primary;
 }
-.form-checkbox_type2:checked+label::after{
+.form-checkbox_type2:checked + label::after {
     opacity: 1;
 }
 
-.form-append:first-of-type .js-delete-clone{
+.form-append:first-of-type .js-delete-clone {
     display: none;
 }
